@@ -3,103 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Axis Budget — Month on Month</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Epilogue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>AxisOS — Personal Finance Command Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root {
-  --bg:     #0b0d10;
-  --bg2:    #111318;
-  --bg3:    #181c22;
-  --bg4:    #1e232b;
-  --border: rgba(255,255,255,0.06);
-  --border2:rgba(255,255,255,0.11);
-  --text:   #eceae4;
-  --muted:  #6e7480;
-  --muted2: #3e4450;
-  --green:  #4ade80;
-  --cyan:   #22d3ee;
-  --amber:  #f59e0b;
-  --red:    #f87171;
-  --purple: #a78bfa;
-  --pink:   #f472b6;
-  --teal:   #2dd4bf;
-  --serif:  'DM Serif Display', Georgia, serif;
-  --sans:   'Epilogue', system-ui, sans-serif;
-  --mono:   'DM Mono', monospace;
-  --radius: 10px;
+  --bg:      #0c0e12;
+  --bg2:     #13161c;
+  --bg3:     #1a1e27;
+  --bg4:     #20263200;
+  --border:  rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.10);
+  --text:    #e8e6e0;
+  --muted:   #6b7280;
+  --muted2:  #374151;
+  --gold:    #c9a84c;
+  --gold2:   #f0c96a;
+  --green:   #4ade80;
+  --red:     #f87171;
+  --amber:   #fbbf24;
+  --cyan:    #22d3ee;
+  --purple:  #a78bfa;
+  --serif:   'Instrument Serif', Georgia, serif;
+  --sans:    'Outfit', system-ui, sans-serif;
+  --mono:    'DM Mono', monospace;
+  --r:       10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh}
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 .shell{display:flex;min-height:100vh}
-.sidebar{width:200px;background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem 0;position:fixed;height:100vh;overflow-y:auto;z-index:50;display:flex;flex-direction:column}
-.main{margin-left:200px;flex:1;padding:2rem 2.5rem;max-width:1100px}
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);padding:0;position:fixed;height:100vh;overflow-y:auto;z-index:50;display:flex;flex-direction:column}
+.main{margin-left:220px;flex:1;padding:2rem 2.5rem;max-width:1200px}
 
-/* ── SIDEBAR ── */
-.logo{padding:0 1.25rem 1.5rem;border-bottom:1px solid var(--border)}
-.logo-mark{font-family:var(--serif);font-size:22px;letter-spacing:-.3px}
-.logo-mark em{font-style:normal;color:var(--green)}
-.logo-sub{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
-.nav-section{padding:.75rem 0;border-bottom:1px solid var(--border)}
-.nav-label{font-size:9px;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;padding:0 1.25rem;margin-bottom:.4rem}
-.nav-item{display:flex;align-items:center;gap:8px;padding:.45rem 1.25rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all .15s;border-right:2px solid transparent}
+/* SIDEBAR */
+.logo{padding:1.5rem 1.25rem 1.25rem;border-bottom:1px solid var(--border)}
+.logo-mark{font-family:var(--serif);font-size:24px;letter-spacing:-.5px;color:var(--text)}
+.logo-mark em{font-style:italic;color:var(--gold)}
+.logo-sub{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.nav-section{padding:.5rem 0;border-bottom:1px solid var(--border)}
+.nav-label{font-size:9px;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;padding:.5rem 1.25rem .25rem}
+.nav-item{display:flex;align-items:center;gap:9px;padding:.5rem 1.25rem;cursor:pointer;color:var(--muted);font-size:13px;transition:all .15s;border-left:2px solid transparent}
 .nav-item:hover{color:var(--text);background:var(--bg3)}
-.nav-item.active{color:var(--text);background:rgba(74,222,128,.06);border-right-color:var(--green)}
-.nav-icon{width:14px;text-align:center;font-size:12px;flex-shrink:0}
-.sidebar-footer{margin-top:auto;padding:1.25rem;border-top:1px solid var(--border);font-size:10px;color:var(--muted2);line-height:2}
+.nav-item.active{color:var(--gold2);background:rgba(201,168,76,.06);border-left-color:var(--gold)}
+.nav-icon{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.sidebar-footer{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid var(--border);font-size:11px;color:var(--muted2);line-height:1.8}
+.sidebar-footer strong{color:var(--gold);font-weight:500;font-size:12px}
 
-/* ── PAGE HEADER ── */
+/* PAGE HEADER */
 .page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
-.page-title{font-family:var(--serif);font-size:28px}
+.page-title{font-family:var(--serif);font-size:30px;letter-spacing:-.5px}
 .page-sub{font-size:12px;color:var(--muted);margin-top:2px}
 .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.month-nav{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:6px 14px}
+.month-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;transition:color .15s;padding:0 2px}
+.month-btn:hover{color:var(--gold)}
+.month-label{font-family:var(--mono);font-size:13px;min-width:100px;text-align:center}
 
-/* ── MONTH SWITCHER ── */
-.month-nav{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:6px 14px}
-.month-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;transition:color .15s;padding:0 2px}
-.month-btn:hover{color:var(--text)}
-.month-label{font-family:var(--mono);font-size:13px;min-width:100px;text-align:center;color:var(--text)}
-
-/* ── TABS ── */
+/* TABS */
 .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:2rem;gap:0}
-.tab{padding:.6rem 1.25rem;cursor:pointer;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
+.tab{padding:.6rem 1.25rem;cursor:pointer;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
 .tab:hover{color:var(--text)}
-.tab.active{color:var(--green);border-bottom-color:var(--green)}
+.tab.active{color:var(--gold2);border-bottom-color:var(--gold)}
 .panel{display:none}
 .panel.active{display:block}
 
-/* ── SUMMARY CARDS ── */
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:1.75rem}
-.scard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative;overflow:hidden}
+/* SUMMARY CARDS */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:1.75rem}
+.scard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden}
 .scard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.scard.gold::before{background:linear-gradient(90deg,var(--gold),var(--gold2))}
 .scard.green::before{background:var(--green)}
-.scard.amber::before{background:var(--amber)}
 .scard.red::before{background:var(--red)}
-.scard.cyan::before{background:var(--cyan)}
+.scard.amber::before{background:var(--amber)}
 .scard.purple::before{background:var(--purple)}
+.scard.cyan::before{background:var(--cyan)}
 .slabel{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
-.sval{font-family:var(--mono);font-size:19px;font-weight:500}
+.sval{font-family:var(--mono);font-size:18px;font-weight:500}
+.sval.gold{color:var(--gold2)}
 .sval.green{color:var(--green)}
 .sval.red{color:var(--red)}
 .sval.amber{color:var(--amber)}
-.sval.cyan{color:var(--cyan)}
 .sval.purple{color:var(--purple)}
+.sval.cyan{color:var(--cyan)}
 .ssub{font-size:11px;color:var(--muted);margin-top:3px}
 
-/* ── BUCKETS ── */
-.bucket{margin-bottom:.75rem;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.bucket-header{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;background:var(--bg2);user-select:none;transition:background .15s}
+/* WINDFALL BOX */
+.windfall-box{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.2);border-radius:var(--r);padding:14px 18px;margin-bottom:1.75rem;display:flex;align-items:flex-start;gap:14px}
+.wf-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.wf-title{font-size:13px;font-weight:600;color:var(--gold2);margin-bottom:4px}
+.wf-text{font-size:12px;color:var(--muted);line-height:1.7}
+.wf-rules{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.wf-rule{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.15);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--gold2);font-family:var(--mono)}
+
+/* BUCKETS */
+.bucket{margin-bottom:.75rem;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.bucket-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;background:var(--bg2);user-select:none;transition:background .15s}
 .bucket-header:hover{background:var(--bg3)}
-.bh-left{display:flex;align-items:center;gap:9px}
-.bh-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.bh-name{font-size:13.5px;font-weight:500}
-.bh-count{font-size:11px;color:var(--muted2)}
+.bh-left{display:flex;align-items:center;gap:10px}
+.bh-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.bh-name{font-size:14px;font-weight:500}
+.bh-tag{font-size:10px;padding:2px 7px;border-radius:20px;border:1px solid;opacity:.7;margin-left:4px}
 .bh-right{display:flex;align-items:center;gap:12px}
-.bh-total{font-family:var(--mono);font-size:13.5px;font-weight:500}
-.bh-pct{font-size:11px;color:var(--muted)}
+.bh-total{font-family:var(--mono);font-size:14px;font-weight:500}
+.bh-pct{font-size:11px;color:var(--muted);font-family:var(--mono)}
 .bh-arrow{color:var(--muted);font-size:12px;transition:transform .2s}
 .bh-arrow.open{transform:rotate(90deg)}
 .prog-bar{height:2px;background:var(--bg3)}
@@ -107,11 +116,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .bucket-body{display:none}
 .bucket-body.open{display:block}
 
-/* ── LINE TABLE ── */
-.line-header{display:grid;grid-template-columns:1fr 120px 120px 105px 32px;padding:5px 16px;background:var(--bg3);border-top:1px solid var(--border)}
+/* LINE TABLE */
+.line-header{display:grid;grid-template-columns:1fr 120px 120px 110px 32px;padding:6px 16px;background:var(--bg3);border-top:1px solid var(--border)}
 .lh{font-size:10px;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;font-weight:500}
 .lh.r{text-align:right}.lh.c{text-align:center}
-.line-row{display:grid;grid-template-columns:1fr 120px 120px 105px 32px;border-top:1px solid var(--border);transition:background .1s}
+.line-row{display:grid;grid-template-columns:1fr 120px 120px 110px 32px;border-top:1px solid var(--border);transition:background .1s}
 .line-row:hover{background:rgba(255,255,255,.015)}
 .lc{padding:8px 16px;display:flex;flex-direction:column;justify-content:center}
 .lc.r{align-items:flex-end;text-align:right}
@@ -119,19 +128,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .lname-edit,.lnote-edit{background:transparent;border:none;font-family:var(--sans);outline:none;width:100%}
 .lname-edit{font-size:13px;color:var(--text)}
 .lnote-edit{font-size:11px;color:var(--muted2);margin-top:1px}
-.lname-edit:focus{color:var(--cyan);border-bottom:1px dashed var(--muted2)}
-.lnote-edit:focus{color:var(--muted);border-bottom:1px dashed var(--muted2)}
+.lname-edit:focus,.lnote-edit:focus{border-bottom:1px dashed var(--muted2)}
 .amt-wrap{border-bottom:1px dashed var(--muted2);display:inline-flex;justify-content:flex-end;width:100%}
 input.amt{background:transparent;border:none;font-family:var(--mono);font-size:13px;color:var(--text);text-align:right;width:100%;outline:none}
-input.amt:focus{color:var(--green)}
+input.amt:focus{color:var(--gold2)}
 .tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:20px;white-space:nowrap}
-.tag-debt{background:rgba(248,113,113,.12);color:var(--red)}
-.tag-fixed{background:rgba(34,211,238,.09);color:var(--cyan)}
-.tag-var{background:rgba(245,158,11,.09);color:var(--amber)}
-.tag-save{background:rgba(74,222,128,.09);color:var(--green)}
-.tag-inv{background:rgba(167,139,250,.09);color:var(--purple)}
-.var-over{color:var(--red);font-family:var(--mono);font-size:11px}
-.var-under{color:var(--green);font-family:var(--mono);font-size:11px}
+.tag-fixed{background:rgba(34,211,238,.08);color:var(--cyan)}
+.tag-var{background:rgba(251,191,36,.08);color:var(--amber)}
+.tag-save{background:rgba(74,222,128,.08);color:var(--green)}
+.tag-inv{background:rgba(167,139,250,.08);color:var(--purple)}
+.tag-debt{background:rgba(248,113,113,.1);color:var(--red)}
+.tag-biz{background:rgba(201,168,76,.1);color:var(--gold2)}
+.var-pos{color:var(--green);font-family:var(--mono);font-size:11px}
+.var-neg{color:var(--red);font-family:var(--mono);font-size:11px}
 .var-none{color:var(--muted2);font-size:11px}
 .btn-del{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px 6px;transition:color .15s;line-height:1}
 .btn-del:hover{color:var(--red)}
@@ -139,134 +148,166 @@ input.amt:focus{color:var(--green)}
 .bf-stats{display:flex;gap:18px;font-size:11.5px;color:var(--muted)}
 .bf-stats strong{color:var(--text);font-family:var(--mono)}
 .btn-add{width:calc(100% - 32px);margin:8px 16px;background:transparent;border:1px dashed var(--muted2);color:var(--muted);font-size:12px;font-family:var(--sans);padding:6px;border-radius:6px;cursor:pointer;transition:all .15s;text-align:center}
-.btn-add:hover{border-color:var(--green);color:var(--green)}
+.btn-add:hover{border-color:var(--gold);color:var(--gold)}
 
-/* ── BUTTONS ── */
+/* INCOME TABLE */
+.income-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:1.75rem;overflow:hidden}
+
+/* BUTTONS */
 .btn{background:transparent;border:1px solid var(--border2);color:var(--text);padding:7px 14px;border-radius:7px;cursor:pointer;font-size:12px;font-family:var(--sans);transition:all .15s}
-.btn:hover{border-color:var(--green);color:var(--green)}
-.btn-primary{background:var(--green);border-color:var(--green);color:#000;font-weight:600}
-.btn-primary:hover{background:#22c55e;border-color:#22c55e;color:#000}
-.btn-sm{padding:4px 10px;font-size:11px}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn-primary{background:var(--gold);border-color:var(--gold);color:#000;font-weight:600}
+.btn-primary:hover{background:var(--gold2);border-color:var(--gold2);color:#000}
+.btn-sm{padding:5px 12px;font-size:11.5px}
 
-/* ── BANNER ── */
-.banner{border-radius:var(--radius);padding:10px 16px;font-size:13px;margin-bottom:1.5rem;display:none}
+/* BANNER */
+.banner{border-radius:var(--r);padding:10px 16px;font-size:13px;margin-bottom:1.5rem;display:none}
 .banner.warn{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);color:var(--red)}
 .banner.ok{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);color:var(--green)}
 
-/* ── ANNUAL PANEL ── */
-.annual-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.75rem}
-.ann-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
-.ann-month{font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text)}
+/* SECTION TITLE */
+.section-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;margin-top:1.75rem;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* CHART BOXES */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
+.chart-title{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1rem}
+.chart-box.full{grid-column:1/-1}
+
+/* ALLOCATION PIE */
+.alloc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem}
+.alloc-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.alloc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.alloc-name{color:var(--muted);flex:1}
+.alloc-pct{font-family:var(--mono);font-size:11px;color:var(--text)}
+
+/* ANNUAL */
+.annual-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.5rem}
+.ann-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:border-color .15s}
+.ann-card:hover,.ann-card.current{border-color:var(--gold)}
+.ann-month{font-size:12px;font-weight:600;margin-bottom:6px}
 .ann-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:2px}
 .ann-row span:last-child{font-family:var(--mono);color:var(--text)}
 .ann-net{margin-top:5px;padding-top:5px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px}
 .ann-net span:last-child{font-family:var(--mono);font-weight:500}
-.chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.5rem}
-.chart-title{font-size:11px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1rem}
-.bucket-annual-table{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem}
-.bat-header{display:grid;gap:0;padding:7px 14px;background:var(--bg3);font-size:10px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
-.bat-row{display:grid;gap:0;padding:8px 14px;border-top:1px solid var(--border);font-size:12.5px;transition:background .1s}
-.bat-row:hover{background:var(--bg3)}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg3);border:1px solid var(--green);color:var(--green);border-radius:8px;padding:9px 16px;font-size:13px;display:none;z-index:999;animation:fadeup .2s ease}
-@keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-/* ── SECTION TITLE ── */
-.section-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
-.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* ── MONTH STATUS DOT ── */
-.status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg3);border:1px solid var(--gold);color:var(--gold2);border-radius:8px;padding:9px 16px;font-size:13px;display:none;z-index:999}
 
 @media(max-width:768px){
   .sidebar{display:none}
   .main{margin-left:0;padding:1rem}
   .summary{grid-template-columns:1fr 1fr}
-  .line-header,.line-row{grid-template-columns:1fr 90px 90px 70px 28px}
+  .line-header,.line-row{grid-template-columns:1fr 80px 80px 70px 28px}
+  .chart-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-
 <div class="shell">
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-mark">Axis<em>OS</em></div>
-    <div class="logo-sub">Budget Tracker</div>
+    <div class="logo-sub">Finance Command Centre</div>
   </div>
   <div class="nav-section">
-    <div class="nav-label">Monthly</div>
-    <div class="nav-item active" onclick="showView('budget')"><span class="nav-icon">▦</span>Budget</div>
-    <div class="nav-item" onclick="showView('annual')"><span class="nav-icon">∿</span>Annual Review</div>
+    <div class="nav-label">Views</div>
+    <div class="nav-item active" onclick="showView('budget')"><span class="nav-icon">▦</span> Monthly Budget</div>
+    <div class="nav-item" onclick="showView('dashboard')"><span class="nav-icon">◎</span> Dashboard</div>
+    <div class="nav-item" onclick="showView('annual')"><span class="nav-icon">∿</span> Annual Review</div>
   </div>
   <div class="nav-section">
     <div class="nav-label">Month history</div>
-    <div id="monthList" style="max-height:260px;overflow-y:auto"></div>
+    <div id="monthList" style="max-height:220px;overflow-y:auto"></div>
   </div>
   <div class="sidebar-footer">
-    Axis Victor Ephraim<br>
-    ThinkATS Technology Solutions<br>
-    <span style="color:var(--green)">Phase I — Launch</span>
+    <strong>Victor Ephraim</strong><br>
+    AxisGaia Holdings<br>
+    ThinkATS · Resourcin<br>
+    <span style="color:var(--gold);font-size:10px">Phase I — Foundation 2026</span>
   </div>
 </aside>
 
 <!-- MAIN -->
 <main class="main">
-
-  <!-- PAGE HEADER -->
   <div class="page-header">
     <div>
       <div class="page-title" id="viewTitle">Monthly Budget</div>
-      <div class="page-sub" id="viewSub">Zero-based · every naira assigned</div>
+      <div class="page-sub" id="viewSub">Zero-based — every naira assigned with intention</div>
     </div>
     <div class="header-actions">
       <div class="month-nav">
         <button class="month-btn" onclick="changeMonth(-1)">‹</button>
-        <div class="month-label" id="monthLabel">May 2025</div>
+        <div class="month-label" id="monthLabel">May 2026</div>
         <button class="month-btn" onclick="changeMonth(1)">›</button>
       </div>
-      <button class="btn btn-sm" onclick="copyFromPrev()" title="Copy planned amounts from last month">Copy prev plan</button>
+      <button class="btn btn-sm" onclick="copyFromPrev()">Copy prev</button>
       <button class="btn btn-sm" onclick="exportCSV()">CSV</button>
       <button class="btn btn-primary btn-sm" onclick="saveAll()">Save</button>
     </div>
   </div>
 
-  <!-- ══ BUDGET VIEW ══ -->
+  <!-- BUDGET VIEW -->
   <div id="view-budget" class="panel active">
     <div class="summary" id="summaryRow"></div>
     <div class="banner" id="budgetBanner"></div>
-    
-    <div class="section-title">income sources — <span id="incomeMonthLabel"></span></div>
-    <div id="income-sources" style="margin-bottom: 2rem;"></div>
 
-    <div class="section-title" id="bucketSectionTitle">budget allocation — <span id="bucketMonthLabel"></span></div>
+    <!-- WINDFALL PROTOCOL -->
+    <div class="windfall-box">
+      <div class="wf-icon">⚡</div>
+      <div>
+        <div class="wf-title">Windfall Protocol — Non-negotiable rules</div>
+        <div class="wf-text">Any unexpected income — ThinkATS revenue spike, bonus, crypto gain, consulting fee, dividend — is distributed as follows before you touch a naira of it:</div>
+        <div class="wf-rules">
+          <span class="wf-rule">50% → Savings / Debt</span>
+          <span class="wf-rule">20% → Investments</span>
+          <span class="wf-rule">20% → AxisGaia Reinvestment</span>
+          <span class="wf-rule">10% → Discretionary</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">income — <span id="incomeMonthLabel"></span></div>
+    <div id="income-sources" class="income-wrap"></div>
+
+    <div class="section-title">budget allocation — <span id="bucketMonthLabel"></span></div>
     <div id="buckets"></div>
   </div>
 
-  <!-- ══ ANNUAL VIEW ══ -->
-  <div id="view-annual" class="panel">
-    <div class="section-title">year at a glance — <span id="annualYearLabel"></span></div>
-    <div class="summary" id="annualSummaryRow"></div>
-    <div class="chart-box">
-      <div class="chart-title">Net savings — month by month</div>
-      <div style="position:relative;height:240px"><canvas id="netChart"></canvas></div>
+  <!-- DASHBOARD VIEW -->
+  <div id="view-dashboard" class="panel">
+    <div class="summary" id="dashSummaryRow"></div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">Allocation by bucket (planned)</div>
+        <div style="position:relative;height:220px"><canvas id="pieChart"></canvas></div>
+        <div class="alloc-grid" id="allocLegend"></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Planned vs actual — this month</div>
+        <div style="position:relative;height:220px"><canvas id="barChart"></canvas></div>
+      </div>
+      <div class="chart-box full">
+        <div class="chart-title">Net savings — 12 months</div>
+        <div style="position:relative;height:200px"><canvas id="netChart"></canvas></div>
+      </div>
+      <div class="chart-box full">
+        <div class="chart-title">Income vs spending — 12 months</div>
+        <div style="position:relative;height:200px"><canvas id="trendChart"></canvas></div>
+      </div>
     </div>
-    <div class="chart-box">
-      <div class="chart-title">Income vs spending — 12 months</div>
-      <div style="position:relative;height:240px"><canvas id="trendChart"></canvas></div>
-    </div>
-    <div class="section-title">bucket breakdown — all months</div>
-    <div class="bucket-annual-table" id="annualBucketTable"></div>
-    <div class="section-title">month cards</div>
-    <div class="annual-grid" id="annualGrid"></div>
   </div>
 
+  <!-- ANNUAL VIEW -->
+  <div id="view-annual" class="panel">
+    <div class="section-title">year at a glance — <span id="annualYearLabel"></span></div>
+    <div class="annual-grid" id="annualGrid"></div>
+  </div>
 </main>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -274,137 +315,143 @@ input.amt:focus{color:var(--green)}
 // CONSTANTS
 // ═══════════════════════════════════════════════════════════
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const MONTHS_LONG  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-// ─── DEFAULT INCOMES ───────────────────────────────────────
 const DEFAULT_INCOMES = [
-  { name: 'Full Time Employment', planned: 1500000, actual: '' },
-  { name: 'Consulting / Freelance', planned: 0, actual: '' }
+  { name: 'Full-time employment (net)', planned: 1650000, actual: '' },
+  { name: 'Resourcin — consulting fees', planned: 0, actual: '' },
+  { name: 'ThinkATS — MRR', planned: 0, actual: '' },
+  { name: 'AxisGaia — dividend / bonus', planned: 0, actual: '' },
 ];
 
-// ─── DEFAULT TEMPLATE ───────────────────────────────────────
+// ─── BUCKET DEFINITIONS ─────────────────────────────────────
+// Restructured per Victor's feedback:
+// 1. Fixed Obligations (true non-negotiables)
+// 2. Debt Repayment
+// 3. Savings (standalone)
+// 4. Investments (standalone)
+// 5. AxisGaia / Business Entities
+// 6. Living — Food & Home
+// 7. Utilities & Connectivity
+// 8. Personal & Health
+// 9. Learning & Growth
+// 10. Giving & Family
+// 11. Leisure & Travel
+// 12. Flex Buffer
+
 const DEFAULT_TEMPLATE = [
   {
-    id:'obligations', name:'Fixed obligations', color:'#f87171',
-    addable:false,
+    id:'fixed', name:'Fixed Obligations', color:'#f87171', typeLabel:'FIXED', addable:true,
     items:[
-      {name:'Transport to & from work', note:'Ride-share / BRT — no personal vehicle yet', planned:240000, tag:'fixed'},
-      {name:'Rent savings', note:'Accumulating toward Lekki / VI corridor', planned:300000, tag:'fixed'},
+      {name:'Rent / housing contribution', note:'Surulere family home contribution', planned:0, tag:'fixed'},
+      {name:'Transport — work commute', note:'Ride-share, BRT, or fuel for commute only', planned:80000, tag:'fixed'},
+      {name:'Vehicle insurance provision', note:'1/12 of annual premium set aside monthly', planned:15000, tag:'fixed'},
+      {name:'Health insurance (HMO)', note:'', planned:20000, tag:'fixed'},
+      {name:'Life insurance premium', note:'Term policy — foundational protection', planned:15000, tag:'fixed'},
     ]
   },
   {
-    id:'debt', name:'Debt repayment', color:'#f43f5e',
-    addable:true, addLabel:'+ Add creditor',
+    id:'debt', name:'Debt Repayment', color:'#f43f5e', typeLabel:'DEBT', addable:true, addLabel:'+ Add creditor',
     items:[
-      {name:'Stanbic IBTC', note:'Enter monthly repayment amount', planned:300000, tag:'debt'},
+      {name:'Stanbic IBTC — bank loan', note:'Agreed ₦250k/month until cleared ~mid 2028', planned:250000, tag:'debt'},
+      {name:'VGG — deferred', note:'On hold. They owe pension & taxes. Revisit 2028.', planned:0, tag:'debt'},
+      {name:'Other creditors — deferred', note:'Addressed from strength, not pressure', planned:0, tag:'debt'},
     ]
   },
   {
-    id:'utilities', name:'Utilities & connectivity', color:'#38bdf8',
-    addable:true,
+    id:'savings', name:'Savings', color:'#2dd4bf', typeLabel:'SAVE', addable:true,
     items:[
-      {name:'Electricity — NEPA prepaid tokens', note:'', planned:40000, tag:'fixed'},
-      {name:'Generator diesel', note:'Monthly diesel fill-ups', planned:20000, tag:'fixed'},
-      {name:'Generator servicing buffer', note:'', planned:10000, tag:'var'},
+      {name:'Emergency fund', note:'Target ₦5m (3 months expenses) — Stanbic HY savings', planned:200000, tag:'save'},
+      {name:'Home / land deposit fund', note:'Accumulating toward land purchase in serene location', planned:50000, tag:'save'},
+      {name:'Dollar savings — USD account', note:'Bamboo or Stanbic dollar account — naira hedge', planned:150000, tag:'save'},
+    ]
+  },
+  {
+    id:'investments', name:'Investments', color:'#a78bfa', typeLabel:'INV', addable:true,
+    items:[
+      {name:'NGX equities — dividend stocks', note:'Zenith, GTCO, Stanbic, MTNN, Dangote. Reinvest all dividends.', planned:100000, tag:'inv'},
+      {name:'US index fund (S&P 500)', note:'Via Bamboo / Trove — VOO or IVV. Monthly, no stock picking.', planned:0, tag:'inv'},
+      {name:'Crypto — BTC spot only', note:'Max 10% of total investable assets. Hard limit. No leverage, ever.', planned:45000, tag:'inv'},
+      {name:'REIT / money market bridge', note:'Cowrywise ARM — liquid, accessible buffer', planned:0, tag:'inv'},
+    ]
+  },
+  {
+    id:'axisgaia', name:'AxisGaia — Business Entities', color:'#c9a84c', typeLabel:'BIZ', addable:true, addLabel:'+ Add entity / project',
+    items:[
+      {name:'ThinkATS — infrastructure & ops', note:'AWS, Cloudflare, dev tools, domain, SaaS subscriptions', planned:80000, tag:'biz'},
+      {name:'Resourcin — operating costs', note:'Marketing, admin, client engagement materials', planned:20000, tag:'biz'},
+      {name:'AxisGaia incorporation costs', note:'CAC fees, legal, solicitor — one-off 2026/2027', planned:0, tag:'biz'},
+      {name:'Legal & compliance buffer', note:'Annual CAC returns, FIRS filings, solicitor retainer', planned:10000, tag:'biz'},
+      {name:'New entity / project reserve', note:'Seed fund for any new venture under the Trust', planned:0, tag:'biz'},
+    ]
+  },
+  {
+    id:'food', name:'Food & Home', color:'#f97316', typeLabel:'VAR', addable:true,
+    items:[
+      {name:'Weekly grocery — staples & protein', note:'Rice, beans, chicken, fish, vegetables', planned:30000, tag:'var'},
+      {name:'Premium fruit & dairy', note:'Blueberries, grapes, Greek yoghurt, milk', planned:20000, tag:'var'},
+      {name:'Eggs — bulk', note:'Crate × 2 monthly', planned:5000, tag:'var'},
+      {name:'Spices, condiments, pantry', note:'', planned:6000, tag:'var'},
+      {name:'Cooking gas refill', note:'12kg cylinder', planned:7000, tag:'fixed'},
+      {name:'Wine — max 2 bottles', note:'Red or white. Deliberate, not impulsive.', planned:12000, tag:'var'},
+      {name:'Whiskey — 1 bottle', note:'Single malt or blended. One per month.', planned:15000, tag:'var'},
+      {name:'Restaurants & dining out', note:'Grilled fish, business lunches, social outings', planned:25000, tag:'var'},
+    ]
+  },
+  {
+    id:'utilities', name:'Utilities & Connectivity', color:'#38bdf8', typeLabel:'FIXED', addable:true,
+    items:[
+      {name:'Electricity — NEPA prepaid', note:'', planned:40000, tag:'fixed'},
+      {name:'Generator diesel', note:'Monthly fill-ups', planned:20000, tag:'fixed'},
+      {name:'Generator servicing buffer', note:'Accumulate if unused', planned:10000, tag:'var'},
       {name:'Water / estate levy', note:'', planned:10000, tag:'fixed'},
-      {name:'Data — fibre / MiFi (primary)', note:'', planned:30000, tag:'fixed'},
-      {name:'Data — mobile backup', note:'MTN / Airtel', planned:15000, tag:'fixed'},
+      {name:'Fibre / MiFi — primary internet', note:'', planned:30000, tag:'fixed'},
+      {name:'Mobile data — backup', note:'MTN or Airtel', planned:15000, tag:'fixed'},
       {name:'Phone airtime', note:'', planned:5000, tag:'fixed'},
+      {name:'Fuel — personal errands only', note:'Non-commute use', planned:30000, tag:'var'},
+      {name:'Vehicle maintenance buffer', note:'Accumulate if unused', planned:20000, tag:'var'},
     ]
   },
   {
-    id:'fuel', name:'Fuel & vehicle', color:'#fb923c',
-    addable:true,
+    id:'personal', name:'Personal & Health', color:'#e879f9', typeLabel:'VAR', addable:true,
     items:[
-      {name:'Petrol — personal errands & weekends', note:'Non-commute use', planned:40000, tag:'fixed'},
-      {name:'Vehicle maintenance buffer', note:'Accumulate if unused', planned:25000, tag:'var'},
-      {name:'Vehicle insurance (monthly provision)', note:'1/12 annual premium', planned:15000, tag:'fixed'},
-    ]
-  },
-  {
-    id:'emergency', name:'Emergency fund', color:'#2dd4bf',
-    addable:false,
-    items:[
-      {name:'Emergency fund contribution', note:'Target: 6 months ≈ ₦9M — Stanbic HY savings', planned:100000, tag:'save'},
-    ]
-  },
-  {
-    id:'investments', name:'Savings & investments', color:'#a78bfa',
-    addable:true,
-    items:[
-      {name:'Crypto — BTC / ETH (capped exposure)', note:'Max 10% of invest bucket — deliberate', planned:150000, tag:'inv'},
-      {name:'Equities — NGX / US stocks', note:'Bamboo, Chaka, or Stanbic brokerage', planned:300000, tag:'inv'},
-      {name:'Real estate fund — Ibeju-Lekki corridor', note:'Accumulating toward ₦5M land deposit', planned:0, tag:'inv'},
-      {name:'REIT / money market (bridge)', note:'Cowrywise / ARM — liquid bridge', planned:0, tag:'inv'},
-    ]
-  },
-  {
-    id:'startup', name:'ThinkATS — startup budget', color:'#34d399',
-    addable:true,
-    items:[
-      {name:'Monthly operational spend', note:'Infra, contractors, tools, product', planned:80000, tag:'inv'},
-    ]
-  },
-  {
-    id:'food', name:'Food & nutrition', color:'#f97316',
-    addable:true,
-    items:[
-      {name:'Weekly grocery run (staples & protein)', note:'Rice, beans, chicken, fish, veg', planned:30000, tag:'var'},
-      {name:'Blueberries, grapes & premium fruit', note:'Weekly premium fruit haul', planned:12000, tag:'var'},
-      {name:'Yoghurt & dairy', note:'Greek yoghurt, milk', planned:8000, tag:'var'},
-      {name:'Eggs (bulk — crate × 2)', note:'', planned:5000, tag:'var'},
-      {name:'Spices, condiments & pantry refills', note:'', planned:6000, tag:'var'},
-      {name:'Cooking gas — cylinder refill', note:'Standard 12kg', planned:7000, tag:'fixed'},
-      {name:'Wine (max 2 bottles / month)', note:'Red or white — deliberate', planned:12000, tag:'var'},
-      {name:'Whiskey (1 bottle / month)', note:'Single malt or blended', planned:15000, tag:'var'},
-      {name:'Restaurants & dining out', note:'Grilled fish, business lunches', planned:25000, tag:'var'},
-    ]
-  },
-  {
-    id:'personal', name:'Personal & hygiene', color:'#e879f9',
-    addable:true,
-    items:[
-      {name:'Laundry — dry clean + wash & fold', note:'', planned:10000, tag:'var'},
+      {name:'Gym / fitness membership', note:'', planned:15000, tag:'fixed'},
+      {name:'Health & pharmacy buffer', note:'OTC meds, supplements, doctor visits', planned:15000, tag:'var'},
+      {name:'Laundry — dry clean & wash', note:'', planned:10000, tag:'var'},
       {name:'Toiletries & grooming', note:'Skincare, deodorant, shaving', planned:10000, tag:'var'},
       {name:'Haircut / barber', note:'', planned:5000, tag:'var'},
-      {name:'Clothing & footwear', note:'Intentional — not impulse', planned:20000, tag:'var'},
-      {name:'Gym / fitness membership', note:'', planned:15000, tag:'fixed'},
-      {name:'Health & pharmacy buffer', note:'OTC meds, supplements', planned:10000, tag:'var'},
+      {name:'Clothing & footwear', note:'Intentional purchases only. Not impulse.', planned:20000, tag:'var'},
     ]
   },
   {
-    id:'growth', name:'Learning & growth', color:'#86efac',
-    addable:true,
+    id:'growth', name:'Learning & Growth', color:'#86efac', typeLabel:'INV', addable:true,
     items:[
-      {name:'Books — physical + Kindle', note:'2–3 titles per month', planned:8000, tag:'var'},
-      {name:'Online courses & platforms', note:'Coursera, Udemy, Selar', planned:10000, tag:'var'},
-      {name:'Software tools & subscriptions', note:'Claude Pro, Notion, design tools', planned:15000, tag:'fixed'},
-      {name:'Events, conferences & networking', note:'', planned:10000, tag:'var'},
+      {name:'Books — physical + digital', note:'2–3 titles per month', planned:8000, tag:'inv'},
+      {name:'Online courses & platforms', note:'Coursera, Udemy, Selar, Masterclass', planned:10000, tag:'inv'},
+      {name:'Software tools & subscriptions', note:'Claude Pro, Notion, design tools', planned:15000, tag:'inv'},
+      {name:'Events, conferences, networking', note:'Professional visibility investment', planned:10000, tag:'inv'},
     ]
   },
   {
-    id:'giving', name:'Giving & family', color:'#94a3b8',
-    addable:true,
+    id:'giving', name:'Giving & Family', color:'#94a3b8', typeLabel:'VAR', addable:true,
     items:[
-      {name:'Family support — parents / siblings', note:'Intentional generosity', planned:20000, tag:'var'},
+      {name:'Family support — parents / siblings', note:'Intentional generosity. Deliberate, not pressured.', planned:20000, tag:'var'},
       {name:'Gifts & celebrations', note:'Birthdays, occasions', planned:5000, tag:'var'},
-      {name:'Tithe / sadaqah / charity', note:'', planned:10000, tag:'var'},
+      {name:'Tithe / sadaqah / charity', note:'', planned:15000, tag:'var'},
     ]
   },
   {
-    id:'leisure', name:'Entertainment & leisure', color:'#818cf8',
-    addable:true,
+    id:'leisure', name:'Leisure & Travel', color:'#818cf8', typeLabel:'VAR', addable:true,
     items:[
       {name:'Streaming — Netflix / Showmax / Spotify', note:'', planned:7000, tag:'fixed'},
-      {name:'Outings, concerts, experiences', note:'Lagos social — capped', planned:15000, tag:'var'},
-      {name:'Weekend trips / staycations', note:'Accumulate if unused', planned:10000, tag:'var'},
+      {name:'Outings, concerts, experiences', note:'Lagos social life — capped and intentional', planned:15000, tag:'var'},
+      {name:'Holiday travel fund', note:'Accumulate monthly toward annual trip. Work and play.', planned:20000, tag:'save'},
+      {name:'Staycation / weekend getaway', note:'Within Nigeria — accumulate if unused', planned:10000, tag:'var'},
     ]
   },
   {
-    id:'buffer', name:'Flex buffer', color:'#64748b',
-    addable:false,
+    id:'buffer', name:'Flex Buffer', color:'#64748b', typeLabel:'VAR', addable:false,
     items:[
-      {name:'Unplanned overflow / miscellaneous', note:'Tap only if needed', planned:15000, tag:'var'},
+      {name:'Unplanned overflow — tap only if needed', note:'Unspent balance transfers to savings at month end', planned:15000, tag:'var'},
     ]
   },
 ];
@@ -415,272 +462,182 @@ const DEFAULT_TEMPLATE = [
 let curMonth = new Date().getMonth();
 let curYear  = new Date().getFullYear();
 let activeView = 'budget';
+let charts = {};
 
-let STORE = { template: JSON.parse(JSON.stringify(DEFAULT_TEMPLATE)), months: {} };
+let STORE = { months: {} };
+const STORE_KEY = 'axisos_v5';
 
-// ─── PERSISTENCE ────────────────────────────────────────────
-const STORE_KEY = 'axisbudget_v4';
-function loadStore(){
-  try{ const s=localStorage.getItem(STORE_KEY); if(s) STORE=JSON.parse(s); }catch(e){}
-}
-function saveStore(){
-  try{ localStorage.setItem(STORE_KEY,JSON.stringify(STORE)); }catch(e){}
-}
-
-// ─── MONTH KEY ──────────────────────────────────────────────
+function loadStore(){ try{ const s=localStorage.getItem(STORE_KEY); if(s) STORE=JSON.parse(s); }catch(e){} }
+function saveStore(){ try{ localStorage.setItem(STORE_KEY,JSON.stringify(STORE)); }catch(e){} }
 function mKey(m,y){ return `${y}-${String(m+1).padStart(2,'0')}`; }
 function mLabel(m,y){ return MONTHS_SHORT[m]+' '+y; }
 
-// ─── GET OR INIT MONTH ──────────────────────────────────────
-function getMonth(m, y){
-  const k = mKey(m,y);
+function getMonth(m,y){
+  const k=mKey(m,y);
   if(!STORE.months[k]){
-    const prevKey = mKey(m===0?11:m-1, m===0?y-1:y);
-    
-    const srcBuckets = STORE.months[prevKey]
-      ? JSON.parse(JSON.stringify(STORE.months[prevKey].buckets))
-      : JSON.parse(JSON.stringify(STORE.template));
-    srcBuckets.forEach(b => b.items.forEach(i => { i.actual=''; }));
-
-    const srcIncomes = STORE.months[prevKey]
-      ? JSON.parse(JSON.stringify(STORE.months[prevKey].incomes || DEFAULT_INCOMES))
-      : JSON.parse(JSON.stringify(DEFAULT_INCOMES));
-    srcIncomes.forEach(i => i.actual = '');
-
-    STORE.months[k] = { incomes: srcIncomes, buckets: srcBuckets, efBalance: 0, _open:{} };
+    const pk=mKey(m===0?11:m-1,m===0?y-1:y);
+    const srcB=STORE.months[pk]?JSON.parse(JSON.stringify(STORE.months[pk].buckets)):JSON.parse(JSON.stringify(DEFAULT_TEMPLATE));
+    srcB.forEach(b=>b.items.forEach(i=>{i.actual='';}));
+    const srcI=STORE.months[pk]?JSON.parse(JSON.stringify(STORE.months[pk].incomes||DEFAULT_INCOMES)):JSON.parse(JSON.stringify(DEFAULT_INCOMES));
+    srcI.forEach(i=>i.actual='');
+    STORE.months[k]={incomes:srcI,buckets:srcB,_open:{}};
   }
   return STORE.months[k];
 }
+function curMonthData(){ return getMonth(curMonth,curYear); }
 
-function curMonthData(){ return getMonth(curMonth, curYear); }
-
-// ═══════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════
-function fmt(n){
-  if(n===''||n===null||n===undefined) return '—';
-  return '₦'+Math.round(n).toLocaleString('en-NG');
-}
+function fmt(n){ if(n===''||n===null||n===undefined) return '—'; return '₦'+Math.round(n).toLocaleString('en-NG'); }
+function fmtK(n){ if(!n) return '₦0'; if(Math.abs(n)>=1000000) return '₦'+(n/1000000).toFixed(1)+'m'; if(Math.abs(n)>=1000) return '₦'+(n/1000).toFixed(0)+'k'; return '₦'+n; }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function bPlanned(b){ return b.items.reduce((s,i)=>s+(parseFloat(i.planned)||0),0); }
-function bActual(b){  return b.items.reduce((s,i)=>s+(parseFloat(i.actual)||0),0); }
-function totalPlanned(buckets){ return buckets.reduce((s,b)=>s+bPlanned(b),0); }
-function totalActual(buckets){  return buckets.reduce((s,b)=>s+bActual(b),0); }
+function bActual(b){ return b.items.reduce((s,i)=>s+(parseFloat(i.actual)||0),0); }
+function totalPlanned(bkts){ return bkts.reduce((s,b)=>s+bPlanned(b),0); }
+function totalActual(bkts){ return bkts.reduce((s,b)=>s+bActual(b),0); }
 
 // ═══════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════
 function showView(name){
-  activeView = name;
+  activeView=name;
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>{
     if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+name+"'")) n.classList.add('active');
   });
-  if(name==='budget'){
-    document.getElementById('viewTitle').textContent='Monthly Budget';
-    document.getElementById('viewSub').textContent='Zero-based · every naira assigned';
-    renderBudget();
-  } else if(name==='annual'){
-    document.getElementById('viewTitle').textContent='Annual Review';
-    document.getElementById('viewSub').textContent='Full year at a glance';
-    renderAnnual();
-  }
+  const titles={budget:['Monthly Budget','Zero-based — every naira assigned with intention'],dashboard:['Dashboard','Allocation overview and trends'],annual:['Annual Review','Full year at a glance']};
+  document.getElementById('viewTitle').textContent=titles[name][0];
+  document.getElementById('viewSub').textContent=titles[name][1];
+  if(name==='budget') renderBudget();
+  if(name==='dashboard') renderDashboard();
+  if(name==='annual') renderAnnual();
 }
 
 function changeMonth(dir){
-  curMonth+=dir;
-  if(curMonth<0){curMonth=11;curYear--;}
-  if(curMonth>11){curMonth=0;curYear++;}
+  curMonth+=dir; if(curMonth<0){curMonth=11;curYear--;} if(curMonth>11){curMonth=0;curYear++;}
   document.getElementById('monthLabel').textContent=mLabel(curMonth,curYear);
-  renderBudget();
+  if(activeView==='budget') renderBudget();
+  if(activeView==='dashboard') renderDashboard();
+  if(activeView==='annual') renderAnnual();
   renderMonthList();
+}
+
+function renderMonthList(){
+  const el=document.getElementById('monthList'); el.innerHTML='';
+  const keys=Object.keys(STORE.months).sort().reverse().slice(0,12);
+  keys.forEach(k=>{
+    const [y,m]=k.split('-').map(Number);
+    const div=document.createElement('div');
+    div.className='nav-item'+(k===mKey(curMonth,curYear)?' active':'');
+    div.innerHTML=`<span class="nav-icon">·</span>${MONTHS_SHORT[m-1]} ${y}`;
+    div.onclick=()=>{curYear=y;curMonth=m-1;document.getElementById('monthLabel').textContent=mLabel(curMonth,curYear);if(activeView==='budget')renderBudget();if(activeView==='dashboard')renderDashboard();renderMonthList();};
+    el.appendChild(div);
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
 // BUDGET VIEW
 // ═══════════════════════════════════════════════════════════
 function renderBudget(){
-  const md = curMonthData();
-  
-  const plannedIncome = md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
-  const actualIncome  = md.incomes.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);
+  const md=curMonthData();
+  const plannedIncome=md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
+  const actualIncome=md.incomes.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);
+  const planned=totalPlanned(md.buckets); const actual=totalActual(md.buckets);
+  const net=plannedIncome-planned;
+  const savIds=['savings','investments'];
+  const savP=md.buckets.filter(b=>savIds.includes(b.id)).reduce((s,b)=>s+bPlanned(b),0);
+  const savRate=plannedIncome>0?Math.round(savP/plannedIncome*100):0;
+  const debtP=md.buckets.filter(b=>b.id==='debt').reduce((s,b)=>s+bPlanned(b),0);
 
-  const planned = totalPlanned(md.buckets);
-  const actual  = totalActual(md.buckets);
-  const net = plannedIncome - planned;
-  const savBuckets = ['investments','emergency'];
-  const savP = md.buckets.filter(b=>savBuckets.includes(b.id)).reduce((s,b)=>s+bPlanned(b),0);
-  const savRate = plannedIncome > 0 ? Math.round(savP/plannedIncome*100) : 0;
-
-  document.getElementById('bucketMonthLabel').textContent = mLabel(curMonth,curYear);
-  document.getElementById('incomeMonthLabel').textContent = mLabel(curMonth,curYear);
-  document.getElementById('monthLabel').textContent = mLabel(curMonth,curYear);
+  document.getElementById('bucketMonthLabel').textContent=mLabel(curMonth,curYear);
+  document.getElementById('incomeMonthLabel').textContent=mLabel(curMonth,curYear);
+  document.getElementById('monthLabel').textContent=mLabel(curMonth,curYear);
 
   document.getElementById('summaryRow').innerHTML=[
-    {label:'Monthly income',   val:fmt(plannedIncome), cls:'green',  sub:actualIncome ? 'Actual: '+fmt(actualIncome) : 'Planned total'},
-    {label:'Total budgeted',   val:fmt(planned), cls:planned>plannedIncome?'red':'amber', sub:plannedIncome>0 ? Math.round(planned/plannedIncome*100)+'% of income' : '0%'},
-    {label:'Surplus',          val:fmt(net),     cls:net>=0?'green':'red', sub:net>=0?'Unallocated — assign it':'DEFICIT'},
-    {label:'Savings rate',     val:savRate+'%',  cls:'purple', sub:'Invest + EF / income'},
-    {label:'Actual spent',     val:actual?fmt(actual):'—', cls:'cyan', sub:actual?Math.round(actual/planned*100)+'% of budget':'Enter actuals below'},
+    {label:'Monthly income',val:fmt(plannedIncome),cls:'gold',sub:actualIncome?'Actual: '+fmt(actualIncome):'Planned'},
+    {label:'Total budgeted',val:fmt(planned),cls:planned>plannedIncome?'red':'amber',sub:plannedIncome>0?Math.round(planned/plannedIncome*100)+'% of income':'—'},
+    {label:'Surplus',val:fmt(net),cls:net>=0?'green':'red',sub:net>=0?'Unallocated':'DEFICIT'},
+    {label:'Savings rate',val:savRate+'%',cls:'cyan',sub:'Savings + Inv / income'},
+    {label:'Debt repayment',val:fmt(debtP),cls:'red',sub:'Monthly toward debt'},
+    {label:'Actual spent',val:actual?fmt(actual):'—',cls:'purple',sub:actual?Math.round(actual/planned*100)+'% of budget':'Enter actuals'},
   ].map(c=>`<div class="scard ${c.cls}"><div class="slabel">${c.label}</div><div class="sval ${c.cls}">${c.val}</div><div class="ssub">${c.sub}</div></div>`).join('');
 
   const banner=document.getElementById('budgetBanner');
-  if(net<0){
-    banner.className='banner warn'; banner.style.display='block';
-    banner.innerHTML=`Over budget by <strong>${fmt(Math.abs(net))}</strong> — trim investments or variable buckets to balance.`;
-  } else if(net===0){
-    banner.className='banner ok'; banner.style.display='block';
-    banner.innerHTML='Perfectly balanced — every naira is assigned. ✓';
-  } else {
-    banner.style.display='none';
-  }
+  if(net<0){banner.className='banner warn';banner.style.display='block';banner.innerHTML=`Over budget by <strong>${fmt(Math.abs(net))}</strong> — trim variable or investment buckets.`;}
+  else if(net===0){banner.className='banner ok';banner.style.display='block';banner.innerHTML='Every naira is assigned. ✓';}
+  else{banner.style.display='none';}
 
-  renderIncomeList(md);
-  renderBucketList(md);
+  renderIncomeTable(md);
+  renderBuckets(md,plannedIncome);
 }
 
-// ─── INCOME INTERACTIONS ────────────────────────────────────
-function renderIncomeList(md) {
-  const container = document.getElementById('income-sources');
-  let rows = '';
-
-  md.incomes.forEach((item, ii) => {
-    const act = parseFloat(item.actual) || '';
-    const variance = act !== '' ? act - (parseFloat(item.planned) || 0) : '';
-    const varClass = variance > 0 ? 'var-under' : 'var-over'; 
-
-    rows += `
-      <div class="line-row">
-        <div class="lc">
-          <input class="lname-edit" type="text" value="${esc(item.name)}"
-            onchange="updateIncome(${ii},'name',this.value)" placeholder="e.g. Dividend, Consulting">
-        </div>
-        <div class="lc r">
-          <div class="amt-wrap">
-            <input class="amt" type="number" value="${item.planned}"
-              onchange="updateIncome(${ii},'planned',this.value)">
-          </div>
-        </div>
-        <div class="lc r">
-          <div class="amt-wrap">
-            <input class="amt" type="number" value="${act}" placeholder="0"
-              onchange="updateIncome(${ii},'actual',this.value)">
-          </div>
-        </div>
-        <div class="lc c" style="gap:4px">
-          ${variance !== '' ? `<span class="${varClass}">${variance > 0 ? '+' : ''}${fmt(variance)}</span>` : '<span class="var-none">—</span>'}
-        </div>
-        <div class="lc c">
-          <button class="btn-del" onclick="deleteIncome(${ii})" title="Remove">✕</button>
-        </div>
-      </div>`;
+function renderIncomeTable(md){
+  const totalP=md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
+  const totalA=md.incomes.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);
+  let rows='';
+  md.incomes.forEach((item,ii)=>{
+    const act=parseFloat(item.actual)||'';
+    const v=act!==''?act-(parseFloat(item.planned)||0):'';
+    rows+=`<div class="line-row">
+      <div class="lc"><input class="lname-edit" type="text" value="${esc(item.name)}" onchange="updateIncome(${ii},'name',this.value)"></div>
+      <div class="lc r"><div class="amt-wrap"><input class="amt" type="number" value="${item.planned}" onchange="updateIncome(${ii},'planned',this.value)"></div></div>
+      <div class="lc r"><div class="amt-wrap"><input class="amt" type="number" value="${act}" placeholder="0" onchange="updateIncome(${ii},'actual',this.value)"></div></div>
+      <div class="lc c">${v!==''?`<span class="${v>=0?'var-pos':'var-neg'}">${v>0?'+':''}${fmt(v)}</span>`:'<span class="var-none">—</span>'}</div>
+      <div class="lc c"><button class="btn-del" onclick="deleteIncome(${ii})">✕</button></div>
+    </div>`;
   });
-
-  container.innerHTML = `
-    <div class="bucket" style="border-color: var(--border2);">
-      <div class="bucket-body open">
-        <div class="line-header">
-          <div class="lh">Income Source</div>
-          <div class="lh r">Planned (₦)</div>
-          <div class="lh r">Actual (₦)</div>
-          <div class="lh c">Variance</div>
-          <div class="lh"></div>
-        </div>
-        ${rows}
-        <button class="btn-add" onclick="addIncome()" style="border-color: var(--green); color: var(--green);">+ Add income source</button>
-      </div>
-    </div>
-  `;
+  document.getElementById('income-sources').innerHTML=`
+    <div class="line-header">
+      <div class="lh">Source</div><div class="lh r">Planned</div><div class="lh r">Actual</div><div class="lh c">Variance</div><div class="lh"></div>
+    </div>${rows}
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:var(--bg3);border-top:1px solid var(--border)">
+      <div style="font-size:12px;color:var(--muted)">Total: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(totalP)}</strong>${totalA?` · Actual: <strong style="font-family:var(--mono)">${fmt(totalA)}</strong>`:''}</div>
+      <button class="btn btn-sm" onclick="addIncome()">+ Add source</button>
+    </div>`;
 }
 
-function updateIncome(ii, field, val) {
-  const md = curMonthData();
-  if (field === 'planned' || field === 'actual') {
-    md.incomes[ii][field] = parseFloat(val) || 0;
-  } else {
-    md.incomes[ii][field] = val;
-  }
-  renderBudget();
-}
+function updateIncome(ii,field,val){ const md=curMonthData(); md.incomes[ii][field]=field==='name'?val:(parseFloat(val)||0); renderBudget(); }
+function addIncome(){ const md=curMonthData(); md.incomes.push({name:'New income source',planned:0,actual:''}); renderBudget(); }
+function deleteIncome(ii){ const md=curMonthData(); if(md.incomes.length<=1){showToast('Need at least one income source');return;} md.incomes.splice(ii,1); renderBudget(); }
 
-function addIncome() {
-  const md = curMonthData();
-  md.incomes.push({ name: 'New income source', planned: 0, actual: '' });
-  renderBudget();
-}
-
-function deleteIncome(ii) {
-  const md = curMonthData();
-  if (md.incomes.length <= 1) { 
-    showToast('You need at least one income source.'); 
-    return; 
-  }
-  md.incomes.splice(ii, 1);
-  renderBudget();
-}
-
-// ─── BUCKET INTERACTIONS ────────────────────────────────────
-function renderBucketList(md){
-  const container=document.getElementById('buckets');
-  container.innerHTML='';
-  const tagLabel={debt:'debt',fixed:'fixed',var:'variable',save:'saving',inv:'investment'};
-  const tagClass={debt:'tag-debt',fixed:'tag-fixed',var:'tag-var',save:'tag-save',inv:'tag-inv'};
-
-  // Calculate total income for percentage displays
-  const plannedIncome = md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0) || 1; // avoid /0
+function renderBuckets(md,plannedIncome){
+  const container=document.getElementById('buckets'); container.innerHTML='';
+  const tagLabel={fixed:'fixed',var:'variable',save:'saving',inv:'investment',debt:'debt',biz:'business'};
+  const tagClass={fixed:'tag-fixed',var:'tag-var',save:'tag-save',inv:'tag-inv',debt:'tag-debt',biz:'tag-biz'};
+  const income=plannedIncome||1;
 
   md.buckets.forEach((bucket,bi)=>{
-    const bp=bPlanned(bucket), ba=bActual(bucket);
-    const pct=Math.round(bp/plannedIncome*100);
+    const bp=bPlanned(bucket),ba=bActual(bucket);
+    const pct=income>0?Math.round(bp/income*100):0;
     const isOpen=!!md._open[bi];
-
     let rows='';
     bucket.items.forEach((item,ii)=>{
       const act=parseFloat(item.actual)||'';
-      const variance=act!==''?act-(parseFloat(item.planned)||0):'';
-      rows+=`
-        <div class="line-row">
-          <div class="lc">
-            <input class="lname-edit" type="text" value="${esc(item.name)}"
-              onchange="updateItem(${bi},${ii},'name',this.value)" placeholder="Item name">
-            <input class="lnote-edit" type="text" value="${esc(item.note||'')}"
-              onchange="updateItem(${bi},${ii},'note',this.value)" placeholder="Add note…">
-          </div>
-          <div class="lc r">
-            <div class="amt-wrap">
-              <input class="amt" type="number" value="${item.planned}"
-                onchange="updateItem(${bi},${ii},'planned',this.value)">
-            </div>
-          </div>
-          <div class="lc r">
-            <div class="amt-wrap">
-              <input class="amt" type="number" value="${act}" placeholder="0"
-                onchange="updateItem(${bi},${ii},'actual',this.value)">
-            </div>
-          </div>
-          <div class="lc c" style="gap:4px">
-            ${variance!==''?`<span class="${variance>0?'var-over':'var-under'}">${variance>0?'+':''}${fmt(variance)}</span>`:'<span class="var-none">—</span>'}
-            <span class="tag ${tagClass[item.tag]||'tag-var'}">${tagLabel[item.tag]||item.tag}</span>
-          </div>
-          <div class="lc c">
-            <button class="btn-del" onclick="deleteLine(${bi},${ii})" title="Remove">✕</button>
-          </div>
-        </div>`;
+      const v=act!==''?act-(parseFloat(item.planned)||0):'';
+      const itemPct=bp>0?Math.round((parseFloat(item.planned)||0)/income*100):0;
+      rows+=`<div class="line-row">
+        <div class="lc">
+          <input class="lname-edit" type="text" value="${esc(item.name)}" onchange="updateItem(${bi},${ii},'name',this.value)" placeholder="Item name">
+          <input class="lnote-edit" type="text" value="${esc(item.note||'')}" onchange="updateItem(${bi},${ii},'note',this.value)" placeholder="Note…">
+        </div>
+        <div class="lc r"><div class="amt-wrap"><input class="amt" type="number" value="${item.planned}" onchange="updateItem(${bi},${ii},'planned',this.value)"></div><div style="font-size:10px;color:var(--muted2);font-family:var(--mono)">${itemPct}% of income</div></div>
+        <div class="lc r"><div class="amt-wrap"><input class="amt" type="number" value="${act}" placeholder="0" onchange="updateItem(${bi},${ii},'actual',this.value)"></div></div>
+        <div class="lc c" style="gap:4px">
+          ${v!==''?`<span class="${v>0?'var-neg':'var-pos'}">${v>0?'+':''}${fmt(v)}</span>`:'<span class="var-none">—</span>'}
+          <span class="tag ${tagClass[item.tag]||'tag-var'}">${tagLabel[item.tag]||item.tag}</span>
+        </div>
+        <div class="lc c"><button class="btn-del" onclick="deleteLine(${bi},${ii})">✕</button></div>
+      </div>`;
     });
 
-    const addLabel=bucket.addLabel||'+ Add line item';
-    const addBtn=bucket.addable!==false?`<button class="btn-add" onclick="addLine(${bi})">${esc(addLabel)}</button>`:'';
-
-    const div=document.createElement('div');
-    div.className='bucket';
+    const addBtn=bucket.addable!==false?`<button class="btn-add" onclick="addLine(${bi})">${esc(bucket.addLabel||'+ Add line item')}</button>`:'';
+    const div=document.createElement('div'); div.className='bucket';
     div.innerHTML=`
       <div class="bucket-header" onclick="toggleBucket(${bi})">
         <div class="bh-left">
           <div class="bh-dot" style="background:${bucket.color}"></div>
           <div class="bh-name">${esc(bucket.name)}</div>
-          <div class="bh-count">&nbsp;${bucket.items.length} line${bucket.items.length!==1?'s':''}</div>
+          <span class="bh-tag tag ${tagClass[bucket.typeLabel?.toLowerCase()]||'tag-var'}" style="opacity:.6">${bucket.typeLabel||''}</span>
         </div>
         <div class="bh-right">
           <div class="bh-total" style="color:${bucket.color}">${fmt(bp)}</div>
@@ -688,20 +645,16 @@ function renderBucketList(md){
           <div class="bh-arrow${isOpen?' open':''}" id="arrow-${bi}">›</div>
         </div>
       </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,pct*2)}%;background:${bucket.color}55"></div></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,pct*2)}%;background:${bucket.color}44"></div></div>
       <div class="bucket-body${isOpen?' open':''}" id="body-${bi}">
         <div class="line-header">
-          <div class="lh">Item · click to edit</div>
-          <div class="lh r">Planned (₦)</div>
-          <div class="lh r">Actual (₦)</div>
-          <div class="lh c">Variance / type</div>
-          <div class="lh"></div>
+          <div class="lh">Item · click to edit</div><div class="lh r">Planned</div><div class="lh r">Actual</div><div class="lh c">Variance / type</div><div class="lh"></div>
         </div>
-        ${rows}
-        ${addBtn}
+        ${rows}${addBtn}
         <div class="bucket-footer">
           <div class="bf-stats">
-            <span>Budgeted: <strong>${fmt(bp)}</strong></span>
+            <span>Planned: <strong>${fmt(bp)}</strong></span>
+            <span>${pct}% of income</span>
             ${ba?`<span>Actual: <strong>${fmt(ba)}</strong></span><span style="color:${ba>bp?'var(--red)':'var(--green)'}">Var: <strong>${fmt(ba-bp)}</strong></span>`:'<span style="color:var(--muted2)">No actuals yet</span>'}
           </div>
         </div>
@@ -710,110 +663,125 @@ function renderBucketList(md){
   });
 }
 
-function toggleBucket(bi){
-  const md=curMonthData();
-  md._open[bi]=!md._open[bi];
-  const body=document.getElementById('body-'+bi);
-  const arrow=document.getElementById('arrow-'+bi);
-  if(body){ body.classList.toggle('open',!!md._open[bi]); }
-  if(arrow){ arrow.classList.toggle('open',!!md._open[bi]); }
-}
+function toggleBucket(bi){ const md=curMonthData(); md._open[bi]=!md._open[bi]; document.getElementById('body-'+bi)?.classList.toggle('open',!!md._open[bi]); document.getElementById('arrow-'+bi)?.classList.toggle('open',!!md._open[bi]); }
+function updateItem(bi,ii,field,val){ const md=curMonthData(); md.buckets[bi].items[ii][field]=field==='name'||field==='note'?val:(parseFloat(val)||0); renderBudget(); }
+function addLine(bi){ const md=curMonthData(); const b=md.buckets[bi]; b.items.push({name:'New item',note:'',planned:0,actual:'',tag:'var'}); md._open[bi]=true; renderBudget(); }
+function deleteLine(bi,ii){ const md=curMonthData(); if(md.buckets[bi].items.length<=1){showToast('Need at least one line per bucket');return;} md.buckets[bi].items.splice(ii,1); renderBudget(); }
 
-function updateItem(bi,ii,field,val){
-  const md=curMonthData();
-  if(field==='planned'||field==='actual'){
-    md.buckets[bi].items[ii][field]=parseFloat(val)||0;
-  } else {
-    md.buckets[bi].items[ii][field]=val;
-  }
-  renderBudget();
-}
+// ═══════════════════════════════════════════════════════════
+// DASHBOARD VIEW
+// ═══════════════════════════════════════════════════════════
+function destroyChart(id){ if(charts[id]){charts[id].destroy();delete charts[id];} }
 
-function addLine(bi){
+function renderDashboard(){
   const md=curMonthData();
-  const b=md.buckets[bi];
-  const defaultTag=b.id==='debt'?'debt':'var';
-  b.items.push({name:'New item',note:'',planned:0,actual:'',tag:defaultTag});
-  md._open[bi]=true;
-  renderBudget();
-}
+  const plannedIncome=md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
+  const planned=totalPlanned(md.buckets);
+  const actual=totalActual(md.buckets);
+  const net=plannedIncome-planned;
+  const savIds=['savings','investments'];
+  const savP=md.buckets.filter(b=>savIds.includes(b.id)).reduce((s,b)=>s+bPlanned(b),0);
+  const savRate=plannedIncome>0?Math.round(savP/plannedIncome*100):0;
 
-function deleteLine(bi,ii){
-  const md=curMonthData();
-  if(md.buckets[bi].items.length<=1){showToast('Need at least one line per bucket');return;}
-  md.buckets[bi].items.splice(ii,1);
-  renderBudget();
-}
+  document.getElementById('dashSummaryRow').innerHTML=[
+    {label:'Monthly income',val:fmt(plannedIncome),cls:'gold',sub:'Planned gross'},
+    {label:'Total allocated',val:fmt(planned),cls:'amber',sub:plannedIncome>0?Math.round(planned/plannedIncome*100)+'% of income':'—'},
+    {label:'Surplus',val:fmt(net),cls:net>=0?'green':'red',sub:net>=0?'Unassigned':'DEFICIT'},
+    {label:'Save + Invest rate',val:savRate+'%',cls:'cyan',sub:'Compounding allocation'},
+  ].map(c=>`<div class="scard ${c.cls}"><div class="slabel">${c.label}</div><div class="sval ${c.cls}">${c.val}</div><div class="ssub">${c.sub}</div></div>`).join('');
 
-// ─── ACTIONS & UTILS ────────────────────────────────────────
-function copyFromPrev(){
-  const pm=curMonth===0?11:curMonth-1;
-  const py=curMonth===0?curYear-1:curYear;
-  const prevKey=mKey(pm,py);
-  
-  if(!STORE.months[prevKey]){showToast('No previous month data found');return;}
-  if(!confirm('Copy planned amounts from '+mLabel(pm,py)+'? Actuals for '+mLabel(curMonth,curYear)+' will be kept.')){return;}
-  
-  const md=curMonthData();
-  const prev=STORE.months[prevKey];
-  
-  // Copy bucket items
-  md.buckets.forEach((b,bi)=>{
-    const pb=prev.buckets[bi];
-    if(pb){
-      b.items.forEach((item,ii)=>{
-        if(pb.items[ii]) item.planned=pb.items[ii].planned;
-      });
-    }
+  // PIE — allocation by bucket
+  destroyChart('pie');
+  const bucketColors=md.buckets.map(b=>b.color);
+  const bucketPlanned=md.buckets.map(b=>bPlanned(b));
+  const bucketNames=md.buckets.map(b=>b.name);
+  const ctx1=document.getElementById('pieChart').getContext('2d');
+  charts['pie']=new Chart(ctx1,{type:'doughnut',data:{labels:bucketNames,datasets:[{data:bucketPlanned,backgroundColor:bucketColors.map(c=>c+'bb'),borderColor:bucketColors,borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${fmt(ctx.raw)} (${plannedIncome>0?Math.round(ctx.raw/plannedIncome*100):0}%)`}}}}});
+
+  // LEGEND
+  const legend=document.getElementById('allocLegend'); legend.innerHTML='';
+  md.buckets.forEach((b,i)=>{
+    const pct=plannedIncome>0?Math.round(bucketPlanned[i]/plannedIncome*100):0;
+    if(bucketPlanned[i]>0) legend.innerHTML+=`<div class="alloc-item"><div class="alloc-dot" style="background:${b.color}"></div><div class="alloc-name">${b.name}</div><div class="alloc-pct">${pct}%</div></div>`;
   });
 
-  // Copy incomes
-  if(prev.incomes) {
-    // If lengths match, update inline. Otherwise overwrite to match structure.
-    if(md.incomes.length === prev.incomes.length) {
-      md.incomes.forEach((item, ii) => {
-        if(prev.incomes[ii]) item.planned = prev.incomes[ii].planned;
-      });
-    } else {
-      md.incomes = prev.incomes.map(i => ({...i, actual: ''})); 
-    }
-  }
+  // BAR — planned vs actual this month
+  destroyChart('bar');
+  const nonZero=md.buckets.filter(b=>bPlanned(b)>0||bActual(b)>0);
+  const ctx2=document.getElementById('barChart').getContext('2d');
+  charts['bar']=new Chart(ctx2,{type:'bar',data:{labels:nonZero.map(b=>b.name.split(' ')[0]),datasets:[{label:'Planned',data:nonZero.map(b=>bPlanned(b)),backgroundColor:nonZero.map(b=>b.color+'88'),borderColor:nonZero.map(b=>b.color),borderWidth:1},{label:'Actual',data:nonZero.map(b=>bActual(b)),backgroundColor:'rgba(255,255,255,.08)',borderColor:'rgba(255,255,255,.2)',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
 
-  renderBudget();
-  showToast('Copied planned amounts successfully');
+  // NET CHART — 12 months
+  destroyChart('net');
+  const months12=[];const netData=[];const labels12=[];
+  for(let i=11;i>=0;i--){let m=curMonth-i,y=curYear;while(m<0){m+=12;y--;}labels12.push(MONTHS_SHORT[m]+' '+y);const k=mKey(m,y);if(STORE.months[k]){const md2=STORE.months[k];const inc=md2.incomes.reduce((s,x)=>s+(parseFloat(x.planned)||0),0);netData.push(inc-totalPlanned(md2.buckets));}else{netData.push(0);}}
+  const ctx3=document.getElementById('netChart').getContext('2d');
+  charts['net']=new Chart(ctx3,{type:'line',data:{labels:labels12,datasets:[{label:'Net surplus',data:netData,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.08)',fill:true,tension:.4,pointBackgroundColor:'#c9a84c',pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
+
+  // TREND — income vs spending
+  destroyChart('trend');
+  const incData=[];const spendData=[];
+  for(let i=11;i>=0;i--){let m=curMonth-i,y=curYear;while(m<0){m+=12;y--;}const k=mKey(m,y);if(STORE.months[k]){const md2=STORE.months[k];incData.push(md2.incomes.reduce((s,x)=>s+(parseFloat(x.planned)||0),0));spendData.push(totalPlanned(md2.buckets));}else{incData.push(0);spendData.push(0);}}
+  const ctx4=document.getElementById('trendChart').getContext('2d');
+  charts['trend']=new Chart(ctx4,{type:'line',data:{labels:labels12,datasets:[{label:'Income',data:incData,borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,.05)',fill:true,tension:.4,pointRadius:3},{label:'Spending',data:spendData,borderColor:'#f87171',backgroundColor:'rgba(248,113,113,.05)',fill:true,tension:.4,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3000);
+// ═══════════════════════════════════════════════════════════
+// ANNUAL VIEW
+// ═══════════════════════════════════════════════════════════
+function renderAnnual(){
+  document.getElementById('annualYearLabel').textContent=curYear;
+  const grid=document.getElementById('annualGrid'); grid.innerHTML='';
+  MONTHS_SHORT.forEach((mo,mi)=>{
+    const k=mKey(mi,curYear);
+    const md=STORE.months[k];
+    const inc=md?md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0):0;
+    const spent=md?totalPlanned(md.buckets):0;
+    const net=inc-spent;
+    const savP=md?md.buckets.filter(b=>['savings','investments'].includes(b.id)).reduce((s,b)=>s+bPlanned(b),0):0;
+    const card=document.createElement('div');
+    card.className='ann-card'+(mi===curMonth?' current':'');
+    card.innerHTML=`<div class="ann-month">${mo} ${curYear}</div>
+      <div class="ann-row"><span>Income</span><span>${inc?fmtK(inc):'—'}</span></div>
+      <div class="ann-row"><span>Spending</span><span>${spent?fmtK(spent):'—'}</span></div>
+      <div class="ann-row"><span>Saved</span><span>${savP?fmtK(savP):'—'}</span></div>
+      <div class="ann-net"><span>Net</span><span style="color:${net>=0?'var(--green)':'var(--red)'}">${net?fmtK(net):'—'}</span></div>`;
+    card.onclick=()=>{curMonth=mi;document.getElementById('monthLabel').textContent=mLabel(curMonth,curYear);showView('budget');};
+    grid.appendChild(card);
+  });
 }
 
-function saveAll() {
-  saveStore();
-  showToast('Data saved to local storage!');
+// ═══════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════
+function copyFromPrev(){
+  const pm=curMonth===0?11:curMonth-1,py=curMonth===0?curYear-1:curYear;
+  const pk=mKey(pm,py);
+  if(!STORE.months[pk]){showToast('No previous month data');return;}
+  if(!confirm('Copy planned amounts from '+mLabel(pm,py)+'?')) return;
+  const md=curMonthData(),prev=STORE.months[pk];
+  md.buckets.forEach((b,bi)=>{const pb=prev.buckets[bi];if(pb) b.items.forEach((item,ii)=>{if(pb.items[ii]) item.planned=pb.items[ii].planned;});});
+  if(prev.incomes){md.incomes.length===prev.incomes.length?md.incomes.forEach((item,ii)=>{if(prev.incomes[ii]) item.planned=prev.incomes[ii].planned;}):md.incomes=prev.incomes.map(i=>({...i,actual:''}));}
+  renderBudget(); showToast('Copied from '+mLabel(pm,py));
 }
 
-function exportCSV() {
-  showToast('CSV export not implemented yet.');
-  // You can add logic here to build a CSV string from md.incomes and md.buckets
+function exportCSV(){
+  const md=curMonthData();
+  let csv='Bucket,Item,Note,Planned,Actual,Tag\n';
+  md.buckets.forEach(b=>{b.items.forEach(i=>{csv+=`"${b.name}","${i.name}","${i.note||''}",${i.planned||0},${i.actual||0},${i.tag}\n`;});});
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`axisos_${mKey(curMonth,curYear)}.csv`; a.click();
+  showToast('CSV exported');
 }
 
-function renderAnnual() {
-  document.getElementById('annualYearLabel').textContent = curYear;
-  // This is a stub for your Annual view. You can expand it later.
-}
+function saveAll(){ saveStore(); showToast('Saved ✓'); renderMonthList(); }
 
-function renderMonthList() {
-  // Stub for the sidebar history. Expand later as needed.
-}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',2800); }
 
-// ─── INITIALIZE ─────────────────────────────────────────────
-window.onload = () => {
-  loadStore();
-  showView('budget');
-};
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+window.onload=()=>{ loadStore(); renderBudget(); renderMonthList(); };
 </script>
 </body>
 </html>
