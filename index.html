@@ -3,1130 +3,1149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AxisOS — Financial Command Centre</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Victor PLC — Financial Command Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Epilogue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root{
-  --bg:#0c0e12;--bg2:#13161c;--bg3:#1a1e27;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);
-  --text:#e8e6e0;--muted:#6b7280;--muted2:#374151;
-  --gold:#c9a84c;--gold2:#f0c96a;--green:#4ade80;--red:#f87171;--amber:#fbbf24;--cyan:#22d3ee;--purple:#a78bfa;--pink:#f472b6;--teal:#2dd4bf;
-  --serif:'Instrument Serif',Georgia,serif;--sans:'Outfit',system-ui,sans-serif;--mono:'DM Mono',monospace;--r:10px;
+  --bg:#0b0d10;--bg2:#111318;--bg3:#181c22;--bg4:#1e232b;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#eceae4;--muted:#6e7480;--muted2:#3a3f4a;
+  --green:#4ade80;--cyan:#22d3ee;--amber:#f59e0b;
+  --red:#f87171;--purple:#a78bfa;--pink:#f472b6;--teal:#2dd4bf;
+  --gold:#fbbf24;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'Epilogue',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+  --r:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* ── SHELL ── */
 .shell{display:flex;min-height:100vh}
-/* SIDEBAR */
-.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);position:fixed;height:100vh;overflow-y:auto;z-index:50;display:flex;flex-direction:column}
-.main{margin-left:220px;flex:1;padding:2rem 2.5rem}
-.logo{padding:1.5rem 1.25rem 1.25rem;border-bottom:1px solid var(--border)}
-.logo-mark{font-family:var(--serif);font-size:24px;letter-spacing:-.5px}
-.logo-mark em{font-style:italic;color:var(--gold)}
-.logo-sub{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
-.nav-section{padding:.4rem 0;border-bottom:1px solid var(--border)}
-.nav-label{font-size:9px;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;padding:.5rem 1.25rem .2rem}
-.nav-item{display:flex;align-items:center;gap:9px;padding:.45rem 1.25rem;cursor:pointer;color:var(--muted);font-size:12.5px;transition:all .15s;border-left:2px solid transparent}
+.sidebar{width:210px;background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem 0;position:fixed;height:100vh;overflow-y:auto;z-index:50;display:flex;flex-direction:column}
+.main{margin-left:210px;flex:1;padding:2rem 2.5rem;max-width:1140px}
+
+/* ── SIDEBAR ── */
+.logo{padding:0 1.25rem 1.25rem;border-bottom:1px solid var(--border)}
+.logo-mark{font-family:var(--serif);font-size:20px;letter-spacing:-.3px}
+.logo-mark em{font-style:normal;color:var(--green)}
+.logo-tag{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.nav-sec{padding:.6rem 0;border-bottom:1px solid var(--border)}
+.nav-lbl{font-size:9px;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;padding:0 1.25rem;margin-bottom:.35rem}
+.nav-item{display:flex;align-items:center;gap:8px;padding:.4rem 1.25rem;cursor:pointer;color:var(--muted);font-size:12px;transition:all .15s;border-right:2px solid transparent}
 .nav-item:hover{color:var(--text);background:var(--bg3)}
-.nav-item.active{color:var(--gold2);background:rgba(201,168,76,.06);border-left-color:var(--gold)}
-.nav-icon{font-size:12px;width:16px;text-align:center;flex-shrink:0}
-.sidebar-footer{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid var(--border);font-size:11px;color:var(--muted2);line-height:1.9}
-.sidebar-footer strong{color:var(--gold);font-weight:500}
-/* PANELS */
-.panel{display:none}.panel.active{display:block}
-/* PAGE HEADER */
+.nav-item.active{color:var(--text);background:rgba(74,222,128,.06);border-right-color:var(--green)}
+.nav-icon{width:14px;text-align:center;font-size:11px;flex-shrink:0}
+.nav-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;display:inline-block}
+.sidebar-footer{margin-top:auto;padding:1.25rem;border-top:1px solid var(--border);font-size:10px;color:var(--muted2);line-height:2.2}
+
+/* ── PAGE HEADER ── */
 .page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem}
-.page-title{font-family:var(--serif);font-size:28px;letter-spacing:-.5px}
+.page-title{font-family:var(--serif);font-size:28px}
 .page-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-/* MONTH NAV */
-.month-nav{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:6px 14px}
-.month-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;transition:color .15s}
-.month-btn:hover{color:var(--gold)}
-.month-label{font-family:var(--mono);font-size:12.5px;min-width:95px;text-align:center}
-/* BUTTONS */
+.hdr-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* ── MONTH NAV ── */
+.month-nav{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:5px 12px}
+.mbtn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0 2px;transition:color .15s}
+.mbtn:hover{color:var(--text)}
+.mlabel{font-family:var(--mono);font-size:13px;min-width:96px;text-align:center}
+
+/* ── PANELS ── */
+.panel{display:none}.panel.active{display:block}
+
+/* ── SUMMARY CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.75rem}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.card.g::before{background:var(--green)}.card.a::before{background:var(--amber)}
+.card.r::before{background:var(--red)}.card.c::before{background:var(--cyan)}
+.card.p::before{background:var(--purple)}.card.gold::before{background:var(--gold)}
+.card.t::before{background:var(--teal)}
+.clabel{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.cval{font-family:var(--mono);font-size:19px;font-weight:500}
+.cval.g{color:var(--green)}.cval.a{color:var(--amber)}.cval.r{color:var(--red)}
+.cval.c{color:var(--cyan)}.cval.p{color:var(--purple)}.cval.gold{color:var(--gold)}.cval.t{color:var(--teal)}
+.csub{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ── SECTION TITLE ── */
+.stitle{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.stitle::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── CHART BOX ── */
+.cbox{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem}
+.cbox-title{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1rem}
+
+/* ── GENERIC TABLE ── */
+.tbl{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.tbl-hdr{display:grid;padding:6px 14px;background:var(--bg3)}
+.tbl-hdr span{font-size:10px;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;font-weight:500}
+.tbl-hdr span.r{text-align:right}.tbl-hdr span.c{text-align:center}
+.tbl-row{display:grid;border-top:1px solid var(--border);transition:background .1s}
+.tbl-row:hover{background:rgba(255,255,255,.015)}
+.tc{padding:9px 14px;display:flex;flex-direction:column;justify-content:center;font-size:13px}
+.tc.r{align-items:flex-end;text-align:right}.tc.c{align-items:center;text-align:center}
+
+/* ── EDITABLE INPUTS ── */
+.amt-wrap{border-bottom:1px dashed var(--muted2);width:100%;display:flex;justify-content:flex-end}
+input.amt{background:transparent;border:none;font-family:var(--mono);font-size:13px;color:var(--text);text-align:right;width:100%;outline:none}
+input.amt:focus{color:var(--green)}
+input.txt{background:transparent;border:none;font-family:var(--sans);font-size:13px;color:var(--text);width:100%;outline:none}
+input.txt:focus{color:var(--cyan);border-bottom:1px dashed var(--muted2)}
+input.txt-sm{background:transparent;border:none;font-family:var(--sans);font-size:11px;color:var(--muted);width:100%;outline:none}
+input.txt-sm:focus{color:var(--muted);border-bottom:1px dashed var(--muted2)}
+select.sel{background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--sans);font-size:12px;padding:3px 8px;border-radius:6px;outline:none;cursor:pointer}
+
+/* ── TAGS ── */
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;white-space:nowrap}
+.tg-buy{background:rgba(74,222,128,.1);color:var(--green)}
+.tg-watch{background:rgba(245,158,11,.1);color:var(--amber)}
+.tg-hold{background:rgba(34,211,238,.1);color:var(--cyan)}
+.tg-parked{background:rgba(167,139,250,.1);color:var(--purple)}
+.tg-exit{background:rgba(248,113,113,.1);color:var(--red)}
+.tg-dca{background:rgba(251,191,36,.1);color:var(--gold)}
+.tg-fixed{background:rgba(34,211,238,.09);color:var(--cyan)}
+.tg-debt{background:rgba(248,113,113,.12);color:var(--red)}
+.tg-var{background:rgba(245,158,11,.09);color:var(--amber)}
+.tg-save{background:rgba(74,222,128,.09);color:var(--green)}
+.tg-inv{background:rgba(167,139,250,.09);color:var(--purple)}
+
+/* ── BUTTONS ── */
 .btn{background:transparent;border:1px solid var(--border2);color:var(--text);padding:6px 14px;border-radius:7px;cursor:pointer;font-size:12px;font-family:var(--sans);transition:all .15s}
-.btn:hover{border-color:var(--gold);color:var(--gold)}
-.btn-gold{background:var(--gold);border-color:var(--gold);color:#000;font-weight:600}
-.btn-gold:hover{background:var(--gold2);border-color:var(--gold2)}
-.btn-sm{padding:4px 10px;font-size:11.5px}
-.btn-danger{border-color:rgba(248,113,113,.3);color:var(--red)}
-.btn-danger:hover{border-color:var(--red);background:rgba(248,113,113,.08)}
-/* CARDS */
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
-.scard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;position:relative;overflow:hidden}
-.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.scard.gold::before{background:linear-gradient(90deg,var(--gold),var(--gold2))}
-.scard.green::before{background:var(--green)}
-.scard.red::before{background:var(--red)}
-.scard.amber::before{background:var(--amber)}
-.scard.purple::before{background:var(--purple)}
-.scard.cyan::before{background:var(--cyan)}
-.scard.teal::before{background:var(--teal)}
-.slabel{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
-.sval{font-family:var(--mono);font-size:17px;font-weight:500}
-.sval.gold{color:var(--gold2)}.sval.green{color:var(--green)}.sval.red{color:var(--red)}.sval.amber{color:var(--amber)}.sval.purple{color:var(--purple)}.sval.cyan{color:var(--cyan)}.sval.teal{color:var(--teal)}
-.ssub{font-size:11px;color:var(--muted);margin-top:3px}
-/* SECTION TITLE */
-.sec{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:1.5rem 0 .9rem;display:flex;align-items:center;gap:8px}
-.sec::after{content:'';flex:1;height:1px;background:var(--border)}
-/* FX BAR */
-.fx-bar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;margin-bottom:1.25rem;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.fx-label{font-size:11px;color:var(--muted);white-space:nowrap}
-.fx-input{background:var(--bg3);border:1px solid var(--border2);color:var(--gold2);font-family:var(--mono);font-size:13px;padding:4px 10px;border-radius:6px;width:110px;outline:none}
-.fx-input:focus{border-color:var(--gold)}
-.fx-note{font-size:11px;color:var(--muted2)}
-/* WINDFALL */
-.windfall-box{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.18);border-radius:var(--r);padding:13px 16px;margin-bottom:1.5rem;display:flex;gap:12px;align-items:flex-start}
-.wf-icon{font-size:18px;flex-shrink:0;margin-top:2px}
-.wf-title{font-size:12.5px;font-weight:600;color:var(--gold2);margin-bottom:3px}
-.wf-text{font-size:11.5px;color:var(--muted);line-height:1.6}
-.wf-rules{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
-.wf-pill{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.15);border-radius:20px;padding:2px 9px;font-size:11px;color:var(--gold2);font-family:var(--mono)}
-/* INCOME TABLE */
-.card-table{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
-.ct-header{display:grid;padding:6px 14px;background:var(--bg3);border-bottom:1px solid var(--border)}
-.ct-row{display:grid;border-bottom:1px solid var(--border);transition:background .1s}
-.ct-row:last-child{border-bottom:none}
-.ct-row:hover{background:rgba(255,255,255,.012)}
-.ct-footer{padding:8px 14px;background:var(--bg3);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.ch{font-size:10px;color:var(--muted2);letter-spacing:.7px;text-transform:uppercase;padding:0 4px}
-.ch.r{text-align:right}.ch.c{text-align:center}
-.cc{padding:7px 4px;display:flex;flex-direction:column;justify-content:center}
-.cc.r{align-items:flex-end}.cc.c{align-items:center}
-.edit-name{background:transparent;border:none;font-family:var(--sans);font-size:13px;color:var(--text);outline:none;width:100%}
-.edit-note{background:transparent;border:none;font-family:var(--sans);font-size:11px;color:var(--muted2);outline:none;width:100%;margin-top:1px}
-.edit-name:focus,.edit-note:focus{border-bottom:1px dashed var(--muted2)}
-.amt-cell{border-bottom:1px dashed var(--muted2);display:inline-flex;justify-content:flex-end;width:100%}
-input.amt{background:transparent;border:none;font-family:var(--mono);font-size:12.5px;color:var(--text);text-align:right;width:100%;outline:none}
-input.amt:focus{color:var(--gold2)}
-.del-btn{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:12px;padding:2px 5px;transition:color .15s}
-.del-btn:hover{color:var(--red)}
-.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:20px}
-.tag-fixed{background:rgba(34,211,238,.08);color:var(--cyan)}
-.tag-var{background:rgba(251,191,36,.08);color:var(--amber)}
-.tag-save{background:rgba(74,222,128,.08);color:var(--green)}
-.tag-inv{background:rgba(167,139,250,.08);color:var(--purple)}
-.tag-debt{background:rgba(248,113,113,.1);color:var(--red)}
-.tag-biz{background:rgba(201,168,76,.1);color:var(--gold2)}
-.tag-ms{background:rgba(244,114,182,.1);color:var(--pink)}
-.entity-pill{font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid;white-space:nowrap}
-.ent-personal{border-color:rgba(34,211,238,.3);color:var(--cyan)}
-.ent-axisgaia{border-color:rgba(201,168,76,.3);color:var(--gold2)}
-.ent-thinkats{border-color:rgba(74,222,128,.3);color:var(--green)}
-.ent-resourcin{border-color:rgba(167,139,250,.3);color:var(--purple)}
-.ent-trust{border-color:rgba(244,114,182,.3);color:var(--pink)}
-.var-pos{color:var(--green);font-family:var(--mono);font-size:11px}
-.var-neg{color:var(--red);font-family:var(--mono);font-size:11px}
-.var-none{color:var(--muted2);font-size:11px}
-/* BUCKETS */
+.btn:hover{border-color:var(--green);color:var(--green)}
+.btn-p{background:var(--green);border-color:var(--green);color:#000;font-weight:700}
+.btn-p:hover{background:#22c55e;border-color:#22c55e;color:#000}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-del{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px 5px;transition:color .15s}
+.btn-del:hover{color:var(--red)}
+.btn-add{width:calc(100% - 28px);margin:7px 14px;background:transparent;border:1px dashed var(--muted2);color:var(--muted);font-size:12px;font-family:var(--sans);padding:5px;border-radius:6px;cursor:pointer;transition:all .15s}
+.btn-add:hover{border-color:var(--green);color:var(--green)}
+
+/* ── BUCKET STYLES ── */
 .bucket{margin-bottom:.65rem;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.bkt-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;background:var(--bg2);user-select:none;transition:background .15s}
-.bkt-hdr:hover{background:var(--bg3)}
-.bh-l{display:flex;align-items:center;gap:9px}
+.bhdr{display:flex;align-items:center;justify-content:space-between;padding:10px 15px;cursor:pointer;background:var(--bg2);user-select:none;transition:background .15s}
+.bhdr:hover{background:var(--bg3)}
+.bh-l{display:flex;align-items:center;gap:8px}
 .bh-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.bh-name{font-size:13.5px;font-weight:500}
-.bh-r{display:flex;align-items:center;gap:10px}
-.bh-total{font-family:var(--mono);font-size:13px;font-weight:500}
-.bh-usd{font-family:var(--mono);font-size:11px;color:var(--muted)}
-.bh-pct{font-size:11px;color:var(--muted);font-family:var(--mono)}
-.bh-arr{color:var(--muted);font-size:12px;transition:transform .2s}
+.bh-name{font-size:13px;font-weight:500}
+.bh-cnt{font-size:11px;color:var(--muted2)}
+.bh-r{display:flex;align-items:center;gap:11px}
+.bh-tot{font-family:var(--mono);font-size:13px;font-weight:500}
+.bh-pct{font-size:11px;color:var(--muted)}
+.bh-arr{color:var(--muted);font-size:11px;transition:transform .2s}
 .bh-arr.open{transform:rotate(90deg)}
-.prog-bar{height:2px;background:var(--bg3)}
-.prog-fill{height:100%;transition:width .5s}
-.bkt-body{display:none}
-.bkt-body.open{display:block}
-.bkt-foot{display:flex;justify-content:space-between;align-items:center;padding:7px 14px;background:var(--bg3);border-top:1px solid var(--border);font-size:11.5px;color:var(--muted)}
-.bkt-foot strong{color:var(--text);font-family:var(--mono)}
-.add-btn{width:calc(100% - 28px);margin:7px 14px;background:transparent;border:1px dashed var(--muted2);color:var(--muted);font-size:12px;font-family:var(--sans);padding:5px;border-radius:6px;cursor:pointer;transition:all .15s;text-align:center}
-.add-btn:hover{border-color:var(--gold);color:var(--gold)}
-/* CHARTS */
-.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
-.chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
-.chart-box.full{grid-column:1/-1}
-.chart-title{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1rem}
-.alloc-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:.9rem}
-.alloc-item{display:flex;align-items:center;gap:7px;font-size:11.5px}
-.alloc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.alloc-name{color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.alloc-pct{font-family:var(--mono);font-size:10.5px}
-/* PORTFOLIO */
-.portfolio-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
-.ptab{padding:.5rem 1.1rem;cursor:pointer;font-size:12.5px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
-.ptab:hover{color:var(--text)}
-.ptab.active{color:var(--gold2);border-bottom-color:var(--gold)}
-.ptab-panel{display:none}.ptab-panel.active{display:block}
-/* HOLDINGS TABLE */
-.holdings-cols-ngx{grid-template-columns:1fr 90px 90px 90px 90px 90px 80px 36px}
-.holdings-cols-us{grid-template-columns:1fr 80px 80px 80px 80px 80px 80px 36px}
-.holdings-cols-crypto{grid-template-columns:1fr 90px 90px 90px 90px 90px 80px 36px}
-/* DCA LOG */
-.dca-cols{grid-template-columns:100px 1fr 90px 90px 90px 80px 36px}
-/* MILESTONES */
-.milestone-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:.65rem}
-.ms-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.ms-name{font-size:14px;font-weight:500}
-.ms-target{font-family:var(--mono);font-size:13px;color:var(--gold2)}
-.ms-bar-track{height:6px;background:var(--bg3);border-radius:3px;margin:8px 0}
-.ms-bar-fill{height:100%;border-radius:3px;transition:width .5s}
-.ms-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
-/* ENTITIES */
-.entity-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:.65rem}
-.entity-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.entity-name{font-size:14px;font-weight:500}
-.entity-type{font-size:11px;color:var(--muted)}
-/* BANNER */
-.banner{border-radius:var(--r);padding:9px 14px;font-size:12.5px;margin-bottom:1.25rem;display:none}
+.prog{height:2px;background:var(--bg3)}
+.prog-f{height:100%;transition:width .5s}
+.bbody{display:none}.bbody.open{display:block}
+.lhdr{display:grid;padding:5px 15px;background:var(--bg3);border-top:1px solid var(--border)}
+.lhdr span{font-size:10px;color:var(--muted2);letter-spacing:.7px;text-transform:uppercase;font-weight:500}
+.lhdr span.r{text-align:right}.lhdr span.c{text-align:center}
+.lrow{display:grid;border-top:1px solid var(--border);transition:background .1s}
+.lrow:hover{background:rgba(255,255,255,.015)}
+.lc{padding:8px 15px;display:flex;flex-direction:column;justify-content:center}
+.lc.r{align-items:flex-end;text-align:right}.lc.c{align-items:center;text-align:center}
+.bfoot{display:flex;justify-content:space-between;align-items:center;padding:6px 15px;background:var(--bg3);border-top:1px solid var(--border)}
+.bfoot-s{display:flex;gap:16px;font-size:11px;color:var(--muted)}
+.bfoot-s strong{color:var(--text);font-family:var(--mono)}
+
+/* ── WAR CHEST ── */
+.wc-bar{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem}
+.wc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
+.wc-title{font-family:var(--serif);font-size:20px}
+.wc-title em{font-style:normal;color:var(--gold)}
+.wc-balance{font-family:var(--mono);font-size:32px;font-weight:500;color:var(--gold)}
+.wc-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.wc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:1rem}
+
+/* ── POSITION CARD ── */
+.pos-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;margin-bottom:.75rem}
+.pos-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem}
+.pos-ticker{font-family:var(--serif);font-size:22px}
+.pos-name{font-size:11px;color:var(--muted);margin-top:1px}
+.pos-pnl{text-align:right}
+.pos-pnl-val{font-family:var(--mono);font-size:18px;font-weight:500}
+.pos-pnl-pct{font-size:11px;color:var(--muted);margin-top:1px}
+.pos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:.75rem}
+.pos-field{background:var(--bg3);border-radius:6px;padding:8px 10px}
+.pos-field-lbl{font-size:10px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.pos-field-val{font-family:var(--mono);font-size:13px;color:var(--text)}
+.pos-field-val.edit{border-bottom:1px dashed var(--muted2)}
+.pos-thesis{background:var(--bg3);border-radius:6px;padding:10px;margin-bottom:.75rem;font-size:12px;color:var(--muted);line-height:1.7}
+.pos-thesis-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);margin-bottom:4px}
+textarea.pos-ta{background:transparent;border:none;font-family:var(--sans);font-size:12px;color:var(--text);width:100%;resize:none;outline:none;line-height:1.7;min-height:52px}
+textarea.pos-ta:focus{color:var(--cyan)}
+
+/* ── PIPELINE ── */
+.pip-card{display:grid;grid-template-columns:1fr 100px 110px 90px 36px;border-top:1px solid var(--border);transition:background .1s}
+.pip-card:hover{background:rgba(255,255,255,.015)}
+
+/* ── DCA SCHEDULE ── */
+.dca-row{display:grid;grid-template-columns:1fr 120px 100px 90px 36px;border-top:1px solid var(--border);transition:background .1s}
+.dca-row:hover{background:rgba(255,255,255,.015)}
+
+/* ── POLICY CARD ── */
+.policy-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem}
+.policy-rule{display:flex;align-items:flex-start;gap:10px;padding:.6rem 0;border-bottom:1px solid var(--border)}
+.policy-rule:last-child{border-bottom:none}
+.policy-num{font-family:var(--mono);font-size:11px;color:var(--muted2);margin-top:2px;flex-shrink:0;width:20px}
+.policy-text{font-size:13px;line-height:1.6}
+.policy-text strong{color:var(--text)}
+
+/* ── ANNUAL ── */
+.ann-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.5rem}
+.ann-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;cursor:pointer;transition:border-color .15s}
+.ann-card:hover{border-color:var(--green)}
+.ann-month{font-size:12px;font-weight:600;margin-bottom:5px}
+.ann-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:2px}
+.ann-row span:last-child{font-family:var(--mono);color:var(--text)}
+.ann-net{margin-top:4px;padding-top:4px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px}
+.ann-net span:last-child{font-family:var(--mono);font-weight:500}
+
+/* ── BANNER ── */
+.banner{border-radius:var(--r);padding:9px 15px;font-size:13px;margin-bottom:1.25rem;display:none}
 .banner.warn{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);color:var(--red)}
 .banner.ok{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);color:var(--green)}
-/* TOAST */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg3);border:1px solid var(--gold);color:var(--gold2);border-radius:8px;padding:9px 16px;font-size:13px;display:none;z-index:999}
-/* MODAL */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center}
-.modal-bg.open{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:1.5rem;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}
-.modal-title{font-family:var(--serif);font-size:20px;margin-bottom:1.25rem}
-.form-row{margin-bottom:.9rem}
-.form-label{font-size:11px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
-.form-input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--sans);font-size:13px;padding:8px 12px;border-radius:7px;outline:none}
-.form-input:focus{border-color:var(--gold)}
-select.form-input option{background:var(--bg2)}
-.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:1.25rem}
-@media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1rem}.summary{grid-template-columns:1fr 1fr}.chart-grid{grid-template-columns:1fr}}
+.banner.info{background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.2);color:var(--cyan)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg3);border:1px solid var(--green);color:var(--green);border-radius:8px;padding:9px 16px;font-size:13px;display:none;z-index:999}
+
+/* ── GRID HELPERS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1rem}.cards{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="shell">
 
+<!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar">
   <div class="logo">
-    <div class="logo-mark">Axis<em>OS</em></div>
-    <div class="logo-sub">Financial Command Centre</div>
+    <div class="logo-mark">Victor<em>PLC</em></div>
+    <div class="logo-tag">Financial Command Centre</div>
   </div>
-  <div class="nav-section">
-    <div class="nav-label">Operations</div>
-    <div class="nav-item active" onclick="nav('budget')"><span class="nav-icon">▦</span> Monthly Budget</div>
-    <div class="nav-item" onclick="nav('dashboard')"><span class="nav-icon">◎</span> Dashboard</div>
-    <div class="nav-item" onclick="nav('annual')"><span class="nav-icon">∿</span> Annual Review</div>
+
+  <div class="nav-sec">
+    <div class="nav-lbl">Operations</div>
+    <div class="nav-item active" onclick="nav('budget')"><span class="nav-icon">▦</span>Monthly Budget</div>
+    <div class="nav-item" onclick="nav('annual')"><span class="nav-icon">∿</span>Annual Review</div>
   </div>
-  <div class="nav-section">
-    <div class="nav-label">Wealth</div>
-    <div class="nav-item" onclick="nav('portfolio')"><span class="nav-icon">◈</span> Portfolio</div>
-    <div class="nav-item" onclick="nav('milestones')"><span class="nav-icon">◇</span> Milestones</div>
-    <div class="nav-item" onclick="nav('entities')"><span class="nav-icon">⬡</span> Entities</div>
+
+  <div class="nav-sec">
+    <div class="nav-lbl">Capital</div>
+    <div class="nav-item" onclick="nav('warchest')"><span class="nav-icon">◈</span>War Chest</div>
+    <div class="nav-item" onclick="nav('positions')"><span class="nav-icon">◎</span>Active Positions</div>
+    <div class="nav-item" onclick="nav('pipeline')"><span class="nav-icon">⊕</span>Opportunity Pipeline</div>
+    <div class="nav-item" onclick="nav('dca')"><span class="nav-icon">↻</span>DCA Schedule</div>
   </div>
-  <div class="nav-section">
-    <div class="nav-label">History</div>
+
+  <div class="nav-sec">
+    <div class="nav-lbl">Policy</div>
+    <div class="nav-item" onclick="nav('policy')"><span class="nav-icon">✦</span>Investment Policy</div>
+  </div>
+
+  <div class="nav-sec">
+    <div class="nav-lbl">Month history</div>
     <div id="monthList" style="max-height:200px;overflow-y:auto"></div>
   </div>
+
   <div class="sidebar-footer">
-    <strong>Victor Ephraim</strong><br>
-    Ephraim Family Trust<br>
-    AxisGaia · ThinkATS · Resourcin<br>
-    <span style="color:var(--gold);font-size:10px">Phase I — Foundation 2026</span>
+    Axis Victor Ephraim<br>
+    ThinkATS Technology Solutions<br>
+    <span style="color:var(--green)">Phase I — Launch</span>
   </div>
 </aside>
 
+<!-- ═══ MAIN ═══ -->
 <main class="main">
+
+  <!-- PAGE HEADER -->
   <div class="page-header">
     <div>
-      <div class="page-title" id="viewTitle">Monthly Budget</div>
-      <div class="page-sub" id="viewSub">Zero-based · every naira and dollar assigned with intention</div>
+      <div class="page-title" id="pgTitle">Monthly Budget</div>
+      <div class="page-sub" id="pgSub">Zero-based · every naira assigned</div>
     </div>
-    <div class="header-actions">
-      <div class="month-nav">
-        <button class="month-btn" onclick="changeMonth(-1)">‹</button>
-        <div class="month-label" id="monthLabel">—</div>
-        <button class="month-btn" onclick="changeMonth(1)">›</button>
+    <div class="hdr-actions">
+      <div class="month-nav" id="monthNavEl">
+        <button class="mbtn" onclick="changeMonth(-1)">‹</button>
+        <div class="mlabel" id="mlabel">May 2025</div>
+        <button class="mbtn" onclick="changeMonth(1)">›</button>
       </div>
-      <button class="btn btn-sm" onclick="copyPrev()">Copy prev</button>
+      <button class="btn btn-sm" id="btnCopyPrev" onclick="copyFromPrev()">Copy prev plan</button>
       <button class="btn btn-sm" onclick="exportCSV()">CSV</button>
-      <button class="btn btn-gold btn-sm" onclick="saveAll()">Save</button>
+      <button class="btn btn-p btn-sm" onclick="saveAll()">Save</button>
     </div>
   </div>
 
-  <!-- FX BAR (shown on budget/dashboard) -->
-  <div class="fx-bar" id="fxBar">
-    <div class="fx-label">₦ / $ rate (manual):</div>
-    <input class="fx-input" id="fxRate" type="number" value="1600" onchange="onFxChange(this.value)" placeholder="e.g. 1600">
-    <div class="fx-note">Update monthly. All USD columns auto-convert.</div>
-    <div style="margin-left:auto;font-size:11px;color:var(--muted)">$1 = <span id="fxDisplay" style="color:var(--gold2);font-family:var(--mono)">₦1,600</span></div>
-  </div>
-
-  <!-- ══ BUDGET ══ -->
-  <div id="view-budget" class="panel active">
-    <div class="summary" id="budgetSummary"></div>
+  <!-- ══════ BUDGET ══════ -->
+  <div id="panel-budget" class="panel active">
+    <div class="cards" id="budgetCards"></div>
     <div class="banner" id="budgetBanner"></div>
-    <div class="windfall-box">
-      <div class="wf-icon">⚡</div>
-      <div>
-        <div class="wf-title">Windfall Protocol — Non-negotiable</div>
-        <div class="wf-text">Any unexpected income — revenue spike, bonus, crypto gain, consulting fee — is split before you touch it:</div>
-        <div class="wf-rules">
-          <span class="wf-pill">50% → Savings / Debt</span>
-          <span class="wf-pill">20% → Investments</span>
-          <span class="wf-pill">20% → AxisGaia reinvest</span>
-          <span class="wf-pill">10% → Discretionary</span>
-        </div>
-      </div>
-    </div>
-    <div class="sec">Income — <span id="incMonthLabel" style="color:var(--text)"></span></div>
-    <div id="incomeTable"></div>
-    <div class="sec">Allocations — <span id="bktMonthLabel" style="color:var(--text)"></span></div>
+    <div class="stitle">budget allocation — <span id="budgetMonthLbl" style="margin-left:4px"></span></div>
     <div id="buckets"></div>
   </div>
 
-  <!-- ══ DASHBOARD ══ -->
-  <div id="view-dashboard" class="panel">
-    <div class="summary" id="dashSummary"></div>
-    <div class="chart-grid">
-      <div class="chart-box">
-        <div class="chart-title">Allocation by bucket — planned %</div>
-        <div style="position:relative;height:210px"><canvas id="pieChart"></canvas></div>
-        <div class="alloc-grid" id="allocLegend"></div>
+  <!-- ══════ ANNUAL ══════ -->
+  <div id="panel-annual" class="panel">
+    <div class="cards" id="annualCards"></div>
+    <div class="g2" style="margin-bottom:1.25rem">
+      <div class="cbox">
+        <div class="cbox-title">Net savings — month by month</div>
+        <div style="position:relative;height:220px"><canvas id="netChart"></canvas></div>
       </div>
-      <div class="chart-box">
-        <div class="chart-title">Planned vs actual — this month</div>
-        <div style="position:relative;height:210px"><canvas id="barChart"></canvas></div>
+      <div class="cbox">
+        <div class="cbox-title">Income vs spend — 12 months</div>
+        <div style="position:relative;height:220px"><canvas id="trendChart"></canvas></div>
       </div>
-      <div class="chart-box full">
-        <div class="chart-title">Net surplus — 12 months</div>
-        <div style="position:relative;height:180px"><canvas id="netChart"></canvas></div>
+    </div>
+    <div class="stitle">bucket breakdown — all months</div>
+    <div class="tbl" id="annualBucketTbl" style="overflow-x:auto"></div>
+    <div class="stitle">month cards</div>
+    <div class="ann-grid" id="annualGrid"></div>
+  </div>
+
+  <!-- ══════ WAR CHEST ══════ -->
+  <div id="panel-warchest" class="panel">
+    <div class="wc-bar">
+      <div class="wc-header">
+        <div>
+          <div class="wc-title">War <em>Chest</em></div>
+          <div class="wc-sub">Liquid capital ready to deploy — earns yield while parked</div>
+        </div>
+        <div style="text-align:right">
+          <div class="wc-balance" id="wcBalance">₦0</div>
+          <div class="wc-sub" id="wcSubtitle">Loading…</div>
+        </div>
       </div>
-      <div class="chart-box full">
-        <div class="chart-title">Income vs spending — 12 months</div>
-        <div style="position:relative;height:180px"><canvas id="trendChart"></canvas></div>
+
+      <div class="wc-grid">
+        <div class="card gold">
+          <div class="clabel">Total war chest</div>
+          <div class="cval gold" id="wc_total">—</div>
+          <div class="csub">Liquid + parked</div>
+        </div>
+        <div class="card t">
+          <div class="clabel">Monthly inflow</div>
+          <div class="cval t" id="wc_inflow">—</div>
+          <div class="csub">From budget surplus</div>
+        </div>
+        <div class="card p">
+          <div class="clabel">Monthly DCA out</div>
+          <div class="cval p" id="wc_dcaout">—</div>
+          <div class="csub">Fixed deployments</div>
+        </div>
+        <div class="card g">
+          <div class="clabel">Net accumulation</div>
+          <div class="cval g" id="wc_net">—</div>
+          <div class="csub">Per month</div>
+        </div>
+        <div class="card a">
+          <div class="clabel">Parking instrument</div>
+          <div class="cval a" style="font-size:14px" id="wc_instrument">T-Bills / MMF</div>
+          <div class="csub" id="wc_yield_lbl">Estimated yield</div>
+        </div>
+        <div class="card c">
+          <div class="clabel">FX sensitivity</div>
+          <div class="cval c" id="wc_fx">₦1,600/$</div>
+          <div class="csub" id="wc_fx_stress">Stress: ₦1,700/$</div>
+        </div>
       </div>
+    </div>
+
+    <div class="stitle">war chest ledger — monthly entries</div>
+    <div class="tbl">
+      <div class="tbl-hdr" style="grid-template-columns:110px 1fr 130px 130px 130px 36px">
+        <span>Month</span><span>Note / event</span>
+        <span class="r">Inflow (₦)</span><span class="r">Deployed (₦)</span><span class="r">Balance (₦)</span><span></span>
+      </div>
+      <div id="wcLedger"></div>
+    </div>
+    <button class="btn btn-sm" onclick="addWcEntry()" style="margin-bottom:1.25rem">+ Add entry</button>
+
+    <div class="stitle">parking instruments</div>
+    <div class="tbl">
+      <div class="tbl-hdr" style="grid-template-columns:1fr 100px 100px 1fr 36px">
+        <span>Instrument</span><span class="r">Balance (₦)</span><span class="r">Est. yield %</span><span>Notes</span><span></span>
+      </div>
+      <div id="parkingList"></div>
+    </div>
+    <button class="btn btn-sm" onclick="addParking()" style="margin-bottom:1rem">+ Add instrument</button>
+
+    <div class="cbox">
+      <div class="cbox-title">War chest build-up projection</div>
+      <div style="position:relative;height:200px"><canvas id="wcChart"></canvas></div>
     </div>
   </div>
 
-  <!-- ══ ANNUAL ══ -->
-  <div id="view-annual" class="panel">
-    <div class="sec">Year at a glance — <span id="annualYearLabel" style="color:var(--text)"></span></div>
-    <div id="annualGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px"></div>
+  <!-- ══════ POSITIONS ══════ -->
+  <div id="panel-positions" class="panel">
+    <div class="cards" id="posCards"></div>
+    <div class="stitle">active positions</div>
+    <div id="positionsList"></div>
+    <button class="btn btn-sm" onclick="addPosition()">+ Add position</button>
   </div>
 
-  <!-- ══ PORTFOLIO ══ -->
-  <div id="view-portfolio" class="panel">
-    <div class="summary" id="portSummary"></div>
-    <div class="portfolio-tabs">
-      <div class="ptab active" onclick="portTab('ngx')">NGX Stocks</div>
-      <div class="ptab" onclick="portTab('us')">US Stocks & ETFs</div>
-      <div class="ptab" onclick="portTab('crypto')">Crypto</div>
-      <div class="ptab" onclick="portTab('dca')">DCA Log</div>
+  <!-- ══════ PIPELINE ══════ -->
+  <div id="panel-pipeline" class="panel">
+    <div class="banner info" style="display:block">
+      The pipeline holds assets you are watching but have not yet deployed capital into. Define the trigger before the opportunity arrives — never decide in the moment.
     </div>
-    <div id="ptab-ngx" class="ptab-panel active"></div>
-    <div id="ptab-us" class="ptab-panel"></div>
-    <div id="ptab-crypto" class="ptab-panel"></div>
-    <div id="ptab-dca" class="ptab-panel"></div>
-  </div>
-
-  <!-- ══ MILESTONES ══ -->
-  <div id="view-milestones" class="panel">
-    <div class="sec">Life milestones & savings goals</div>
-    <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
-      <button class="btn btn-sm btn-gold" onclick="openMilestoneModal()">+ Add milestone</button>
+    <div class="stitle">opportunity pipeline</div>
+    <div class="tbl">
+      <div class="tbl-hdr" style="grid-template-columns:1fr 100px 120px 110px 90px 36px">
+        <span>Asset / name</span><span>Class</span><span class="r">Trigger price / level</span><span class="r">Planned allocation</span><span class="c">Status</span><span></span>
+      </div>
+      <div id="pipelineList"></div>
     </div>
-    <div id="milestoneList"></div>
+    <button class="btn btn-sm" onclick="addPipeline()" style="margin-top:.5rem">+ Add to watchlist</button>
   </div>
 
-  <!-- ══ ENTITIES ══ -->
-  <div id="view-entities" class="panel">
-    <div class="sec">Entity register — Ephraim Family Trust</div>
-    <div id="entityList"></div>
+  <!-- ══════ DCA ══════ -->
+  <div id="panel-dca" class="panel">
+    <div class="banner info" style="display:block">
+      DCA runs regardless of market conditions. It is the base layer — steady accumulation separate from opportunistic war chest deployments.
+    </div>
+    <div class="cards" id="dcaCards"></div>
+    <div class="stitle">dca schedule</div>
+    <div class="tbl">
+      <div class="tbl-hdr" style="grid-template-columns:1fr 100px 120px 120px 90px 36px">
+        <span>Asset</span><span>Class</span><span class="r">Monthly amount (₦)</span><span class="r">Total deployed (₦)</span><span class="c">Status</span><span></span>
+      </div>
+      <div id="dcaList"></div>
+    </div>
+    <button class="btn btn-sm" onclick="addDCA()" style="margin-top:.5rem">+ Add DCA entry</button>
+
+    <div class="stitle" style="margin-top:1.5rem">dca log — executions</div>
+    <div class="tbl">
+      <div class="tbl-hdr" style="grid-template-columns:110px 1fr 120px 110px 36px">
+        <span>Date</span><span>Asset</span><span class="r">Amount (₦)</span><span class="r">Units acquired</span><span></span>
+      </div>
+      <div id="dcaLog"></div>
+    </div>
+    <button class="btn btn-sm" onclick="addDCALog()" style="margin-top:.5rem">+ Log execution</button>
   </div>
+
+  <!-- ══════ POLICY ══════ -->
+  <div id="panel-policy" class="panel">
+    <div class="banner info" style="display:block">
+      Your Investment Policy Statement (IPS). Written before opportunities arise. Defines what qualifies as alpha. Removes emotion from the decision.
+    </div>
+
+    <div class="stitle">capital allocation framework</div>
+    <div class="policy-card">
+      <div class="policy-rule">
+        <div class="policy-num">01</div>
+        <div class="policy-text"><strong>Tranche 1 — Fixed obligations</strong> are always funded first. Rent savings, debt repayment, transport, utilities. These never compete with investment decisions. Non-negotiable.</div>
+      </div>
+      <div class="policy-rule">
+        <div class="policy-num">02</div>
+        <div class="policy-text"><strong>Tranche 2 — War Chest.</strong> All surplus after Tranche 1 and fixed savings flows here. The war chest is parked in T-bills or money market funds earning yield. It is not lazy — it is positioned. Capital is only deployed when a qualified opportunity is identified.</div>
+      </div>
+      <div class="policy-rule">
+        <div class="policy-num">03</div>
+        <div class="policy-text"><strong>Tranche 3 — Deployed Capital.</strong> Active positions in equities, real estate accumulation, ThinkATS equity, and other asset classes. Each position has a written thesis, a hold condition, and a defined exit trigger.</div>
+      </div>
+      <div class="policy-rule">
+        <div class="policy-num">04</div>
+        <div class="policy-text"><strong>DCA runs as a parallel system.</strong> Fixed monthly amounts into highest-conviction long positions (currently Access Bank). DCA is non-discretionary — it executes regardless of market mood.</div>
+      </div>
+      <div class="policy-rule">
+        <div class="policy-num">05</div>
+        <div class="policy-text"><strong>Crypto is capped at 10% of total invested capital.</strong> BTC and ETH only. Deliberately de-risked. Not a speculation vehicle — a small asymmetric allocation.</div>
+      </div>
+      <div class="policy-rule">
+        <div class="policy-num">06</div>
+        <div class="policy-text"><strong>No single equity may exceed 40% of the equities tranche</strong> at entry. Concentration is permitted after compounding but not at entry.</div>
+      </div>
+      <div class="policy-rule">
+        <div class="policy-num">07</div>
+        <div class="policy-text"><strong>FX peg assumption: ₦1,600/$.</strong> All dollar-denominated targets are stress-tested at ₦1,700/$ before deployment approval.</div>
+      </div>
+    </div>
+
+    <div class="stitle">asset class hard limits</div>
+    <div class="tbl">
+      <div class="tbl-hdr" style="grid-template-columns:1fr 110px 110px 1fr">
+        <span>Asset class</span><span class="r">Target %</span><span class="r">Hard cap %</span><span>Notes</span>
+      </div>
+      <div id="policyLimits"></div>
+    </div>
+
+    <div class="stitle" style="margin-top:1.5rem">alpha qualification criteria</div>
+    <div class="policy-card">
+      <div style="font-size:13px;color:var(--muted);line-height:1.9">
+        Before deploying war chest capital, the opportunity must satisfy at least <strong style="color:var(--text)">3 of the 5</strong> criteria below:
+      </div>
+      <div id="alphaChecklist" style="margin-top:.75rem"></div>
+    </div>
+  </div>
+
 </main>
 </div>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- MODALS -->
-<div class="modal-bg" id="modalHolding">
-  <div class="modal">
-    <div class="modal-title" id="modalHoldingTitle">Add Holding</div>
-    <div class="form-row"><div class="form-label">Ticker / Name</div><input class="form-input" id="mh_ticker" placeholder="e.g. ZENITHBANK or BTC"></div>
-    <div class="form-row-2">
-      <div class="form-row"><div class="form-label">Units / Quantity</div><input class="form-input" id="mh_qty" type="number" placeholder="0"></div>
-      <div class="form-row"><div class="form-label">Avg cost per unit</div><input class="form-input" id="mh_cost" type="number" placeholder="0"></div>
-    </div>
-    <div class="form-row-2">
-      <div class="form-row"><div class="form-label">Current price</div><input class="form-input" id="mh_price" type="number" placeholder="0"></div>
-      <div class="form-row"><div class="form-label">Currency</div>
-        <select class="form-input" id="mh_ccy">
-          <option value="NGN">NGN (₦)</option>
-          <option value="USD">USD ($)</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row"><div class="form-label">Asset class</div>
-      <select class="form-input" id="mh_class">
-        <option value="ngx">NGX Stock</option>
-        <option value="us">US Stock / ETF</option>
-        <option value="crypto">Crypto</option>
-      </select>
-    </div>
-    <div class="form-row"><div class="form-label">Notes (optional)</div><input class="form-input" id="mh_note" placeholder="e.g. Dividend stock, DRIP"></div>
-    <div class="modal-actions">
-      <button class="btn btn-sm" onclick="closeModal('modalHolding')">Cancel</button>
-      <button class="btn btn-gold btn-sm" onclick="saveHolding()">Save</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-bg" id="modalDCA">
-  <div class="modal">
-    <div class="modal-title">Log DCA Purchase</div>
-    <div class="form-row"><div class="form-label">Asset</div><input class="form-input" id="md_ticker" placeholder="e.g. BTC, VOO, ZENITHBANK"></div>
-    <div class="form-row-2">
-      <div class="form-row"><div class="form-label">Date</div><input class="form-input" id="md_date" type="date"></div>
-      <div class="form-row"><div class="form-label">Asset class</div>
-        <select class="form-input" id="md_class">
-          <option value="ngx">NGX Stock</option>
-          <option value="us">US Stock / ETF</option>
-          <option value="crypto">Crypto</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row-2">
-      <div class="form-row"><div class="form-label">Units bought</div><input class="form-input" id="md_qty" type="number" placeholder="0"></div>
-      <div class="form-row"><div class="form-label">Price per unit</div><input class="form-input" id="md_price" type="number" placeholder="0"></div>
-    </div>
-    <div class="form-row-2">
-      <div class="form-row"><div class="form-label">Currency</div>
-        <select class="form-input" id="md_ccy">
-          <option value="NGN">NGN (₦)</option>
-          <option value="USD">USD ($)</option>
-        </select>
-      </div>
-      <div class="form-row"><div class="form-label">Total cost</div><input class="form-input" id="md_total" type="number" placeholder="Auto-calculated"></div>
-    </div>
-    <div class="form-row"><div class="form-label">Notes</div><input class="form-input" id="md_note" placeholder="e.g. Monthly DCA, dip buy"></div>
-    <div class="modal-actions">
-      <button class="btn btn-sm" onclick="closeModal('modalDCA')">Cancel</button>
-      <button class="btn btn-gold btn-sm" onclick="saveDCA()">Log purchase</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-bg" id="modalMilestone">
-  <div class="modal">
-    <div class="modal-title">Add Milestone</div>
-    <div class="form-row"><div class="form-label">Name</div><input class="form-input" id="mm_name" placeholder="e.g. Wedding Fund, First Child Education"></div>
-    <div class="form-row-2">
-      <div class="form-row"><div class="form-label">Target amount (₦)</div><input class="form-input" id="mm_target" type="number" placeholder="0"></div>
-      <div class="form-row"><div class="form-label">Target year</div><input class="form-input" id="mm_year" type="number" placeholder="2028"></div>
-    </div>
-    <div class="form-row-2">
-      <div class="form-row"><div class="form-label">Monthly allocation (₦)</div><input class="form-input" id="mm_monthly" type="number" placeholder="0"></div>
-      <div class="form-row"><div class="form-label">Current saved (₦)</div><input class="form-input" id="mm_saved" type="number" placeholder="0"></div>
-    </div>
-    <div class="form-row"><div class="form-label">Notes</div><input class="form-input" id="mm_note" placeholder=""></div>
-    <div class="modal-actions">
-      <button class="btn btn-sm" onclick="closeModal('modalMilestone')">Cancel</button>
-      <button class="btn btn-gold btn-sm" onclick="saveMilestone()">Save</button>
-    </div>
-  </div>
-</div>
-
 <script>
-// ═══════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════
-const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-let curMonth=new Date().getMonth(), curYear=new Date().getFullYear(), curView='budget';
-let charts={};
+// ═══════════════════════════════════════════════════════════════════
+// CONSTANTS & CONFIG
+// ═══════════════════════════════════════════════════════════════════
+const INCOME = 1500000;
+const FX_BASE = 1600;
+const FX_STRESS = 1700;
+const MONTHS_S = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS_L = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-const DEFAULT_INCOMES=[
-  {name:'Full-time employment (net)',planned:1650000,actual:'',ccy:'NGN',entity:'personal'},
-  {name:'Resourcin — consulting fees',planned:0,actual:'',ccy:'NGN',entity:'resourcin'},
-  {name:'ThinkATS — MRR',planned:0,actual:'',ccy:'NGN',entity:'thinkats'},
-  {name:'AxisGaia — dividend / bonus',planned:0,actual:'',ccy:'NGN',entity:'axisgaia'},
+// ── DEFAULT BUDGET TEMPLATE ──────────────────────────────────────
+const DEFAULT_BUDGET = [
+  { id:'obligations', name:'Fixed obligations', color:'#f87171', addable:false,
+    items:[
+      {name:'Transport to & from work', note:'Ride-share/BRT — no vehicle yet', planned:240000, tag:'fixed'},
+      {name:'Rent savings', note:'Accumulating toward Lekki/VI corridor', planned:300000, tag:'fixed'},
+    ]},
+  { id:'debt', name:'Debt repayment', color:'#f43f5e', addable:true, addLabel:'+ Add creditor',
+    items:[
+      {name:'Stanbic IBTC', note:'Monthly repayment', planned:300000, tag:'debt'},
+    ]},
+  { id:'utilities', name:'Utilities & connectivity', color:'#38bdf8', addable:true,
+    items:[
+      {name:'Electricity — NEPA prepaid', note:'', planned:40000, tag:'fixed'},
+      {name:'Generator diesel', note:'', planned:20000, tag:'fixed'},
+      {name:'Generator servicing', note:'Buffer', planned:10000, tag:'var'},
+      {name:'Water / estate levy', note:'', planned:10000, tag:'fixed'},
+      {name:'Data — fibre/MiFi (primary)', note:'', planned:30000, tag:'fixed'},
+      {name:'Data — mobile backup', note:'', planned:15000, tag:'fixed'},
+      {name:'Phone airtime', note:'', planned:5000, tag:'fixed'},
+    ]},
+  { id:'fuel', name:'Fuel & vehicle', color:'#fb923c', addable:true,
+    items:[
+      {name:'Petrol — personal errands', note:'Non-commute', planned:40000, tag:'fixed'},
+      {name:'Vehicle maintenance buffer', note:'', planned:25000, tag:'var'},
+      {name:'Vehicle insurance (monthly)', note:'1/12 annual', planned:15000, tag:'fixed'},
+    ]},
+  { id:'emergency', name:'Emergency fund', color:'#2dd4bf', addable:false,
+    items:[
+      {name:'Emergency fund contribution', note:'Target: 6 months ≈ ₦9M — Stanbic HY savings', planned:100000, tag:'save'},
+    ]},
+  { id:'investments', name:'Savings & investments pool', color:'#a78bfa', addable:true,
+    items:[
+      {name:'Monthly equity DCA (Access Bank)', note:'$200/mo at ₦1,600 peg — full port to NGX', planned:320000, tag:'inv'},
+      {name:'Crypto — BTC/ETH (capped)', note:'Max 10% of deployed capital', planned:0, tag:'inv'},
+      {name:'Real estate fund — Ibeju-Lekki', note:'Accumulating toward ₦5M deposit', planned:0, tag:'inv'},
+      {name:'War chest top-up', note:'Surplus into liquid war chest', planned:0, tag:'inv'},
+    ]},
+  { id:'startup', name:'ThinkATS — startup budget', color:'#34d399', addable:true,
+    items:[
+      {name:'Monthly operational spend', note:'Infra, contractors, tools', planned:80000, tag:'inv'},
+    ]},
+  { id:'food', name:'Food & nutrition', color:'#f97316', addable:true,
+    items:[
+      {name:'Weekly grocery run', note:'Staples, protein, veg', planned:30000, tag:'var'},
+      {name:'Blueberries, grapes & premium fruit', note:'', planned:12000, tag:'var'},
+      {name:'Yoghurt & dairy', note:'', planned:8000, tag:'var'},
+      {name:'Eggs (bulk)', note:'', planned:5000, tag:'var'},
+      {name:'Spices & pantry refills', note:'', planned:6000, tag:'var'},
+      {name:'Cooking gas — cylinder refill', note:'12kg', planned:7000, tag:'fixed'},
+      {name:'Wine (max 2 bottles/month)', note:'', planned:12000, tag:'var'},
+      {name:'Whiskey (1 bottle/month)', note:'', planned:15000, tag:'var'},
+      {name:'Restaurants & dining out', note:'', planned:25000, tag:'var'},
+    ]},
+  { id:'personal', name:'Personal & hygiene', color:'#e879f9', addable:true,
+    items:[
+      {name:'Laundry', note:'', planned:10000, tag:'var'},
+      {name:'Toiletries & grooming', note:'', planned:10000, tag:'var'},
+      {name:'Haircut / barber', note:'', planned:5000, tag:'var'},
+      {name:'Clothing & footwear', note:'Intentional — not impulse', planned:20000, tag:'var'},
+      {name:'Gym / fitness', note:'', planned:15000, tag:'fixed'},
+      {name:'Health & pharmacy', note:'', planned:10000, tag:'var'},
+    ]},
+  { id:'growth', name:'Learning & growth', color:'#86efac', addable:true,
+    items:[
+      {name:'Books', note:'', planned:8000, tag:'var'},
+      {name:'Online courses', note:'', planned:10000, tag:'var'},
+      {name:'Software subscriptions', note:'Claude Pro, Notion, tools', planned:15000, tag:'fixed'},
+      {name:'Events & networking', note:'', planned:10000, tag:'var'},
+    ]},
+  { id:'giving', name:'Giving & family', color:'#94a3b8', addable:true,
+    items:[
+      {name:'Family support', note:'', planned:20000, tag:'var'},
+      {name:'Gifts & celebrations', note:'', planned:5000, tag:'var'},
+      {name:'Tithe / charity', note:'', planned:10000, tag:'var'},
+    ]},
+  { id:'leisure', name:'Entertainment & leisure', color:'#818cf8', addable:true,
+    items:[
+      {name:'Streaming', note:'Netflix/Showmax/Spotify', planned:7000, tag:'fixed'},
+      {name:'Outings & experiences', note:'', planned:15000, tag:'var'},
+      {name:'Weekend trips', note:'Accumulate if unused', planned:10000, tag:'var'},
+    ]},
+  { id:'buffer', name:'Flex buffer', color:'#64748b', addable:false,
+    items:[
+      {name:'Unplanned overflow', note:'Tap only if needed', planned:15000, tag:'var'},
+    ]},
 ];
 
-const DEFAULT_BUCKETS=[
-  {id:'fixed',name:'Fixed Obligations',color:'#f87171',tag:'fixed',addable:true,items:[
-    {name:'Transport — work commute',note:'Ride-share, BRT, fuel commute only',planned:80000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Vehicle insurance provision',note:'1/12 annual premium',planned:15000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Health insurance (HMO)',note:'',planned:20000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Life insurance premium',note:'Term policy — foundational',planned:15000,actual:'',tag:'fixed',entity:'personal'},
-  ]},
-  {id:'debt',name:'Debt Repayment',color:'#f43f5e',tag:'debt',addable:true,addLabel:'+ Add creditor',items:[
-    {name:'Stanbic IBTC — bank loan',note:'₦250k/month · cleared ~mid 2028',planned:250000,actual:'',tag:'debt',entity:'personal'},
-    {name:'VGG — deferred',note:'On hold. They owe pension & taxes. Revisit 2028.',planned:0,actual:'',tag:'debt',entity:'personal'},
-  ]},
-  {id:'savings',name:'Savings',color:'#2dd4bf',tag:'save',addable:true,items:[
-    {name:'Emergency fund',note:'Target ₦5m (3 months expenses)',planned:200000,actual:'',tag:'save',entity:'personal'},
-    {name:'Dollar savings — USD account',note:'Bamboo / Stanbic dollar. Naira hedge.',planned:150000,actual:'',tag:'save',entity:'personal'},
-    {name:'Home / land deposit fund',note:'Accumulating toward land purchase',planned:50000,actual:'',tag:'save',entity:'personal'},
-    {name:'Wedding fund',note:'No pressure. Line item to allocate when ready.',planned:0,actual:'',tag:'ms',entity:'personal'},
-  ]},
-  {id:'investments',name:'Investments',color:'#a78bfa',tag:'inv',addable:true,items:[
-    {name:'NGX equities — dividend stocks',note:'Zenith, GTCO, Stanbic, MTNN, Dangote. DRIP.',planned:100000,actual:'',tag:'inv',entity:'personal'},
-    {name:'US index fund — S&P 500',note:'Bamboo/Trove: VOO or IVV. Monthly. No stock picking.',planned:0,actual:'',tag:'inv',entity:'personal'},
-    {name:'Crypto — BTC spot only',note:'Max 10% of investable assets. No leverage. Ever.',planned:45000,actual:'',tag:'inv',entity:'personal'},
-    {name:'Money market / REIT bridge',note:'Cowrywise, ARM — liquid buffer',planned:0,actual:'',tag:'inv',entity:'personal'},
-  ]},
-  {id:'axisgaia',name:'AxisGaia — Business Entities',color:'#c9a84c',tag:'biz',addable:true,addLabel:'+ Add entity / project',items:[
-    {name:'ThinkATS — infra & ops',note:'AWS, Cloudflare, dev tools, domain, SaaS',planned:80000,actual:'',tag:'biz',entity:'thinkats'},
-    {name:'Resourcin — operating costs',note:'Marketing, admin, client engagement',planned:20000,actual:'',tag:'biz',entity:'resourcin'},
-    {name:'AxisGaia incorporation costs',note:'CAC fees, legal, solicitor — 2026/2027',planned:0,actual:'',tag:'biz',entity:'axisgaia'},
-    {name:'Legal & compliance buffer',note:'Annual CAC returns, FIRS filings',planned:10000,actual:'',tag:'biz',entity:'axisgaia'},
-    {name:'New entity / project reserve',note:'Seed fund for new ventures under Trust',planned:0,actual:'',tag:'biz',entity:'trust'},
-  ]},
-  {id:'food',name:'Food & Home',color:'#f97316',tag:'var',addable:true,items:[
-    {name:'Weekly grocery — staples & protein',note:'',planned:30000,actual:'',tag:'var',entity:'personal'},
-    {name:'Premium fruit & dairy',note:'Blueberries, grapes, Greek yoghurt',planned:20000,actual:'',tag:'var',entity:'personal'},
-    {name:'Eggs (bulk) + pantry',note:'',planned:11000,actual:'',tag:'var',entity:'personal'},
-    {name:'Cooking gas refill',note:'12kg cylinder',planned:7000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Wine — max 2 bottles',note:'Deliberate, not impulsive',planned:12000,actual:'',tag:'var',entity:'personal'},
-    {name:'Whiskey — 1 bottle',note:'',planned:15000,actual:'',tag:'var',entity:'personal'},
-    {name:'Restaurants & dining out',note:'Business lunches, social',planned:25000,actual:'',tag:'var',entity:'personal'},
-  ]},
-  {id:'utilities',name:'Utilities & Connectivity',color:'#38bdf8',tag:'fixed',addable:true,items:[
-    {name:'Electricity — NEPA prepaid',note:'',planned:40000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Generator diesel',note:'',planned:20000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Generator servicing buffer',note:'',planned:10000,actual:'',tag:'var',entity:'personal'},
-    {name:'Water / estate levy',note:'',planned:10000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Fibre / MiFi — primary',note:'',planned:30000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Mobile data backup',note:'',planned:15000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Phone airtime',note:'',planned:5000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Fuel — personal errands',note:'Non-commute',planned:30000,actual:'',tag:'var',entity:'personal'},
-    {name:'Vehicle maintenance buffer',note:'',planned:20000,actual:'',tag:'var',entity:'personal'},
-  ]},
-  {id:'personal',name:'Personal & Health',color:'#e879f9',tag:'var',addable:true,items:[
-    {name:'Gym / fitness membership',note:'',planned:15000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Health & pharmacy buffer',note:'OTC meds, supplements, doctor',planned:15000,actual:'',tag:'var',entity:'personal'},
-    {name:'Laundry — dry clean & wash',note:'',planned:10000,actual:'',tag:'var',entity:'personal'},
-    {name:'Toiletries & grooming',note:'Skincare, deodorant',planned:10000,actual:'',tag:'var',entity:'personal'},
-    {name:'Haircut / barber',note:'',planned:5000,actual:'',tag:'var',entity:'personal'},
-    {name:'Clothing & footwear',note:'Intentional only',planned:20000,actual:'',tag:'var',entity:'personal'},
-  ]},
-  {id:'growth',name:'Learning & Growth',color:'#86efac',tag:'inv',addable:true,items:[
-    {name:'Books — physical + digital',note:'2–3 per month',planned:8000,actual:'',tag:'inv',entity:'personal'},
-    {name:'Online courses & platforms',note:'Coursera, Udemy, Selar',planned:10000,actual:'',tag:'inv',entity:'personal'},
-    {name:'Software tools & subscriptions',note:'Claude Pro, Notion, design tools',planned:15000,actual:'',tag:'inv',entity:'personal'},
-    {name:'Events, conferences, networking',note:'Professional visibility',planned:10000,actual:'',tag:'inv',entity:'personal'},
-  ]},
-  {id:'giving',name:'Giving & Family',color:'#94a3b8',tag:'var',addable:true,items:[
-    {name:'Family support — parents / siblings',note:'Intentional generosity',planned:20000,actual:'',tag:'var',entity:'personal'},
-    {name:'Gifts & celebrations',note:'',planned:5000,actual:'',tag:'var',entity:'personal'},
-    {name:'Tithe / sadaqah / charity',note:'',planned:15000,actual:'',tag:'var',entity:'personal'},
-  ]},
-  {id:'leisure',name:'Leisure & Travel',color:'#818cf8',tag:'var',addable:true,items:[
-    {name:'Streaming — Netflix / Showmax / Spotify',note:'',planned:7000,actual:'',tag:'fixed',entity:'personal'},
-    {name:'Outings, concerts, experiences',note:'Capped and intentional',planned:15000,actual:'',tag:'var',entity:'personal'},
-    {name:'Holiday travel fund',note:'Accumulate monthly toward annual trip',planned:20000,actual:'',tag:'save',entity:'personal'},
-    {name:'Staycation / weekend getaway',note:'',planned:10000,actual:'',tag:'var',entity:'personal'},
-  ]},
-  {id:'buffer',name:'Flex Buffer',color:'#64748b',tag:'var',addable:false,items:[
-    {name:'Overflow — tap only if needed',note:'Unspent → savings at month end',planned:15000,actual:'',tag:'var',entity:'personal'},
-  ]},
-];
+// ── DEFAULT CAPITAL DATA ─────────────────────────────────────────
+const DEFAULT_CAPITAL = {
+  warChest: {
+    balance: 0,
+    parkingYield: 14.5,
+    ledger: [],
+    parking: [
+      { name:'CBN T-Bills / FGN Bonds', balance:0, yield:14.5, note:'Primary parking — sovereign-backed, liquid' },
+      { name:'Money Market Fund (Stanbic/ARM)', balance:0, yield:12.0, note:'Secondary — instant access' },
+    ]
+  },
+  positions: [
+    {
+      ticker:'ACCESS',
+      name:'Access Bank Plc',
+      assetClass:'NGX Equity',
+      entryPrice:24,
+      currentPrice:24,
+      units:0,
+      monthlyDCA:320000,
+      thesis:'Capital appreciation + dividend play. NGX value stock — cheapest on revenue, book value, and earnings multiples among Tier-1 banks. Long-term accumulation. Similar thesis to Lafarge at ₦14 (now ₦300+). DCA full equity allocation here until next clear opportunity emerges. Average down on any dip.',
+      holdCondition:'Fundamental deterioration in earnings, loss of banking licence, or identified superior allocation opportunity for war chest.',
+      exitTrigger:'Thesis violation only. Not price-based. Time horizon: 3–5+ years.',
+      status:'dca',
+      entryDate:'2025-05',
+    }
+  ],
+  pipeline: [
+    { name:'UBA (United Bank for Africa)', assetClass:'NGX Equity', trigger:'Further valuation compression or macro catalyst', allocation:0, status:'watch', note:'Good company, not the moment. Access takes priority. Revisit at Q3 2025.' },
+    { name:'Ibeju-Lekki Land', assetClass:'Real Estate', trigger:'War chest reaches ₦5M deposit threshold', allocation:5000000, status:'watch', note:'Primary real asset target. Dangote Refinery proximity. Begin site visits when war chest ready.' },
+    { name:'Epe Corridor Land', assetClass:'Real Estate', trigger:'War chest ₦3M threshold or Ibeju-Lekki secured', allocation:3000000, status:'watch', note:'Secondary corridor. University belt. Lower entry cost.' },
+  ],
+  dca: [
+    { asset:'Access Bank (ACCESS)', assetClass:'NGX Equity', monthly:320000, totalDeployed:0, status:'active', note:'Full equity allocation. $200/mo at ₦1,600 peg.' },
+  ],
+  dcaLog: [],
+  policyLimits: [
+    { cls:'NGX Equities', target:60, cap:70, note:'Core allocation — Access Bank DCA primary' },
+    { cls:'Real Estate (Land)', target:25, cap:40, note:'Ibeju-Lekki, Epe, Mowe-Ibafo corridors' },
+    { cls:'Crypto (BTC/ETH)', target:5, cap:10, note:'Hard cap — do not cross regardless of thesis' },
+    { cls:'ThinkATS Equity', target:0, cap:100, note:'Founder stake — not fungible, tracked separately' },
+    { cls:'War Chest (liquid)', target:10, cap:100, note:'Min 10% of portfolio always liquid and ready' },
+  ],
+  alphaChecklist: [
+    'Price is at or below intrinsic value estimate (DCF, P/B, P/E vs peers)',
+    'Clear catalyst or structural advantage identified (not just "cheap")',
+    'Thesis can be written in 3 sentences without hedging',
+    'Position sizing respects concentration limits in policy',
+    'War chest balance remains above ₦500,000 after deployment',
+  ]
+};
 
-const DEFAULT_ENTITIES=[
-  {id:'trust',name:'Ephraim Family Trust',type:'Trust',status:'Planned',notes:'Parent trust holding all entities. To be established on marriage or first child.',color:'#f472b6'},
-  {id:'axisgaia',name:'AxisGaia Limited',type:'Holdco',status:'Planned',notes:'Holding company. To be incorporated Q3 2026. Will own 100% of ThinkATS and Resourcin.',color:'#c9a84c'},
-  {id:'thinkats',name:'ThinkATS Technology Solutions Limited',type:'OpCo',status:'Active',regNo:'9151027',incorporated:'Jan 2026',notes:'SaaS ATS platform. Hiring infrastructure for modern teams.',color:'#4ade80'},
-  {id:'resourcin',name:'Resourcin Human Capital Advisors Limited',type:'OpCo',status:'Active',regNo:'8087452',incorporated:'Nov 2024',notes:'Executive search and HR consulting services. Birthed ThinkATS.',color:'#a78bfa'},
-];
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+let curMonth = new Date().getMonth();
+let curYear  = new Date().getFullYear();
+let activeView = 'budget';
 
-const DEFAULT_MILESTONES=[
-  {id:'ms_wedding',name:'Wedding Fund',target:5000000,monthly:0,saved:0,year:2027,color:'#f472b6',note:'No pressure. Accumulate deliberately when ready.'},
-  {id:'ms_emfund',name:'Emergency Fund',target:5000000,monthly:200000,saved:0,year:2027,color:'#2dd4bf',note:'Target: 3 months expenses. Stanbic HY savings.'},
-  {id:'ms_land',name:'Land / Home Deposit',target:10000000,monthly:50000,saved:0,year:2029,color:'#c9a84c',note:'Architect-designed home in serene location.'},
-  {id:'ms_child1',name:"First Child — University Fund",target:20000000,monthly:0,saved:0,year:2040,color:'#86efac',note:'Start from birth. Dollar-denominated. Index fund.'},
-];
+let STORE = {
+  template: JSON.parse(JSON.stringify(DEFAULT_BUDGET)),
+  months: {},
+  capital: JSON.parse(JSON.stringify(DEFAULT_CAPITAL))
+};
 
-const KEY='axisos_v6';
-let S={months:{},fxRate:1600,holdings:[],dcaLog:[],milestones:JSON.parse(JSON.stringify(DEFAULT_MILESTONES)),entities:JSON.parse(JSON.stringify(DEFAULT_ENTITIES))};
+const SK = 'victorplc_v1';
+function loadStore(){ try{ const s=localStorage.getItem(SK); if(s) STORE=JSON.parse(s); }catch(e){} }
+function saveStore(){ try{ localStorage.setItem(SK,JSON.stringify(STORE)); }catch(e){} }
 
-function load(){try{const s=localStorage.getItem(KEY);if(s){const p=JSON.parse(s);S={...S,...p};}}catch(e){}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
-function mkey(m,y){return`${y}-${String(m+1).padStart(2,'0')}`;}
-function mlbl(m,y){return MS[m]+' '+y;}
+// ═══════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════
+function fmt(n){ if(n===''||n===null||n===undefined) return '—'; return '₦'+Math.round(n).toLocaleString('en-NG'); }
+function fmtN(n,d=2){ return (n||0).toFixed(d); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function mKey(m,y){ return `${y}-${String(m+1).padStart(2,'0')}`; }
+function mLbl(m,y){ return MONTHS_S[m]+' '+y; }
+function bP(b){ return b.items.reduce((s,i)=>s+(parseFloat(i.planned)||0),0); }
+function bA(b){ return b.items.reduce((s,i)=>s+(parseFloat(i.actual)||0),0); }
+function tP(buckets){ return buckets.reduce((s,b)=>s+bP(b),0); }
+function tA(buckets){ return buckets.reduce((s,b)=>s+bA(b),0); }
 
 function getMonth(m,y){
-  const k=mkey(m,y);
-  if(!S.months[k]){
-    const pk=mkey(m===0?11:m-1,m===0?y-1:y);
-    const srcB=S.months[pk]?JSON.parse(JSON.stringify(S.months[pk].buckets)):JSON.parse(JSON.stringify(DEFAULT_BUCKETS));
-    srcB.forEach(b=>b.items.forEach(i=>{i.actual='';}));
-    const srcI=S.months[pk]?JSON.parse(JSON.stringify(S.months[pk].incomes||DEFAULT_INCOMES)):JSON.parse(JSON.stringify(DEFAULT_INCOMES));
-    srcI.forEach(i=>i.actual='');
-    S.months[k]={incomes:srcI,buckets:srcB,_open:{}};
+  const k=mKey(m,y);
+  if(!STORE.months[k]){
+    const pk=mKey(m===0?11:m-1,m===0?y-1:y);
+    const src=STORE.months[pk]?JSON.parse(JSON.stringify(STORE.months[pk].buckets)):JSON.parse(JSON.stringify(STORE.template));
+    src.forEach(b=>b.items.forEach(i=>{ i.actual=''; }));
+    STORE.months[k]={ buckets:src, _open:{} };
   }
-  return S.months[k];
+  return STORE.months[k];
 }
-function cmd(){return getMonth(curMonth,curYear);}
+function curMD(){ return getMonth(curMonth,curYear); }
 
-function fmt(n,ccy){
-  if(n===''||n===null||n===undefined) return '—';
-  const v=Math.round(n);
-  if(ccy==='USD') return '$'+(v).toLocaleString('en-US',{minimumFractionDigits:0});
-  return '₦'+v.toLocaleString('en-NG');
-}
-function fmtK(n){if(!n)return'₦0';const abs=Math.abs(n);const sign=n<0?'-':'';if(abs>=1e6)return sign+'₦'+(abs/1e6).toFixed(1)+'m';if(abs>=1e3)return sign+'₦'+(abs/1e3).toFixed(0)+'k';return sign+'₦'+abs;}
-function toUSD(ngn){return S.fxRate>0?(ngn/S.fxRate):0;}
-function toNGN(usd){return usd*S.fxRate;}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function bP(b){return b.items.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);}
-function bA(b){return b.items.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);}
-function totalP(bkts){return bkts.reduce((s,b)=>s+bP(b),0);}
-function totalA(bkts){return bkts.reduce((s,b)=>s+bA(b),0);}
-const ENTITY_LABELS={personal:'Personal',axisgaia:'AxisGaia',thinkats:'ThinkATS',resourcin:'Resourcin',trust:'Trust'};
-const TAG_CLASS={fixed:'tag-fixed',var:'tag-var',save:'tag-save',inv:'tag-inv',debt:'tag-debt',biz:'tag-biz',ms:'tag-ms'};
-const TAG_LABEL={fixed:'Fixed',var:'Variable',save:'Saving',inv:'Investment',debt:'Debt',biz:'Business',ms:'Milestone'};
+// ═══════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════
+const PAGE_META = {
+  budget:    ['Monthly Budget','Zero-based · every naira assigned',true],
+  annual:    ['Annual Review','Full year at a glance',false],
+  warchest:  ['War Chest','Liquid capital waiting to deploy',false],
+  positions: ['Active Positions','Deployed capital with thesis tracking',false],
+  pipeline:  ['Opportunity Pipeline','Watching but not yet deploying',false],
+  dca:       ['DCA Schedule','Systematic accumulation — runs regardless of mood',false],
+  policy:    ['Investment Policy','Your written rules — decided before the moment',false],
+};
 
-// ═══════════════════════════════════════════════
-// NAV
-// ═══════════════════════════════════════════════
-function nav(v){
-  curView=v;
+function nav(name){
+  activeView=name;
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('view-'+v).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+v+"'"))n.classList.add('active');});
-  const fxBar=document.getElementById('fxBar');
-  fxBar.style.display=(v==='budget'||v==='dashboard')?'flex':'none';
-  const titles={budget:['Monthly Budget','Zero-based · every naira and dollar assigned with intention'],dashboard:['Dashboard','Allocation overview and trends'],annual:['Annual Review','Full year at a glance'],portfolio:['Portfolio','Holdings · DCA log · valuations'],milestones:['Milestones','Life goals and savings targets'],entities:['Entities','Ephraim Family Trust structure']};
-  document.getElementById('viewTitle').textContent=titles[v][0];
-  document.getElementById('viewSub').textContent=titles[v][1];
-  if(v==='budget')renderBudget();
-  if(v==='dashboard')renderDashboard();
-  if(v==='annual')renderAnnual();
-  if(v==='portfolio')renderPortfolio();
-  if(v==='milestones')renderMilestones();
-  if(v==='entities')renderEntities();
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+name+"'")) n.classList.add('active');
+  });
+  const [title,sub,showMonthNav]=PAGE_META[name];
+  document.getElementById('pgTitle').textContent=title;
+  document.getElementById('pgSub').textContent=sub;
+  document.getElementById('monthNavEl').style.display=showMonthNav?'flex':'none';
+  document.getElementById('btnCopyPrev').style.display=showMonthNav?'':'none';
+  renderView(name);
+}
+
+function renderView(name){
+  if(name==='budget') renderBudget();
+  else if(name==='annual') renderAnnual();
+  else if(name==='warchest') renderWarChest();
+  else if(name==='positions') renderPositions();
+  else if(name==='pipeline') renderPipeline();
+  else if(name==='dca') renderDCA();
+  else if(name==='policy') renderPolicy();
 }
 
 function changeMonth(dir){
-  curMonth+=dir;if(curMonth<0){curMonth=11;curYear--;}if(curMonth>11){curMonth=0;curYear++;}
-  document.getElementById('monthLabel').textContent=mlbl(curMonth,curYear);
-  if(curView==='budget')renderBudget();
-  if(curView==='dashboard')renderDashboard();
-  if(curView==='annual')renderAnnual();
-  renderMonthList();
+  curMonth+=dir;
+  if(curMonth<0){curMonth=11;curYear--;}
+  if(curMonth>11){curMonth=0;curYear++;}
+  document.getElementById('mlabel').textContent=mLbl(curMonth,curYear);
+  renderBudget(); renderMonthList();
 }
 
-function renderMonthList(){
-  const el=document.getElementById('monthList');el.innerHTML='';
-  const keys=Object.keys(S.months).sort().reverse().slice(0,12);
-  keys.forEach(k=>{
-    const[y,m]=k.split('-').map(Number);
-    const d=document.createElement('div');
-    d.className='nav-item'+(k===mkey(curMonth,curYear)?' active':'');
-    d.innerHTML=`<span class="nav-icon">·</span>${MS[m-1]} ${y}`;
-    d.onclick=()=>{curYear=y;curMonth=m-1;document.getElementById('monthLabel').textContent=mlbl(curMonth,curYear);if(curView==='budget')renderBudget();if(curView==='dashboard')renderDashboard();renderMonthList();};
-    el.appendChild(d);
-  });
-}
-
-function onFxChange(v){S.fxRate=parseFloat(v)||1600;document.getElementById('fxDisplay').textContent='₦'+Math.round(S.fxRate).toLocaleString();if(curView==='budget')renderBudget();if(curView==='dashboard')renderDashboard();}
-
-// ═══════════════════════════════════════════════
-// BUDGET
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════
+// BUDGET VIEW
+// ═══════════════════════════════════════════════════════════════════
 function renderBudget(){
-  const md=cmd();
-  const pInc=md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
-  const aInc=md.incomes.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);
-  const pSpend=totalP(md.buckets);const aSpend=totalA(md.buckets);
-  const net=pInc-pSpend;
-  const savP=md.buckets.filter(b=>['savings','investments'].includes(b.id)).reduce((s,b)=>s+bP(b),0);
-  const savRate=pInc>0?Math.round(savP/pInc*100):0;
-  const debtP=md.buckets.filter(b=>b.id==='debt').reduce((s,b)=>s+bP(b),0);
-  document.getElementById('incMonthLabel').textContent=mlbl(curMonth,curYear);
-  document.getElementById('bktMonthLabel').textContent=mlbl(curMonth,curYear);
-  document.getElementById('monthLabel').textContent=mlbl(curMonth,curYear);
-  document.getElementById('budgetSummary').innerHTML=[
-    {l:'Monthly income',v:fmt(pInc),u:'$'+Math.round(toUSD(pInc)).toLocaleString(),c:'gold',s:aInc?'Actual: '+fmt(aInc):'Planned'},
-    {l:'Allocated',v:fmt(pSpend),u:'$'+Math.round(toUSD(pSpend)).toLocaleString(),c:pSpend>pInc?'red':'amber',s:pInc>0?Math.round(pSpend/pInc*100)+'% of income':'—'},
-    {l:'Surplus',v:fmt(net),u:'$'+Math.round(toUSD(net)).toLocaleString(),c:net>=0?'green':'red',s:net>=0?'Unassigned':'DEFICIT'},
-    {l:'Save + Invest',v:savRate+'%',u:'',c:'cyan',s:fmt(savP)+' monthly'},
-    {l:'Debt repayment',v:fmt(debtP),u:'$'+Math.round(toUSD(debtP)).toLocaleString(),c:'red',s:'Monthly toward debt'},
-    {l:'Actual spent',v:aSpend?fmt(aSpend):'—',u:aSpend?'$'+Math.round(toUSD(aSpend)).toLocaleString():'',c:'purple',s:aSpend?Math.round(aSpend/pSpend*100)+'% of budget':'Enter actuals'},
-  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div>${c.u?`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px">${c.u}</div>`:''}<div class="ssub">${c.s}</div></div>`).join('');
+  const md=curMD();
+  const planned=tP(md.buckets), actual=tA(md.buckets), net=INCOME-planned;
+  const savBuckets=['investments','emergency'];
+  const savP=md.buckets.filter(b=>savBuckets.includes(b.id)).reduce((s,b)=>s+bP(b),0);
+  document.getElementById('budgetMonthLbl').textContent=mLbl(curMonth,curYear);
+  document.getElementById('budgetCards').innerHTML=[
+    {l:'Monthly income',v:fmt(INCOME),c:'g',s:'Gross salary'},
+    {l:'Total budgeted',v:fmt(planned),c:planned>INCOME?'r':'a',s:Math.round(planned/INCOME*100)+'% of income'},
+    {l:'Surplus / unallocated',v:fmt(net),c:net>=0?'g':'r',s:net>=0?'→ Top up war chest':'DEFICIT — fix this'},
+    {l:'Savings rate',v:Math.round(savP/INCOME*100)+'%',c:'p',s:'Invest+EF / income'},
+    {l:'Actual spent',v:actual?fmt(actual):'—',c:'c',s:actual?Math.round(actual/planned*100)+'% of budget':'Enter as month progresses'},
+  ].map(c=>`<div class="card ${c.c}"><div class="clabel">${c.l}</div><div class="cval ${c.c}">${c.v}</div><div class="csub">${c.s}</div></div>`).join('');
   const bn=document.getElementById('budgetBanner');
-  if(net<0){bn.className='banner warn';bn.style.display='block';bn.innerHTML=`Over budget by <strong>${fmt(Math.abs(net))}</strong> (~<strong>$${Math.round(toUSD(Math.abs(net))).toLocaleString()}</strong>) — trim variable or investment buckets.`;}
-  else if(net===0){bn.className='banner ok';bn.style.display='block';bn.innerHTML='Every naira is assigned. ✓';}
-  else bn.style.display='none';
-  renderIncomeTable(md,pInc);
-  renderBuckets(md,pInc);
+  if(net<0){ bn.className='banner warn';bn.style.display='block';bn.innerHTML=`Over budget by <strong>${fmt(Math.abs(net))}</strong>. Trim before month starts.`; }
+  else if(net>0){ bn.className='banner ok';bn.style.display='block';bn.innerHTML=`<strong>${fmt(net)}</strong> unallocated — route to war chest top-up line in Savings & Investments.`; }
+  else{ bn.style.display='none'; }
+  renderBuckets(md);
 }
 
-function renderIncomeTable(md,pInc){
-  const cols='2fr 110px 110px 90px 90px 80px 36px';
-  let rows='';
-  md.incomes.forEach((item,ii)=>{
-    const act=parseFloat(item.actual)||'';
-    const v=act!==''?act-(parseFloat(item.planned)||0):'';
-    const usd=Math.round(toUSD(parseFloat(item.planned)||0));
-    rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
-      <div class="cc"><input class="edit-name" value="${esc(item.name)}" onchange="updIncome(${ii},'name',this.value)"><div style="margin-top:3px"><span class="entity-pill ent-${item.entity||'personal'}">${ENTITY_LABELS[item.entity]||'Personal'}</span></div></div>
-      <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${item.planned}" onchange="updIncome(${ii},'planned',this.value)"></div></div>
-      <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${act}" placeholder="0" onchange="updIncome(${ii},'actual',this.value)"></div></div>
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">$${usd.toLocaleString()}</div>
-      <div class="cc c">${v!==''?`<span class="${v>=0?'var-pos':'var-neg'}">${v>0?'+':''}${fmt(v)}</span>`:'<span class="var-none">—</span>'}</div>
-      <div class="cc c"><select class="form-input" style="font-size:11px;padding:2px 4px" onchange="updIncome(${ii},'entity',this.value)">${Object.entries(ENTITY_LABELS).map(([k,v2])=>`<option value="${k}"${item.entity===k?' selected':''}>${v2}</option>`).join('')}</select></div>
-      <div class="cc c"><button class="del-btn" onclick="delIncome(${ii})">✕</button></div>
-    </div>`;
-  });
-  document.getElementById('incomeTable').innerHTML=`<div class="card-table">
-    <div class="ct-header" style="grid-template-columns:${cols}">
-      <div class="ch">Source</div><div class="ch r">Planned (₦)</div><div class="ch r">Actual (₦)</div><div class="ch r">USD equiv</div><div class="ch c">Variance</div><div class="ch c">Entity</div><div class="ch"></div>
-    </div>${rows}
-    <div class="ct-footer"><div style="font-size:12px;color:var(--muted)">Total: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(pInc)}</strong> · <strong style="font-family:var(--mono);color:var(--muted)">$${Math.round(toUSD(pInc)).toLocaleString()}</strong></div><button class="btn btn-sm" onclick="addIncome()">+ Add source</button></div>
-  </div>`;
-}
+function renderBuckets(md){
+  const container=document.getElementById('buckets'); container.innerHTML='';
+  const TL={debt:'debt',fixed:'fixed',var:'variable',save:'saving',inv:'investment'};
+  const TC={debt:'tg-debt',fixed:'tg-fixed',var:'tg-var',save:'tg-save',inv:'tg-inv'};
+  const COL='1fr 120px 120px 100px 32px';
 
-function updIncome(ii,f,v){const md=cmd();if(f==='name'||f==='entity')md.incomes[ii][f]=v;else md.incomes[ii][f]=parseFloat(v)||0;renderBudget();}
-function addIncome(){const md=cmd();md.incomes.push({name:'New income source',planned:0,actual:'',ccy:'NGN',entity:'personal'});renderBudget();}
-function delIncome(ii){const md=cmd();if(md.incomes.length<=1){toast('Need at least one income source');return;}md.incomes.splice(ii,1);renderBudget();}
-
-function renderBuckets(md,pInc){
-  const c=document.getElementById('buckets');c.innerHTML='';
-  const cols='2fr 110px 110px 90px 90px 70px 80px 36px';
-  md.buckets.forEach((bkt,bi)=>{
-    const bp=bP(bkt),ba=bA(bkt),pct=pInc>0?Math.round(bp/pInc*100):0,isOpen=!!md._open[bi];
+  md.buckets.forEach((bucket,bi)=>{
+    const bp=bP(bucket),ba=bA(bucket);
+    const pct=Math.round(bp/INCOME*100), isOpen=!!md._open[bi];
     let rows='';
-    bkt.items.forEach((item,ii)=>{
+    bucket.items.forEach((item,ii)=>{
       const act=parseFloat(item.actual)||'';
-      const v=act!==''?act-(parseFloat(item.planned)||0):'';
-      const usd=Math.round(toUSD(parseFloat(item.planned)||0));
-      const iPct=pInc>0?Math.round((parseFloat(item.planned)||0)/pInc*100):0;
-      rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
-        <div class="cc"><input class="edit-name" value="${esc(item.name)}" onchange="updItem(${bi},${ii},'name',this.value)"><input class="edit-note" value="${esc(item.note||'')}" onchange="updItem(${bi},${ii},'note',this.value)" placeholder="Note…"></div>
-        <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${item.planned}" onchange="updItem(${bi},${ii},'planned',this.value)"></div><div style="font-size:10px;color:var(--muted2);font-family:var(--mono)">${iPct}%</div></div>
-        <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${act}" placeholder="0" onchange="updItem(${bi},${ii},'actual',this.value)"></div></div>
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">$${usd.toLocaleString()}</div>
-        <div class="cc c">${v!==''?`<span class="${v>0?'var-neg':'var-pos'}">${v>0?'+':''}${fmt(v)}</span>`:'<span class="var-none">—</span>'}</div>
-        <div class="cc c"><span class="tag ${TAG_CLASS[item.tag]||'tag-var'}">${TAG_LABEL[item.tag]||item.tag}</span></div>
-        <div class="cc c"><span class="entity-pill ent-${item.entity||'personal'}" style="font-size:9.5px">${ENTITY_LABELS[item.entity]||'Personal'}</span></div>
-        <div class="cc c"><button class="del-btn" onclick="delLine(${bi},${ii})">✕</button></div>
+      const variance=act!==''?act-(parseFloat(item.planned)||0):'';
+      rows+=`<div class="lrow" style="grid-template-columns:${COL}">
+        <div class="lc">
+          <input class="txt" type="text" value="${esc(item.name)}" onchange="updItem(${bi},${ii},'name',this.value)" placeholder="Item">
+          <input class="txt-sm" type="text" value="${esc(item.note||'')}" onchange="updItem(${bi},${ii},'note',this.value)" placeholder="Note…">
+        </div>
+        <div class="lc r"><div class="amt-wrap"><input class="amt" type="number" value="${item.planned}" onchange="updItem(${bi},${ii},'planned',this.value)"></div></div>
+        <div class="lc r"><div class="amt-wrap"><input class="amt" type="number" value="${act}" placeholder="0" onchange="updItem(${bi},${ii},'actual',this.value)"></div></div>
+        <div class="lc c" style="gap:3px">
+          ${variance!==''?`<span style="font-family:var(--mono);font-size:11px;color:${variance>0?'var(--red)':'var(--green)'}">${variance>0?'+':''}${fmt(variance)}</span>`:'<span style="color:var(--muted2);font-size:11px">—</span>'}
+          <span class="tag ${TC[item.tag]||'tg-var'}">${TL[item.tag]||item.tag}</span>
+        </div>
+        <div class="lc c"><button class="btn-del" onclick="delItem(${bi},${ii})">✕</button></div>
       </div>`;
     });
-    const addBtn=bkt.addable!==false?`<button class="add-btn" onclick="addLine(${bi})">${esc(bkt.addLabel||'+ Add line item')}</button>`:'';
-    const div=document.createElement('div');div.className='bucket';
+    const addBtn=bucket.addable!==false?`<button class="btn-add" onclick="addItem(${bi})">${esc(bucket.addLabel||'+ Add line item')}</button>`:'';
+    const div=document.createElement('div'); div.className='bucket';
     div.innerHTML=`
-      <div class="bkt-hdr" onclick="toggleBkt(${bi})">
-        <div class="bh-l"><div class="bh-dot" style="background:${bkt.color}"></div><div class="bh-name">${esc(bkt.name)}</div></div>
-        <div class="bh-r">
-          <div class="bh-total" style="color:${bkt.color}">${fmt(bp)}</div>
-          <div class="bh-usd">$${Math.round(toUSD(bp)).toLocaleString()}</div>
-          <div class="bh-pct">${pct}%</div>
-          <div class="bh-arr${isOpen?' open':''}" id="arr-${bi}">›</div>
-        </div>
+      <div class="bhdr" onclick="toggleB(${bi})">
+        <div class="bh-l"><div class="bh-dot" style="background:${bucket.color}"></div><div class="bh-name">${esc(bucket.name)}</div><div class="bh-cnt">&nbsp;${bucket.items.length} line${bucket.items.length!==1?'s':''}</div></div>
+        <div class="bh-r"><div class="bh-tot" style="color:${bucket.color}">${fmt(bp)}</div><div class="bh-pct">${pct}%</div><div class="bh-arr${isOpen?' open':''}" id="arr-${bi}">›</div></div>
       </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,pct*2)}%;background:${bkt.color}44"></div></div>
-      <div class="bkt-body${isOpen?' open':''}" id="bdy-${bi}">
-        <div class="ct-header" style="grid-template-columns:${cols}">
-          <div class="ch">Item</div><div class="ch r">Planned (₦)</div><div class="ch r">Actual (₦)</div><div class="ch r">USD equiv</div><div class="ch c">Variance</div><div class="ch c">Type</div><div class="ch c">Entity</div><div class="ch"></div>
-        </div>${rows}${addBtn}
-        <div class="bkt-foot"><div>Planned: <strong>${fmt(bp)}</strong> · <strong style="color:var(--muted)">$${Math.round(toUSD(bp)).toLocaleString()}</strong> · ${pct}% of income${ba?` · Actual: <strong>${fmt(ba)}</strong>`:''}</div></div>
+      <div class="prog"><div class="prog-f" style="width:${Math.min(100,pct*2)}%;background:${bucket.color}44"></div></div>
+      <div class="bbody${isOpen?' open':''}" id="body-${bi}">
+        <div class="lhdr" style="grid-template-columns:${COL}">
+          <span>Item · click to edit</span><span class="r">Planned (₦)</span><span class="r">Actual (₦)</span><span class="c">Var / type</span><span></span>
+        </div>
+        ${rows}${addBtn}
+        <div class="bfoot">
+          <div class="bfoot-s"><span>Budgeted: <strong>${fmt(bp)}</strong></span>${ba?`<span>Actual: <strong>${fmt(ba)}</strong></span><span style="color:${ba>bp?'var(--red)':'var(--green)'}">Var: <strong>${fmt(ba-bp)}</strong></span>`:'<span style="color:var(--muted2)">No actuals yet</span>'}</div>
+        </div>
       </div>`;
-    c.appendChild(div);
+    container.appendChild(div);
   });
 }
 
-function toggleBkt(bi){const md=cmd();md._open[bi]=!md._open[bi];document.getElementById('bdy-'+bi)?.classList.toggle('open',!!md._open[bi]);document.getElementById('arr-'+bi)?.classList.toggle('open',!!md._open[bi]);}
-function updItem(bi,ii,f,v){const md=cmd();if(f==='name'||f==='note'||f==='entity'||f==='tag')md.buckets[bi].items[ii][f]=v;else md.buckets[bi].items[ii][f]=parseFloat(v)||0;renderBudget();}
-function addLine(bi){const md=cmd();const b=md.buckets[bi];b.items.push({name:'New item',note:'',planned:0,actual:'',tag:'var',entity:'personal'});md._open[bi]=true;renderBudget();}
-function delLine(bi,ii){const md=cmd();if(md.buckets[bi].items.length<=1){toast('Need at least one line');return;}md.buckets[bi].items.splice(ii,1);renderBudget();}
+function toggleB(bi){ const md=curMD(); md._open[bi]=!md._open[bi]; const b=document.getElementById('body-'+bi),a=document.getElementById('arr-'+bi); if(b){b.classList.toggle('open',!!md._open[bi]);} if(a){a.classList.toggle('open',!!md._open[bi]);} }
+function updItem(bi,ii,f,v){ const md=curMD(); md.buckets[bi].items[ii][f]=(f==='planned'||f==='actual')?parseFloat(v)||0:v; renderBudget(); }
+function addItem(bi){ const md=curMD(); const b=md.buckets[bi]; b.items.push({name:'New item',note:'',planned:0,actual:'',tag:b.id==='debt'?'debt':'var'}); md._open[bi]=true; renderBudget(); }
+function delItem(bi,ii){ const md=curMD(); if(md.buckets[bi].items.length<=1){showToast('Need at least one line');return;} md.buckets[bi].items.splice(ii,1); renderBudget(); }
+function copyFromPrev(){ const pm=curMonth===0?11:curMonth-1,py=curMonth===0?curYear-1:curYear; const pk=mKey(pm,py); if(!STORE.months[pk]){showToast('No previous month data');return;} if(!confirm('Copy plan from '+mLbl(pm,py)+'?')) return; const md=curMD(),prev=STORE.months[pk]; md.buckets.forEach((b,bi)=>{ const pb=prev.buckets[bi]; if(pb) b.items.forEach((item,ii)=>{ if(pb.items[ii]) item.planned=pb.items[ii].planned; }); }); renderBudget(); showToast('Plan copied from '+mLbl(pm,py)); }
 
-// ═══════════════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════════════
-function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
-
-function renderDashboard(){
-  const md=cmd();
-  const pInc=md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
-  const pSpend=totalP(md.buckets);const net=pInc-pSpend;
-  const savP=md.buckets.filter(b=>['savings','investments'].includes(b.id)).reduce((s,b)=>s+bP(b),0);
-  const savRate=pInc>0?Math.round(savP/pInc*100):0;
-  document.getElementById('dashSummary').innerHTML=[
-    {l:'Monthly income',v:fmt(pInc),c:'gold',s:'$'+Math.round(toUSD(pInc)).toLocaleString()+' USD equiv'},
-    {l:'Allocated',v:fmt(pSpend),c:'amber',s:pInc>0?Math.round(pSpend/pInc*100)+'% of income':'—'},
-    {l:'Surplus',v:fmt(net),c:net>=0?'green':'red',s:'$'+Math.round(toUSD(net)).toLocaleString()},
-    {l:'Save + Invest rate',v:savRate+'%',c:'cyan',s:fmt(savP)+' monthly'},
-  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
-
-  const colors=md.buckets.map(b=>b.color);
-  const planned=md.buckets.map(b=>bP(b));
-  const names=md.buckets.map(b=>b.name);
-
-  dc('pie');
-  charts['pie']=new Chart(document.getElementById('pieChart').getContext('2d'),{type:'doughnut',data:{labels:names,datasets:[{data:planned,backgroundColor:colors.map(c=>c+'bb'),borderColor:colors,borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${fmt(ctx.raw)} (${pInc>0?Math.round(ctx.raw/pInc*100):0}%)`}}}}});
-
-  const lg=document.getElementById('allocLegend');lg.innerHTML='';
-  md.buckets.forEach((b,i)=>{const pct=pInc>0?Math.round(planned[i]/pInc*100):0;if(planned[i]>0)lg.innerHTML+=`<div class="alloc-item"><div class="alloc-dot" style="background:${b.color}"></div><div class="alloc-name">${b.name}</div><div class="alloc-pct">${pct}%</div></div>`;});
-
-  dc('bar');
-  const nz=md.buckets.filter(b=>bP(b)>0||bA(b)>0);
-  charts['bar']=new Chart(document.getElementById('barChart').getContext('2d'),{type:'bar',data:{labels:nz.map(b=>b.name.split(' ')[0]),datasets:[{label:'Planned',data:nz.map(b=>bP(b)),backgroundColor:nz.map(b=>b.color+'88'),borderColor:nz.map(b=>b.color),borderWidth:1},{label:'Actual',data:nz.map(b=>bA(b)),backgroundColor:'rgba(255,255,255,.08)',borderColor:'rgba(255,255,255,.2)',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
-
-  const labels12=[],netData=[],incData=[],spendData=[];
-  for(let i=11;i>=0;i--){let m=curMonth-i,y=curYear;while(m<0){m+=12;y--;}labels12.push(MS[m]+' '+y);const k=mkey(m,y);if(S.months[k]){const d=S.months[k];const inc=d.incomes.reduce((s,x)=>s+(parseFloat(x.planned)||0),0);const sp=totalP(d.buckets);netData.push(inc-sp);incData.push(inc);spendData.push(sp);}else{netData.push(0);incData.push(0);spendData.push(0);}}
-
-  dc('net');
-  charts['net']=new Chart(document.getElementById('netChart').getContext('2d'),{type:'line',data:{labels:labels12,datasets:[{label:'Net surplus',data:netData,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.08)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#c9a84c'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
-
-  dc('trend');
-  charts['trend']=new Chart(document.getElementById('trendChart').getContext('2d'),{type:'line',data:{labels:labels12,datasets:[{label:'Income',data:incData,borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,.05)',fill:true,tension:.4,pointRadius:3},{label:'Spending',data:spendData,borderColor:'#f87171',backgroundColor:'rgba(248,113,113,.05)',fill:true,tension:.4,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
-}
-
-// ═══════════════════════════════════════════════
-// ANNUAL
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════
+// ANNUAL VIEW
+// ═══════════════════════════════════════════════════════════════════
+let netCI,trendCI;
 function renderAnnual(){
-  document.getElementById('annualYearLabel').textContent=curYear;
-  const g=document.getElementById('annualGrid');g.innerHTML='';
-  MS.forEach((mo,mi)=>{
-    const k=mkey(mi,curYear);const md=S.months[k];
-    const inc=md?md.incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0):0;
-    const sp=md?totalP(md.buckets):0;const net=inc-sp;
-    const sav=md?md.buckets.filter(b=>['savings','investments'].includes(b.id)).reduce((s,b)=>s+bP(b),0):0;
-    const div=document.createElement('div');
-    div.style.cssText='background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:border-color .15s';
-    div.style.borderColor=mi===curMonth?'var(--gold)':'';
-    div.innerHTML=`<div style="font-size:12px;font-weight:600;margin-bottom:6px">${mo} ${curYear}</div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:2px"><span>Income</span><span style="font-family:var(--mono);color:var(--text)">${inc?fmtK(inc):'—'}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:2px"><span>Spending</span><span style="font-family:var(--mono);color:var(--text)">${sp?fmtK(sp):'—'}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:2px"><span>Saved</span><span style="font-family:var(--mono);color:var(--teal)">${sav?fmtK(sav):'—'}</span></div>
-      <div style="margin-top:5px;padding-top:5px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px"><span>Net</span><span style="font-family:var(--mono);font-weight:500;color:${net>=0?'var(--green)':'var(--red)'}">${net?fmtK(net):'—'}</span></div>`;
-    div.onclick=()=>{curMonth=mi;document.getElementById('monthLabel').textContent=mlbl(curMonth,curYear);nav('budget');};
-    g.appendChild(div);
-  });
-}
-
-// ═══════════════════════════════════════════════
-// PORTFOLIO
-// ═══════════════════════════════════════════════
-function portTab(t){
-  document.querySelectorAll('.ptab').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.ptab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelector(`.ptab[onclick="portTab('${t}')"]`).classList.add('active');
-  document.getElementById('ptab-'+t).classList.add('active');
-}
-
-function renderPortfolio(){
-  // Summary cards
-  const ngx=S.holdings.filter(h=>h.cls==='ngx');
-  const us=S.holdings.filter(h=>h.cls==='us');
-  const crypto=S.holdings.filter(h=>h.cls==='crypto');
-  const ngxVal=ngx.reduce((s,h)=>s+(h.qty*(h.price||0)),0);
-  const usVal=us.reduce((s,h)=>s+(h.qty*(h.price||0)),0);// in USD
-  const cryptoVal=crypto.reduce((s,h)=>s+(h.qty*(h.price||0)),0);// in USD
-  const totalNGN=ngxVal+toNGN(usVal)+toNGN(cryptoVal);
-  document.getElementById('portSummary').innerHTML=[
-    {l:'Total portfolio (NGN equiv)',v:'₦'+Math.round(totalNGN).toLocaleString(),c:'gold',s:'Across all asset classes'},
-    {l:'NGX stocks',v:'₦'+Math.round(ngxVal).toLocaleString(),c:'green',s:ngx.length+' holdings'},
-    {l:'US stocks & ETFs',v:'$'+Math.round(usVal).toLocaleString(),c:'cyan',s:us.length+' holdings · ₦'+Math.round(toNGN(usVal)).toLocaleString()+' equiv'},
-    {l:'Crypto',v:'$'+Math.round(cryptoVal).toLocaleString(),c:'purple',s:crypto.length+' holdings · ₦'+Math.round(toNGN(cryptoVal)).toLocaleString()+' equiv'},
-    {l:'DCA entries logged',v:S.dcaLog.length.toString(),c:'amber',s:'Total purchase records'},
-  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
-
-  renderNGX();renderUS();renderCrypto();renderDCALog();
-}
-
-function holdingRows(holdings,ccy){
-  if(!holdings.length) return '<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">No holdings yet. Add your first position above.</div>';
-  const cols=ccy==='NGN'?'1fr 80px 100px 100px 100px 90px 90px 36px':'1fr 80px 90px 90px 90px 90px 90px 36px';
-  const hdr=ccy==='NGN'
-    ?'<div class="ct-header" style="grid-template-columns:'+cols+'"><div class="ch">Name</div><div class="ch r">Units</div><div class="ch r">Avg Cost</div><div class="ch r">Curr Price</div><div class="ch r">Value (₦)</div><div class="ch r">P&L</div><div class="ch r">P&L %</div><div class="ch"></div></div>'
-    :'<div class="ct-header" style="grid-template-columns:'+cols+'"><div class="ch">Name</div><div class="ch r">Units</div><div class="ch r">Avg Cost ($)</div><div class="ch r">Curr Price ($)</div><div class="ch r">Value ($)</div><div class="ch r">₦ equiv</div><div class="ch r">P&L %</div><div class="ch"></div></div>';
-  let rows='';
-  holdings.forEach((h,i)=>{
-    const val=h.qty*(h.price||0);
-    const cost=h.qty*(h.avgCost||h.cost||0);
-    const pl=val-cost;
-    const plPct=cost>0?Math.round(pl/cost*100):0;
-    const plColor=pl>=0?'var(--green)':'var(--red)';
-    if(ccy==='NGN'){
-      rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
-        <div class="cc"><strong style="font-size:13px">${esc(h.ticker)}</strong><div style="font-size:11px;color:var(--muted)">${esc(h.note||'')}</div></div>
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">${h.qty.toLocaleString()}</div>
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">₦${(h.avgCost||h.cost||0).toLocaleString()}</div>
-        <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${h.price||0}" onchange="updHolding(${i},'price',this.value)" style="font-size:12px"></div></div>
-        <div class="cc r" style="font-family:var(--mono);font-size:12px;color:var(--gold2)">₦${Math.round(val).toLocaleString()}</div>
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${plColor}">${pl>=0?'+':''}₦${Math.round(pl).toLocaleString()}</div>
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${plColor}">${pl>=0?'+':''}${plPct}%</div>
-        <div class="cc c"><button class="del-btn" onclick="delHolding(${i})">✕</button></div>
-      </div>`;
-    } else {
-      const ngnEquiv=Math.round(toNGN(val));
-      rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
-        <div class="cc"><strong style="font-size:13px">${esc(h.ticker)}</strong><div style="font-size:11px;color:var(--muted)">${esc(h.note||'')}</div></div>
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">${h.qty.toLocaleString()}</div>
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">$${(h.avgCost||h.cost||0).toFixed(2)}</div>
-        <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${h.price||0}" onchange="updHolding(${i},'price',this.value)" style="font-size:12px"></div></div>
-        <div class="cc r" style="font-family:var(--mono);font-size:12px;color:var(--gold2)">$${val.toFixed(2)}</div>
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">₦${ngnEquiv.toLocaleString()}</div>
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${plColor}">${pl>=0?'+':''}${plPct}%</div>
-        <div class="cc c"><button class="del-btn" onclick="delHolding(${i})">✕</button></div>
-      </div>`;
-    }
-  });
-  return hdr+rows;
-}
-
-function renderNGX(){
-  const h=S.holdings.filter(x=>x.cls==='ngx');
-  document.getElementById('ptab-ngx').innerHTML=`
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.75rem">
-      <button class="btn btn-sm btn-gold" onclick="openHoldingModal('ngx')">+ Add NGX stock</button>
-    </div>
-    <div class="card-table">${holdingRows(h,'NGN')}</div>`;
-}
-
-function renderUS(){
-  const h=S.holdings.filter(x=>x.cls==='us');
-  document.getElementById('ptab-us').innerHTML=`
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.75rem">
-      <button class="btn btn-sm btn-gold" onclick="openHoldingModal('us')">+ Add US stock / ETF</button>
-    </div>
-    <div class="card-table">${holdingRows(h,'USD')}</div>`;
-}
-
-function renderCrypto(){
-  const h=S.holdings.filter(x=>x.cls==='crypto');
-  document.getElementById('ptab-crypto').innerHTML=`
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.75rem">
-      <button class="btn btn-sm btn-gold" onclick="openHoldingModal('crypto')">+ Add crypto position</button>
-    </div>
-    <div class="card-table">${holdingRows(h,'USD')}</div>`;
-}
-
-function renderDCALog(){
-  const logs=[...S.dcaLog].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  // Group by ticker to show average
-  const byTicker={};
-  logs.forEach(l=>{
-    if(!byTicker[l.ticker])byTicker[l.ticker]={ticker:l.ticker,cls:l.cls,totalUnits:0,totalCost:0,entries:0};
-    byTicker[l.ticker].totalUnits+=parseFloat(l.qty)||0;
-    byTicker[l.ticker].totalCost+=parseFloat(l.total)||0;
-    byTicker[l.ticker].entries++;
-  });
-  const summaryRows=Object.values(byTicker).map(t=>{
-    const avg=t.totalUnits>0?t.totalCost/t.totalUnits:0;
-    const ccy=t.cls==='ngx'?'₦':'$';
-    return`<div style="display:flex;gap:12px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px;align-items:center">
-      <div style="flex:1;font-weight:500">${esc(t.ticker)}</div>
-      <div style="font-family:var(--mono);color:var(--muted)">${t.entries} purchases</div>
-      <div style="font-family:var(--mono)">${t.totalUnits.toFixed(4)} units total</div>
-      <div style="font-family:var(--mono);color:var(--gold2)">Avg cost: ${ccy}${avg.toFixed(2)}</div>
-      <div style="font-family:var(--mono);color:var(--muted)">Total invested: ${ccy}${t.totalCost.toLocaleString()}</div>
+  const y=curYear;
+  const mds=Array.from({length:12},(_,m)=>{ const k=mKey(m,y),md=STORE.months[k]; return md?{m,planned:tP(md.buckets),actual:tA(md.buckets),has:true,buckets:md.buckets}:{m,planned:0,actual:0,has:false,buckets:[]}; });
+  const totP=mds.reduce((s,m)=>s+m.planned,0),totA=mds.reduce((s,m)=>s+m.actual,0);
+  const hasN=mds.filter(m=>m.has).length,avgNet=hasN?Math.round(mds.filter(m=>m.has).reduce((s,m)=>s+(INCOME-m.planned),0)/hasN):0;
+  document.getElementById('annualCards').innerHTML=[
+    {l:'Annual income',v:fmt(INCOME*12),c:'g',s:y+' gross'},
+    {l:'Total budgeted',v:fmt(totP),c:'a',s:hasN+' months tracked'},
+    {l:'Total actual',v:totA?fmt(totA):'—',c:'c',s:'Sum of all actuals'},
+    {l:'Avg monthly net',v:fmt(avgNet),c:avgNet>=0?'g':'r',s:'Average surplus'},
+    {l:'Months logged',v:hasN+'/12',c:'p',s:'With budget data'},
+  ].map(c=>`<div class="card ${c.c}"><div class="clabel">${c.l}</div><div class="cval ${c.c}">${c.v}</div><div class="csub">${c.s}</div></div>`).join('');
+  const lbls=MONTHS_S.map(m=>m+"'"+String(y).slice(2));
+  if(netCI) netCI.destroy();
+  netCI=new Chart(document.getElementById('netChart'),{type:'bar',data:{labels:lbls,datasets:[
+    {label:'Planned net',data:mds.map(m=>m.has?INCOME-m.planned:null),backgroundColor:mds.map(m=>!m.has?'transparent':INCOME-m.planned>=0?'rgba(74,222,128,.45)':'rgba(248,113,113,.45)'),borderRadius:4,borderWidth:0},
+    {label:'Actual net',data:mds.map(m=>m.actual?INCOME-m.actual:null),backgroundColor:mds.map(m=>!m.actual?'transparent':INCOME-m.actual>=0?'rgba(34,211,238,.5)':'rgba(248,113,113,.6)'),borderRadius:4,borderWidth:0},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6e7480',font:{size:10},boxWidth:10}}},scales:{x:{ticks:{color:'#6e7480',font:{size:10}},grid:{color:'rgba(255,255,255,.03)'}},y:{ticks:{color:'#6e7480',font:{size:10},callback:v=>'₦'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(255,255,255,.04)'}}}}});
+  if(trendCI) trendCI.destroy();
+  trendCI=new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:lbls,datasets:[
+    {label:'Income',data:mds.map(m=>m.has?INCOME:null),borderColor:'#4ade80',borderDash:[5,3],borderWidth:1.5,pointRadius:0,fill:false,tension:0},
+    {label:'Planned',data:mds.map(m=>m.has?m.planned:null),borderColor:'#f59e0b',borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#f59e0b',fill:false,tension:.35},
+    {label:'Actual',data:mds.map(m=>m.actual||null),borderColor:'#22d3ee',borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#22d3ee',fill:false,tension:.35},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6e7480',font:{size:10},boxWidth:10}}},scales:{x:{ticks:{color:'#6e7480',font:{size:10}},grid:{color:'rgba(255,255,255,.03)'}},y:{ticks:{color:'#6e7480',font:{size:10},callback:v=>'₦'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(255,255,255,.04)'}}}}});
+  // Bucket table
+  const colW=`grid-template-columns:150px repeat(12,85px)`;
+  let tbl=`<div class="tbl-hdr" style="${colW}"><span>Bucket</span>${MONTHS_S.map(m=>`<span style="text-align:right;font-size:10px">${m}</span>`).join('')}</div>`;
+  DEFAULT_BUDGET.forEach(ab=>{
+    tbl+=`<div class="tbl-row" style="${colW}">
+      <div class="tc" style="flex-direction:row;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:${ab.color};display:inline-block;flex-shrink:0"></span><span style="font-size:12px">${ab.name}</span></div>
+      ${mds.map(md=>{ if(!md.has) return '<div class="tc r" style="color:var(--muted2)">—</div>'; const b=md.buckets.find(x=>x.id===ab.id); const v=b?bP(b):0; return `<div class="tc r" style="font-family:var(--mono);font-size:11px">${v?'₦'+(v/1000).toFixed(0)+'k':'—'}</div>`; }).join('')}
     </div>`;
+  });
+  document.getElementById('annualBucketTbl').innerHTML=tbl;
+  document.getElementById('annualGrid').innerHTML=mds.map(md=>{
+    if(!md.has) return `<div class="ann-card" style="opacity:.35"><div class="ann-month">${MONTHS_L[md.m]}</div><div style="font-size:11px;color:var(--muted2)">No data</div></div>`;
+    const net=INCOME-md.planned;
+    return `<div class="ann-card" onclick="jumpTo(${md.m})"><div class="ann-month">${MONTHS_L[md.m]}</div><div class="ann-row"><span>Budgeted</span><span>${fmt(md.planned)}</span></div>${md.actual?`<div class="ann-row"><span>Actual</span><span>${fmt(md.actual)}</span></div>`:''}<div class="ann-net" style="color:${net>=0?'var(--green)':'var(--red)'}"><span>Net</span><span>${fmt(net)}</span></div></div>`;
   }).join('');
+}
+function jumpTo(m){ curMonth=m; document.getElementById('mlabel').textContent=mLbl(m,curYear); nav('budget'); renderMonthList(); }
+function jumpToMY(m,y){ curMonth=m;curYear=y; document.getElementById('mlabel').textContent=mLbl(m,y); nav('budget'); renderMonthList(); }
 
-  const cols='100px 1fr 80px 90px 90px 90px 80px 36px';
-  let rows='';
-  logs.forEach((l,i)=>{
-    const ccy=l.cls==='ngx'?'₦':'$';
-    rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
-      <div class="cc" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${l.date||'—'}</div>
-      <div class="cc"><strong style="font-size:12.5px">${esc(l.ticker)}</strong><div style="font-size:10.5px;color:var(--muted)">${esc(l.note||'')}</div></div>
-      <div class="cc c"><span class="tag tag-${l.cls==='ngx'?'inv':l.cls==='us'?'save':'biz'}">${l.cls.toUpperCase()}</span></div>
-      <div class="cc r" style="font-family:var(--mono);font-size:11.5px">${parseFloat(l.qty).toFixed(4)}</div>
-      <div class="cc r" style="font-family:var(--mono);font-size:11.5px">${ccy}${parseFloat(l.price).toFixed(2)}</div>
-      <div class="cc r" style="font-family:var(--mono);font-size:11.5px;color:var(--gold2)">${ccy}${parseFloat(l.total).toLocaleString()}</div>
-      <div class="cc c" style="font-size:10.5px;color:var(--muted)">${l.ccy}</div>
-      <div class="cc c"><button class="del-btn" onclick="delDCA(${i})">✕</button></div>
+// ═══════════════════════════════════════════════════════════════════
+// WAR CHEST
+// ═══════════════════════════════════════════════════════════════════
+let wcCI;
+function renderWarChest(){
+  const wc=STORE.capital.warChest;
+  // Compute balance from ledger
+  const bal=wc.ledger.reduce((s,e)=>s+(parseFloat(e.inflow)||0)-(parseFloat(e.deployed)||0),wc.balance||0);
+  const dcaTotal=STORE.capital.dca.reduce((s,d)=>s+(parseFloat(d.monthly)||0),0);
+  // Compute surplus from current month
+  const md=curMD(); const surplus=Math.max(0,INCOME-tP(md.buckets));
+  const netAcc=surplus-dcaTotal;
+  const parkTotal=wc.parking.reduce((s,p)=>s+(parseFloat(p.balance)||0),0);
+  const avgYield=wc.parking.length?wc.parking.reduce((s,p)=>s+(parseFloat(p.yield)||0),0)/wc.parking.length:14.5;
+
+  document.getElementById('wcBalance').textContent=fmt(bal+parkTotal);
+  document.getElementById('wcSubtitle').textContent='Liquid + parked · earning ~'+avgYield.toFixed(1)+'% p.a.';
+  document.getElementById('wc_total').textContent=fmt(bal+parkTotal);
+  document.getElementById('wc_inflow').textContent=fmt(surplus);
+  document.getElementById('wc_dcaout').textContent=fmt(dcaTotal);
+  document.getElementById('wc_net').textContent=fmt(netAcc);
+  document.getElementById('wc_instrument').textContent=wc.parking.length?wc.parking[0].name:'T-Bills / MMF';
+  document.getElementById('wc_yield_lbl').textContent='~'+avgYield.toFixed(1)+'% est. yield p.a.';
+  document.getElementById('wc_fx').textContent='₦'+FX_BASE.toLocaleString()+'/$';
+  document.getElementById('wc_fx_stress').textContent='Stress: ₦'+FX_STRESS.toLocaleString()+'/$ (-'+Math.round((1-FX_BASE/FX_STRESS)*100)+'% impact)';
+
+  // Ledger
+  const COL='110px 1fr 130px 130px 130px 36px';
+  let ledger='';
+  wc.ledger.forEach((e,i)=>{
+    const running=wc.ledger.slice(0,i+1).reduce((s,x)=>s+(parseFloat(x.inflow)||0)-(parseFloat(x.deployed)||0),0);
+    ledger+=`<div class="tbl-row" style="grid-template-columns:${COL}">
+      <div class="tc"><input class="txt-sm" value="${esc(e.month||'')}" onchange="updWcLedger(${i},'month',this.value)" placeholder="Month"></div>
+      <div class="tc"><input class="txt" value="${esc(e.note||'')}" onchange="updWcLedger(${i},'note',this.value)" placeholder="Note / event"></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${e.inflow||''}" placeholder="0" onchange="updWcLedger(${i},'inflow',this.value)"></div></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${e.deployed||''}" placeholder="0" onchange="updWcLedger(${i},'deployed',this.value)"></div></div>
+      <div class="tc r" style="font-family:var(--mono);font-size:12px;color:${running>=0?'var(--green)':'var(--red)'}">${fmt(running)}</div>
+      <div class="tc c"><button class="btn-del" onclick="delWcLedger(${i})">✕</button></div>
     </div>`;
   });
+  document.getElementById('wcLedger').innerHTML=ledger||`<div style="padding:12px 14px;font-size:12px;color:var(--muted2)">No entries yet — add your first war chest inflow.</div>`;
 
-  document.getElementById('ptab-dca').innerHTML=`
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.75rem">
-      <button class="btn btn-sm btn-gold" onclick="document.getElementById('modalDCA').classList.add('open')">+ Log purchase</button>
-    </div>
-    ${Object.keys(byTicker).length?`<div class="card-table" style="margin-bottom:1rem"><div style="padding:8px 14px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase">DCA Summary by Asset</div>${summaryRows}</div>`:''}
-    <div class="sec">Full purchase log</div>
-    <div class="card-table">
-      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Date</div><div class="ch">Asset</div><div class="ch c">Class</div><div class="ch r">Units</div><div class="ch r">Price</div><div class="ch r">Total</div><div class="ch c">CCY</div><div class="ch"></div></div>
-      ${rows||'<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">No purchases logged yet.</div>'}
+  // Parking
+  const PCOL='1fr 100px 100px 1fr 36px';
+  let parking='';
+  wc.parking.forEach((p,i)=>{
+    parking+=`<div class="tbl-row" style="grid-template-columns:${PCOL}">
+      <div class="tc"><input class="txt" value="${esc(p.name)}" onchange="updParking(${i},'name',this.value)"></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${p.balance||''}" placeholder="0" onchange="updParking(${i},'balance',this.value)"></div></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${p.yield||''}" placeholder="0.0" onchange="updParking(${i},'yield',this.value)"></div></div>
+      <div class="tc"><input class="txt-sm" value="${esc(p.note||'')}" onchange="updParking(${i},'note',this.value)" placeholder="Note…"></div>
+      <div class="tc c"><button class="btn-del" onclick="delParking(${i})">✕</button></div>
     </div>`;
+  });
+  document.getElementById('parkingList').innerHTML=parking;
+
+  // Projection chart
+  if(wcCI) wcCI.destroy();
+  const months=Array.from({length:24},(_,i)=>MONTHS_S[(curMonth+i)%12]+"'"+(curYear+Math.floor((curMonth+i)/12)).toString().slice(2));
+  let run=bal+parkTotal;
+  const proj=months.map(()=>{ run=Math.max(0,run+netAcc); return Math.round(run); });
+  wcCI=new Chart(document.getElementById('wcChart'),{type:'line',data:{labels:months,datasets:[{label:'War Chest Balance',data:proj,borderColor:'#fbbf24',backgroundColor:'rgba(251,191,36,.08)',fill:true,tension:.4,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6e7480',font:{size:10}},grid:{color:'rgba(255,255,255,.03)'}},y:{ticks:{color:'#6e7480',font:{size:10},callback:v=>'₦'+(v/1000000).toFixed(1)+'M'},grid:{color:'rgba(255,255,255,.04)'}}}}});
 }
 
-// Holdings CRUD
-function openHoldingModal(cls){
-  document.getElementById('mh_class').value=cls;
-  document.getElementById('mh_ccy').value=cls==='ngx'?'NGN':'USD';
-  document.getElementById('mh_ticker').value='';
-  document.getElementById('mh_qty').value='';
-  document.getElementById('mh_cost').value='';
-  document.getElementById('mh_price').value='';
-  document.getElementById('mh_note').value='';
-  document.getElementById('modalHoldingTitle').textContent='Add '+{ngx:'NGX Stock',us:'US Stock / ETF',crypto:'Crypto Position'}[cls];
-  document.getElementById('modalHolding').classList.add('open');
-}
-function saveHolding(){
-  const ticker=document.getElementById('mh_ticker').value.trim().toUpperCase();
-  if(!ticker){toast('Enter ticker or name');return;}
-  const qty=parseFloat(document.getElementById('mh_qty').value)||0;
-  const cost=parseFloat(document.getElementById('mh_cost').value)||0;
-  const price=parseFloat(document.getElementById('mh_price').value)||cost;
-  const existing=S.holdings.findIndex(h=>h.ticker===ticker&&h.cls===document.getElementById('mh_class').value);
-  if(existing>=0){
-    const h=S.holdings[existing];
-    const totalQty=h.qty+qty;
-    h.avgCost=totalQty>0?((h.qty*(h.avgCost||h.cost||0))+(qty*cost))/totalQty:cost;
-    h.qty=totalQty;h.price=price;h.note=document.getElementById('mh_note').value;
-  } else {
-    S.holdings.push({ticker,qty,cost,avgCost:cost,price,ccy:document.getElementById('mh_ccy').value,cls:document.getElementById('mh_class').value,note:document.getElementById('mh_note').value});
-  }
-  closeModal('modalHolding');renderPortfolio();toast(ticker+' saved');
-}
-function updHolding(i,f,v){S.holdings[i][f]=parseFloat(v)||0;renderPortfolio();}
-function delHolding(i){if(confirm('Remove this holding?')){S.holdings.splice(i,1);renderPortfolio();}}
+function updWcLedger(i,f,v){ STORE.capital.warChest.ledger[i][f]=f==='inflow'||f==='deployed'?parseFloat(v)||0:v; renderWarChest(); }
+function delWcLedger(i){ STORE.capital.warChest.ledger.splice(i,1); renderWarChest(); }
+function addWcEntry(){ STORE.capital.warChest.ledger.push({month:mLbl(curMonth,curYear),note:'',inflow:0,deployed:0}); renderWarChest(); }
+function updParking(i,f,v){ STORE.capital.warChest.parking[i][f]=f==='balance'||f==='yield'?parseFloat(v)||0:v; renderWarChest(); }
+function delParking(i){ STORE.capital.warChest.parking.splice(i,1); renderWarChest(); }
+function addParking(){ STORE.capital.warChest.parking.push({name:'New instrument',balance:0,yield:0,note:''}); renderWarChest(); }
 
+// ═══════════════════════════════════════════════════════════════════
+// POSITIONS
+// ═══════════════════════════════════════════════════════════════════
+function renderPositions(){
+  const positions=STORE.capital.positions;
+  const totalVal=positions.reduce((s,p)=>s+(p.units*(parseFloat(p.currentPrice)||0)),0);
+  const totalCost=positions.reduce((s,p)=>s+(p.units*(parseFloat(p.entryPrice)||0)),0);
+  const totalPnL=totalVal-totalCost;
+  document.getElementById('posCards').innerHTML=[
+    {l:'Portfolio value',v:fmt(totalVal),c:'g',s:'At current prices'},
+    {l:'Total cost basis',v:fmt(totalCost),c:'a',s:'Capital deployed'},
+    {l:'Unrealised P&L',v:fmt(totalPnL),c:totalPnL>=0?'g':'r',s:totalCost?Math.round(totalPnL/totalCost*100)+'%':'—'},
+    {l:'Positions',v:positions.length,c:'c',s:'Active'},
+  ].map(c=>`<div class="card ${c.c}"><div class="clabel">${c.l}</div><div class="cval ${c.c}">${c.v}</div><div class="csub">${c.s}</div></div>`).join('');
+
+  const STATUS_TAG={dca:'tg-dca',hold:'tg-hold',buy:'tg-buy',watch:'tg-watch',exit:'tg-exit'};
+  const STATUS_LBL={dca:'DCA active',hold:'holding',buy:'accumulating',watch:'watching',exit:'exit soon'};
+
+  document.getElementById('positionsList').innerHTML=positions.map((p,i)=>{
+    const val=(p.units||0)*(parseFloat(p.currentPrice)||parseFloat(p.entryPrice)||0);
+    const cost=(p.units||0)*(parseFloat(p.entryPrice)||0);
+    const pnl=val-cost;
+    const pnlPct=cost?((pnl/cost)*100).toFixed(1)+'%':'—';
+    return `<div class="pos-card">
+      <div class="pos-header">
+        <div>
+          <div class="pos-ticker">${esc(p.ticker)}</div>
+          <div class="pos-name">${esc(p.name)} · ${esc(p.assetClass)}</div>
+          <div style="margin-top:4px"><span class="tag ${STATUS_TAG[p.status]||'tg-hold'}">${STATUS_LBL[p.status]||p.status}</span></div>
+        </div>
+        <div class="pos-pnl">
+          <div class="pos-pnl-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${fmt(pnl)}</div>
+          <div class="pos-pnl-pct">${pnlPct} unrealised</div>
+          <div style="margin-top:4px;font-family:var(--mono);font-size:12px;color:var(--muted)">${fmt(val)} value</div>
+        </div>
+      </div>
+      <div class="pos-grid">
+        <div class="pos-field"><div class="pos-field-lbl">Entry price</div><div class="pos-field-val"><div class="amt-wrap"><input class="amt" type="number" value="${p.entryPrice}" onchange="updPos(${i},'entryPrice',this.value)" style="text-align:left"></div></div></div>
+        <div class="pos-field"><div class="pos-field-lbl">Current price</div><div class="pos-field-val"><div class="amt-wrap"><input class="amt" type="number" value="${p.currentPrice}" onchange="updPos(${i},'currentPrice',this.value)" style="text-align:left"></div></div></div>
+        <div class="pos-field"><div class="pos-field-lbl">Units held</div><div class="pos-field-val"><div class="amt-wrap"><input class="amt" type="number" value="${p.units||0}" onchange="updPos(${i},'units',this.value)" style="text-align:left"></div></div></div>
+        <div class="pos-field"><div class="pos-field-lbl">Monthly DCA</div><div class="pos-field-val"><div class="amt-wrap"><input class="amt" type="number" value="${p.monthlyDCA||0}" onchange="updPos(${i},'monthlyDCA',this.value)" style="text-align:left"></div></div></div>
+        <div class="pos-field"><div class="pos-field-lbl">Entry date</div><div class="pos-field-val"><input class="txt" type="text" value="${esc(p.entryDate||'')}" onchange="updPos(${i},'entryDate',this.value)" style="border-bottom:1px dashed var(--muted2)"></div></div>
+        <div class="pos-field"><div class="pos-field-lbl">Status</div><div class="pos-field-val">
+          <select class="sel" onchange="updPos(${i},'status',this.value)">
+            ${['dca','buy','hold','watch','exit'].map(s=>`<option value="${s}" ${p.status===s?'selected':''}>${STATUS_LBL[s]}</option>`).join('')}
+          </select>
+        </div></div>
+      </div>
+      <div class="pos-thesis">
+        <div class="pos-thesis-lbl">Investment thesis</div>
+        <textarea class="pos-ta" onchange="updPos(${i},'thesis',this.value)">${esc(p.thesis||'')}</textarea>
+      </div>
+      <div class="pos-thesis">
+        <div class="pos-thesis-lbl">Hold condition</div>
+        <textarea class="pos-ta" rows="2" onchange="updPos(${i},'holdCondition',this.value)">${esc(p.holdCondition||'')}</textarea>
+      </div>
+      <div class="pos-thesis">
+        <div class="pos-thesis-lbl">Exit trigger</div>
+        <textarea class="pos-ta" rows="2" onchange="updPos(${i},'exitTrigger',this.value)">${esc(p.exitTrigger||'')}</textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+        <button class="btn btn-sm" style="color:var(--red);border-color:rgba(248,113,113,.3)" onclick="delPosition(${i})">Remove position</button>
+      </div>
+    </div>`;
+  }).join('')||`<div style="padding:1.25rem;color:var(--muted2);font-size:13px">No positions yet. Add your first position below.</div>`;
+}
+
+function updPos(i,f,v){ STORE.capital.positions[i][f]=['entryPrice','currentPrice','units','monthlyDCA'].includes(f)?parseFloat(v)||0:v; renderPositions(); }
+function delPosition(i){ if(!confirm('Remove this position?')) return; STORE.capital.positions.splice(i,1); renderPositions(); }
+function addPosition(){ STORE.capital.positions.push({ticker:'NEW',name:'New position',assetClass:'NGX Equity',entryPrice:0,currentPrice:0,units:0,monthlyDCA:0,thesis:'',holdCondition:'',exitTrigger:'',status:'watch',entryDate:mLbl(curMonth,curYear)}); renderPositions(); }
+
+// ═══════════════════════════════════════════════════════════════════
+// PIPELINE
+// ═══════════════════════════════════════════════════════════════════
+function renderPipeline(){
+  const ST={watch:'tg-watch',ready:'tg-buy',dormant:'tg-hold',skip:'tg-exit'};
+  const COL='1fr 100px 120px 110px 90px 36px';
+  let rows=STORE.capital.pipeline.map((p,i)=>`
+    <div class="tbl-row" style="grid-template-columns:${COL}">
+      <div class="tc">
+        <input class="txt" value="${esc(p.name)}" onchange="updPipe(${i},'name',this.value)" placeholder="Asset name">
+        <input class="txt-sm" value="${esc(p.note||'')}" onchange="updPipe(${i},'note',this.value)" placeholder="Note / context…">
+      </div>
+      <div class="tc"><input class="txt-sm" value="${esc(p.assetClass||'')}" onchange="updPipe(${i},'assetClass',this.value)" placeholder="Class"></div>
+      <div class="tc r"><input class="txt-sm" value="${esc(p.trigger||'')}" onchange="updPipe(${i},'trigger',this.value)" placeholder="Trigger level / event" style="text-align:right"></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${p.allocation||''}" placeholder="0" onchange="updPipe(${i},'allocation',this.value)"></div></div>
+      <div class="tc c">
+        <select class="sel" onchange="updPipe(${i},'status',this.value)">
+          ${['watch','ready','dormant','skip'].map(s=>`<option value="${s}" ${p.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="tc c"><button class="btn-del" onclick="delPipe(${i})">✕</button></div>
+    </div>`).join('');
+  document.getElementById('pipelineList').innerHTML=rows||`<div style="padding:12px 14px;color:var(--muted2);font-size:12px">Pipeline empty.</div>`;
+}
+function updPipe(i,f,v){ STORE.capital.pipeline[i][f]=f==='allocation'?parseFloat(v)||0:v; renderPipeline(); }
+function delPipe(i){ STORE.capital.pipeline.splice(i,1); renderPipeline(); }
+function addPipeline(){ STORE.capital.pipeline.push({name:'New opportunity',assetClass:'',trigger:'',allocation:0,status:'watch',note:''}); renderPipeline(); }
+
+// ═══════════════════════════════════════════════════════════════════
 // DCA
-function saveDCA(){
-  const ticker=document.getElementById('md_ticker').value.trim().toUpperCase();
-  if(!ticker){toast('Enter asset name');return;}
-  const qty=parseFloat(document.getElementById('md_qty').value)||0;
-  const price=parseFloat(document.getElementById('md_price').value)||0;
-  const total=parseFloat(document.getElementById('md_total').value)||(qty*price);
-  S.dcaLog.push({ticker,date:document.getElementById('md_date').value,cls:document.getElementById('md_class').value,qty,price,total,ccy:document.getElementById('md_ccy').value,note:document.getElementById('md_note').value});
-  closeModal('modalDCA');renderPortfolio();toast('Purchase logged');
-}
-function delDCA(i){if(confirm('Delete this entry?')){S.dcaLog.splice(i,1);renderPortfolio();}}
+// ═══════════════════════════════════════════════════════════════════
+function renderDCA(){
+  const dca=STORE.capital.dca;
+  const totalMonthly=dca.reduce((s,d)=>s+(parseFloat(d.monthly)||0),0);
+  const totalDeployed=dca.reduce((s,d)=>s+(parseFloat(d.totalDeployed)||0),0);
+  document.getElementById('dcaCards').innerHTML=[
+    {l:'Total monthly DCA',v:fmt(totalMonthly),c:'g',s:'Fixed monthly commitment'},
+    {l:'Total deployed to date',v:fmt(totalDeployed),c:'p',s:'Across all DCA positions'},
+    {l:'DCA streams',v:dca.length,c:'c',s:'Active schedules'},
+    {l:'% of income',v:Math.round(totalMonthly/INCOME*100)+'%',c:'a',s:'DCA allocation vs income'},
+  ].map(c=>`<div class="card ${c.c}"><div class="clabel">${c.l}</div><div class="cval ${c.c}">${c.v}</div><div class="csub">${c.s}</div></div>`).join('');
 
-// Auto-calc DCA total
-document.addEventListener('change',e=>{
-  if(e.target.id==='md_qty'||e.target.id==='md_price'){
-    const q=parseFloat(document.getElementById('md_qty').value)||0;
-    const p=parseFloat(document.getElementById('md_price').value)||0;
-    if(q&&p)document.getElementById('md_total').value=(q*p).toFixed(2);
-  }
-});
+  const DCOL='1fr 100px 120px 120px 90px 36px';
+  let rows=dca.map((d,i)=>`
+    <div class="tbl-row" style="grid-template-columns:${DCOL}">
+      <div class="tc">
+        <input class="txt" value="${esc(d.asset)}" onchange="updDCA(${i},'asset',this.value)">
+        <input class="txt-sm" value="${esc(d.note||'')}" onchange="updDCA(${i},'note',this.value)" placeholder="Note…">
+      </div>
+      <div class="tc"><input class="txt-sm" value="${esc(d.assetClass||'')}" onchange="updDCA(${i},'assetClass',this.value)"></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${d.monthly}" onchange="updDCA(${i},'monthly',this.value)"></div></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${d.totalDeployed||''}" placeholder="0" onchange="updDCA(${i},'totalDeployed',this.value)"></div></div>
+      <div class="tc c">
+        <select class="sel" onchange="updDCA(${i},'status',this.value)">
+          ${['active','paused','completed'].map(s=>`<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="tc c"><button class="btn-del" onclick="delDCA(${i})">✕</button></div>
+    </div>`).join('');
+  document.getElementById('dcaList').innerHTML=rows||`<div style="padding:12px 14px;color:var(--muted2);font-size:12px">No DCA schedules.</div>`;
 
-// ═══════════════════════════════════════════════
-// MILESTONES
-// ═══════════════════════════════════════════════
-function openMilestoneModal(){
-  ['mm_name','mm_target','mm_year','mm_monthly','mm_saved','mm_note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('modalMilestone').classList.add('open');
+  // Log
+  const LCOL='110px 1fr 120px 110px 36px';
+  let log=STORE.capital.dcaLog.map((e,i)=>`
+    <div class="tbl-row" style="grid-template-columns:${LCOL}">
+      <div class="tc"><input class="txt-sm" value="${esc(e.date||'')}" onchange="updDCALog(${i},'date',this.value)" placeholder="Date"></div>
+      <div class="tc"><input class="txt" value="${esc(e.asset||'')}" onchange="updDCALog(${i},'asset',this.value)" placeholder="Asset"></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${e.amount||''}" placeholder="0" onchange="updDCALog(${i},'amount',this.value)"></div></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${e.units||''}" placeholder="0" onchange="updDCALog(${i},'units',this.value)"></div></div>
+      <div class="tc c"><button class="btn-del" onclick="delDCALog(${i})">✕</button></div>
+    </div>`).join('');
+  document.getElementById('dcaLog').innerHTML=log||`<div style="padding:12px 14px;color:var(--muted2);font-size:12px">No executions logged yet. Log each DCA purchase as it happens.</div>`;
 }
-function saveMilestone(){
-  const name=document.getElementById('mm_name').value.trim();
-  if(!name){toast('Enter milestone name');return;}
-  S.milestones.push({id:'ms_'+Date.now(),name,target:parseFloat(document.getElementById('mm_target').value)||0,year:parseInt(document.getElementById('mm_year').value)||2030,monthly:parseFloat(document.getElementById('mm_monthly').value)||0,saved:parseFloat(document.getElementById('mm_saved').value)||0,note:document.getElementById('mm_note').value,color:'#c9a84c'});
-  closeModal('modalMilestone');renderMilestones();
+function updDCA(i,f,v){ STORE.capital.dca[i][f]=['monthly','totalDeployed'].includes(f)?parseFloat(v)||0:v; renderDCA(); }
+function delDCA(i){ STORE.capital.dca.splice(i,1); renderDCA(); }
+function addDCA(){ STORE.capital.dca.push({asset:'New asset',assetClass:'',monthly:0,totalDeployed:0,status:'active',note:''}); renderDCA(); }
+function updDCALog(i,f,v){ STORE.capital.dcaLog[i][f]=['amount','units'].includes(f)?parseFloat(v)||0:v; }
+function delDCALog(i){ STORE.capital.dcaLog.splice(i,1); renderDCA(); }
+function addDCALog(){ STORE.capital.dcaLog.unshift({date:mLbl(curMonth,curYear),asset:'ACCESS',amount:0,units:0}); renderDCA(); }
+
+// ═══════════════════════════════════════════════════════════════════
+// POLICY
+// ═══════════════════════════════════════════════════════════════════
+function renderPolicy(){
+  const LCOL='1fr 110px 110px 1fr';
+  document.getElementById('policyLimits').innerHTML=STORE.capital.policyLimits.map((p,i)=>`
+    <div class="tbl-row" style="grid-template-columns:${LCOL}">
+      <div class="tc"><input class="txt" value="${esc(p.cls)}" onchange="updLimit(${i},'cls',this.value)"></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${p.target}" onchange="updLimit(${i},'target',this.value)"><span style="color:var(--muted);font-size:12px;padding-left:3px">%</span></div></div>
+      <div class="tc r"><div class="amt-wrap"><input class="amt" type="number" value="${p.cap}" onchange="updLimit(${i},'cap',this.value)"><span style="color:var(--muted);font-size:12px;padding-left:3px">%</span></div></div>
+      <div class="tc"><input class="txt-sm" value="${esc(p.note||'')}" onchange="updLimit(${i},'note',this.value)" placeholder="Note…"></div>
+    </div>`).join('');
+
+  document.getElementById('alphaChecklist').innerHTML=STORE.capital.alphaChecklist.map((c,i)=>`
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text)">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-top:2px;flex-shrink:0">${i+1}.</span>
+      <input class="txt" value="${esc(c)}" onchange="updAlpha(${i},this.value)" style="flex:1">
+    </div>`).join('');
 }
-function renderMilestones(){
-  const el=document.getElementById('milestoneList');
-  if(!S.milestones.length){el.innerHTML='<div style="text-align:center;color:var(--muted);padding:2rem">No milestones yet.</div>';return;}
-  el.innerHTML=S.milestones.map((ms,i)=>{
-    const pct=ms.target>0?Math.min(100,Math.round(ms.saved/ms.target*100)):0;
-    const monthsLeft=Math.max(0,(ms.year-curYear)*12+(12-curMonth));
-    const projected=ms.saved+(ms.monthly*monthsLeft);
-    const onTrack=projected>=ms.target;
-    return`<div class="milestone-card">
-      <div class="ms-header">
-        <div>
-          <div class="ms-name">${esc(ms.name)}</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(ms.note||'')} · Target: ${ms.year}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="ms-target">${fmt(ms.target)}</div>
-          <div style="font-size:11px;color:var(--muted)">$${Math.round(toUSD(ms.target)).toLocaleString()} USD equiv</div>
-        </div>
-      </div>
-      <div class="ms-bar-track"><div class="ms-bar-fill" style="width:${pct}%;background:${ms.color}"></div></div>
-      <div class="ms-meta">
-        <span>Saved: <strong style="font-family:var(--mono);color:var(--text)">${fmt(ms.saved)}</strong> (${pct}%)</span>
-        <span>Monthly: <strong style="font-family:var(--mono);color:var(--text)">${ms.monthly?fmt(ms.monthly):'—'}</strong></span>
-        <span style="color:${onTrack?'var(--green)':'var(--amber)'}">${onTrack?'✓ On track':'⚠ Needs review'}</span>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-        <div style="font-size:11px;color:var(--muted)">Projected by ${ms.year}: <strong style="font-family:var(--mono);color:${projected>=ms.target?'var(--green)':'var(--amber)'}">${fmt(Math.round(projected))}</strong></div>
-        <div style="font-size:11px;color:var(--muted);margin-left:auto">
-          Update: <input type="number" value="${ms.saved}" onchange="updMilestone(${i},'saved',this.value)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:11px;padding:2px 6px;border-radius:4px;width:90px;outline:none" placeholder="Current saved">
-          <button class="del-btn" onclick="delMilestone(${i})" style="margin-left:8px">✕</button>
-        </div>
-      </div>
+function updLimit(i,f,v){ STORE.capital.policyLimits[i][f]=['target','cap'].includes(f)?parseFloat(v)||0:v; }
+function updAlpha(i,v){ STORE.capital.alphaChecklist[i]=v; }
+
+// ═══════════════════════════════════════════════════════════════════
+// MONTH SIDEBAR LIST
+// ═══════════════════════════════════════════════════════════════════
+function renderMonthList(){
+  const keys=Object.keys(STORE.months).sort().reverse().slice(0,16);
+  document.getElementById('monthList').innerHTML=keys.map(k=>{
+    const [y,m]=k.split('-'),mi=parseInt(m)-1,yi=parseInt(y);
+    const isCur=mi===curMonth&&yi===curYear;
+    const md=STORE.months[k];
+    const hasA=md.buckets.some(b=>b.items.some(i=>parseFloat(i.actual)>0));
+    return `<div class="nav-item${isCur?' active':''}" onclick="jumpToMY(${mi},${yi})">
+      <span class="nav-dot" style="background:${hasA?'var(--green)':'var(--muted2)'}"></span>
+      ${MONTHS_S[mi]} ${yi}
     </div>`;
-  }).join('');
-}
-function updMilestone(i,f,v){S.milestones[i][f]=parseFloat(v)||0;renderMilestones();}
-function delMilestone(i){if(confirm('Remove milestone?')){S.milestones.splice(i,1);renderMilestones();}}
-
-// ═══════════════════════════════════════════════
-// ENTITIES
-// ═══════════════════════════════════════════════
-function renderEntities(){
-  const el=document.getElementById('entityList');
-  const tree=[
-    {id:'trust',children:[
-      {id:'axisgaia',children:[
-        {id:'thinkats',children:[]},
-        {id:'resourcin',children:[]},
-      ]},
-    ]},
-  ];
-  function renderEntity(id,depth){
-    const e=S.entities.find(x=>x.id===id);if(!e)return'';
-    const node=tree.flatMap(n=>[n,...(n.children||[]).flatMap(c=>[c,...(c.children||[])])]).find(x=>x.id===id);
-    const children=(node?.children||[]).map(c=>c.id);
-    return`<div class="entity-card" style="margin-left:${depth*20}px;border-left:3px solid ${e.color}40;${depth?'border-radius:0 var(--r) var(--r) 0':''}">
-      <div class="entity-header">
-        <div>
-          <div class="entity-name">${esc(e.name)}</div>
-          <div class="entity-type">${e.type}${e.regNo?' · CAC No. '+e.regNo:''} · Incorporated: ${e.incorporated||'Pending'}</div>
-        </div>
-        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:${e.status==='Active'?'rgba(74,222,128,.1)':'rgba(251,191,36,.1)'};color:${e.status==='Active'?'var(--green)':'var(--amber)'};">${e.status}</span>
-      </div>
-      <div style="font-size:12px;color:var(--muted)">${esc(e.notes||'')}</div>
-      ${children.length?`<div style="margin-top:12px"><div style="font-size:10px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Subsidiaries</div>${children.map(cid=>renderEntity(cid,0)).join('')}</div>`:''}
-    </div>`;
-  }
-  el.innerHTML=renderEntity('trust',0)+`
-    <div style="margin-top:1.25rem;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-size:12px;color:var(--muted)">
-      <strong style="color:var(--gold2)">Next steps:</strong> Incorporate AxisGaia Limited (Q3 2026) → Transfer Resourcin & ThinkATS shares to AxisGaia → Draft Trust deed (on marriage or first child) → Trust holds all AxisGaia shares → Update will to reflect Trust as primary beneficiary.
-    </div>`;
+  }).join('')||'<div style="padding:.5rem 1.25rem;font-size:11px;color:var(--muted2)">No months saved</div>';
 }
 
-// ═══════════════════════════════════════════════
-// UTILITIES
-// ═══════════════════════════════════════════════
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2800);}
-function saveAll(){save();renderMonthList();toast('Saved ✓');}
-
-function copyPrev(){
-  const pm=curMonth===0?11:curMonth-1,py=curMonth===0?curYear-1:curYear;
-  const pk=mkey(pm,py);
-  if(!S.months[pk]){toast('No previous month data');return;}
-  if(!confirm('Copy planned amounts from '+mlbl(pm,py)+'?'))return;
-  const md=cmd(),prev=S.months[pk];
-  md.buckets.forEach((b,bi)=>{const pb=prev.buckets[bi];if(pb)b.items.forEach((item,ii)=>{if(pb.items[ii])item.planned=pb.items[ii].planned;});});
-  if(prev.incomes){md.incomes.length===prev.incomes.length?md.incomes.forEach((item,ii)=>{if(prev.incomes[ii])item.planned=prev.incomes[ii].planned;}):md.incomes=prev.incomes.map(i=>({...i,actual:''}));}
-  renderBudget();toast('Copied from '+mlbl(pm,py));
+// ═══════════════════════════════════════════════════════════════════
+// SAVE / EXPORT
+// ═══════════════════════════════════════════════════════════════════
+function saveAll(){
+  // Sync template from current month
+  const md=curMD();
+  STORE.template=md.buckets.map(b=>({...b,items:b.items.map(i=>({...i,actual:''}))}));
+  saveStore(); renderMonthList(); showToast('Saved ✓');
 }
 
 function exportCSV(){
-  const md=cmd();let csv='Bucket,Item,Note,Planned (NGN),Planned (USD),Actual (NGN),Tag,Entity\n';
-  md.buckets.forEach(b=>{b.items.forEach(i=>{csv+=`"${b.name}","${i.name}","${i.note||''}",${i.planned||0},${toUSD(i.planned||0).toFixed(2)},${i.actual||0},${i.tag},${i.entity||'personal'}\n`;});});
+  const md=curMD();
+  const rows=[['Month','Bucket','Item','Note','Tag','Planned','Actual','Variance']];
+  const mk=mLbl(curMonth,curYear);
+  md.buckets.forEach(b=>b.items.forEach(i=>{ const p=parseFloat(i.planned)||0,a=parseFloat(i.actual)||0; rows.push([mk,b.name,i.name,i.note||'',i.tag,p,a||'',a?a-p:'']); }));
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob=new Blob([csv],{type:'text/csv'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`axisos_${mkey(curMonth,curYear)}.csv`;a.click();
-  toast('CSV exported');
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url; a.download=`victorplc-${mKey(curMonth,curYear)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
 }
 
-// Close modals on bg click
-document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e=>{if(e.target===bg)bg.classList.remove('open');}));
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2600); }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════
-window.onload=()=>{
-  load();
-  document.getElementById('fxRate').value=S.fxRate;
-  document.getElementById('fxDisplay').textContent='₦'+Math.round(S.fxRate).toLocaleString();
-  document.getElementById('monthLabel').textContent=mlbl(curMonth,curYear);
-  renderBudget();
-  renderMonthList();
-};
+// ═══════════════════════════════════════════════════════════════════
+loadStore();
+const now=new Date(); curMonth=now.getMonth(); curYear=now.getFullYear();
+document.getElementById('mlabel').textContent=mLbl(curMonth,curYear);
+// Open first 3 buckets
+const initMD=curMD(); [0,1,2].forEach(i=>initMD._open[i]=true);
+renderBudget(); renderMonthList();
 </script>
 </body>
 </html>
