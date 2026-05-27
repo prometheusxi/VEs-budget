@@ -103,13 +103,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .wf-rules{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
 .wf-pill{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.15);border-radius:20px;padding:2px 10px;font-size:11px;color:var(--gold2);font-family:var(--mono)}
 
-/* INCOME HEADER — Target vs actual */
-.income-targets{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:1rem}
-.it-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:10px 14px;display:flex;flex-direction:column;gap:3px}
-.it-label{font-size:9.5px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
-.it-val{font-family:var(--mono);font-size:15px;color:var(--gold2)}
-.it-pct{font-size:10.5px;font-family:var(--mono)}
-
 /* TABLE */
 .card-table{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
 .ct-header{display:grid;padding:6px 14px;background:var(--bg3);border-bottom:1px solid var(--border)}
@@ -188,7 +181,6 @@ input.amt:focus{color:var(--gold2)}
 .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
 .chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
 .chart-box.full{grid-column:1/-1}
-.chart-box.third{grid-column:span 1}
 .chart-title{font-size:9.5px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1rem}
 .alloc-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:.9rem}
 .alloc-item{display:flex;align-items:center;gap:7px;font-size:11.5px}
@@ -247,17 +239,74 @@ select.form-input option{background:var(--bg2)}
 .policy-num{font-family:var(--mono);font-size:11px;color:var(--gold);min-width:22px;padding-top:2px}
 .policy-text{color:var(--text);flex:1}
 
-/* WAR CHEST LEDGER */
-.ledger-cols{grid-template-columns:110px 1fr 100px 80px 110px 36px}
-.parking-cols{grid-template-columns:1fr 100px 100px 100px 80px 36px}
+/* ══ NET WORTH SNAPSHOT ══ */
+.nw-period-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.25rem;flex-wrap:wrap}
+.nwtab{padding:.45rem 1rem;cursor:pointer;font-size:12px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
+.nwtab:hover{color:var(--text)}
+.nwtab.active{color:var(--gold2);border-bottom-color:var(--gold)}
+.nw-section-hdr{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 14px;background:var(--bg3);border-bottom:1px solid var(--border)}
+.nw-row{display:grid;grid-template-columns:1fr 130px;border-bottom:1px solid var(--border);align-items:center}
+.nw-row:last-child{border-bottom:none}
+.nw-row:hover{background:rgba(255,255,255,.012)}
+.nw-label{padding:7px 14px;font-size:13px}
+.nw-note{font-size:10.5px;color:var(--muted2)}
+.nw-val{padding:7px 14px;text-align:right}
+.nw-total-row{display:grid;grid-template-columns:1fr 130px;background:var(--bg3);border-top:2px solid var(--border2)}
+.nw-grand-row{display:grid;grid-template-columns:1fr 130px;background:linear-gradient(90deg,rgba(201,168,76,.06),transparent);border-top:2px solid var(--gold)}
 
-/* INCOME LUMP SUM */
-.lump-grid{display:grid;grid-template-columns:1fr 110px 110px 90px 36px;gap:0}
+/* ══ SINKING FUNDS ══ */
+.sf-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:.65rem;position:relative;overflow:hidden}
+.sf-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.sf-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.sf-name{font-size:14px;font-weight:500}
+.sf-target{font-family:var(--mono);font-size:13px;color:var(--gold2)}
+.sf-bar-track{height:5px;background:var(--bg3);border-radius:3px;margin:7px 0 6px}
+.sf-bar-fill{height:100%;border-radius:3px;transition:width .6s}
+.sf-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px;color:var(--muted);margin-top:6px}
+.sf-meta-item strong{display:block;font-family:var(--mono);font-size:12px;color:var(--text)}
+.sf-horizon{font-size:10px;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.sf-near{background:rgba(251,191,36,.1);color:var(--amber)}
+.sf-mid{background:rgba(34,211,238,.09);color:var(--cyan)}
+.sf-long{background:rgba(167,139,250,.09);color:var(--purple)}
+.sf-recurring{background:rgba(74,222,128,.09);color:var(--green)}
+
+/* ══ DCA TRACKER ══ */
+.dca-ticker-header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg3);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.dca-ticker-name{font-family:var(--mono);font-size:15px;font-weight:500}
+.dca-stat{font-size:11px;color:var(--muted)}
+.dca-stat strong{font-family:var(--mono);color:var(--text)}
+.spec-row{display:grid;border-bottom:1px solid var(--border);align-items:center}
+.spec-row:hover{background:rgba(255,255,255,.012)}
+
+/* ══ WEALTH ARCHITECTURE DASHBOARD ══ */
+.wa-mission{background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.15);border-radius:var(--r);padding:16px 20px;margin-bottom:1.5rem}
+.wa-mission-text{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--gold3);line-height:1.7}
+.wa-mission-attr{font-size:10px;color:var(--muted);margin-top:8px;letter-spacing:1px;text-transform:uppercase}
+.lump-protocol-table{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.lpt-hdr{display:grid;grid-template-columns:160px 80px 1fr 1fr;padding:6px 14px;background:var(--bg3);border-bottom:1px solid var(--border)}
+.lpt-row{display:grid;grid-template-columns:160px 80px 1fr 1fr;border-bottom:1px solid var(--border)}
+.lpt-row:last-child{border-bottom:none}
+.lpt-row:hover{background:rgba(255,255,255,.012)}
+.lpt-cell{padding:9px 14px;font-size:12.5px}
+.lpt-cell.mono{font-family:var(--mono)}
+.lpt-rule{font-size:11px;color:var(--muted);margin-top:2px}
+.alloc-row{display:grid;grid-template-columns:1fr 80px 100px 90px 120px 90px;border-bottom:1px solid var(--border);align-items:center}
+.alloc-row:last-child{border-bottom:none}
+.alloc-row:hover{background:rgba(255,255,255,.012)}
+
+/* Status badges */
+.status-badge{font-size:10px;padding:2px 8px;border-radius:20px;white-space:nowrap;display:inline-block}
+.status-active{background:rgba(74,222,128,.1);color:var(--green)}
+.status-building{background:rgba(251,191,36,.1);color:var(--amber)}
+.status-paused{background:rgba(248,113,113,.1);color:var(--red)}
+.status-planned{background:rgba(167,139,250,.09);color:var(--purple)}
 
 @media(max-width:900px){
   .sidebar{display:none}.main{margin-left:0;padding:1rem}
   .summary{grid-template-columns:1fr 1fr}.chart-grid{grid-template-columns:1fr}
   .form-row-2{grid-template-columns:1fr}.form-row-3{grid-template-columns:1fr 1fr}
+  .sf-meta{grid-template-columns:1fr 1fr}
+  .lpt-hdr,.lpt-row{grid-template-columns:1fr 1fr}
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
@@ -276,6 +325,13 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
     <div class="nav-item active" onclick="nav('budget')"><span class="nav-icon">▦</span> Monthly Budget</div>
     <div class="nav-item" onclick="nav('dashboard')"><span class="nav-icon">◎</span> Dashboard</div>
     <div class="nav-item" onclick="nav('annual')"><span class="nav-icon">∿</span> Annual Review</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Wealth Architecture</div>
+    <div class="nav-item" onclick="nav('wealth')"><span class="nav-icon">◈</span> Wealth Architecture</div>
+    <div class="nav-item" onclick="nav('sinking')"><span class="nav-icon">◇</span> Sinking Funds</div>
+    <div class="nav-item" onclick="nav('dca')"><span class="nav-icon">⟳</span> DCA Tracker</div>
+    <div class="nav-item" onclick="nav('networth')"><span class="nav-icon">⬡</span> Net Worth</div>
   </div>
   <div class="nav-section">
     <div class="nav-label">Capital</div>
@@ -409,7 +465,7 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
           <div class="alloc-grid" id="portLegend"></div>
         </div>
         <div class="chart-box">
-          <div class="chart-title">Holdings P&L by ticker</div>
+          <div class="chart-title">Holdings P&amp;L by ticker</div>
           <div style="position:relative;height:220px"><canvas id="plChart"></canvas></div>
         </div>
         <div class="chart-box full">
@@ -425,8 +481,105 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
     <div class="sec">Year at a glance — <span id="annualYearLabel" style="color:var(--text)"></span></div>
     <div id="annualGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.5rem"></div>
     <div class="chart-box full" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem">
-      <div class="chart-title">Annual income & spending</div>
+      <div class="chart-title">Annual income &amp; spending</div>
       <div style="position:relative;height:220px"><canvas id="annualChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ══ WEALTH ARCHITECTURE ══ -->
+  <div id="view-wealth" class="panel">
+    <div class="wa-mission">
+      <div class="wa-mission-text">"I am a patient, long-horizon investor and serial builder with a trained eye for value — in markets, businesses, and people. I invest to fund a specific life: beautiful, sophisticated, and completely free."</div>
+      <div class="wa-mission-attr">Victor Ephraim — Investment Mission Statement · AxisGaia v2.0</div>
+    </div>
+
+    <div class="summary" id="waSummary"></div>
+
+    <div class="sec">Monthly Surplus Allocation Strategy</div>
+    <div class="card-table">
+      <div class="ct-header" style="grid-template-columns:1fr 80px 110px 100px 1fr 90px">
+        <div class="ch">Goal / Bucket</div><div class="ch c">% Surplus</div><div class="ch r">Monthly (₦)</div><div class="ch">Min Duration</div><div class="ch">Vehicle</div><div class="ch c">Status</div>
+      </div>
+      <div id="waAllocRows"></div>
+      <div class="ct-footer" id="waAllocFooter"></div>
+    </div>
+
+    <div class="sec">Surplus Allocation — Visual Split</div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">Allocation by bucket (% of investable surplus)</div>
+        <div style="position:relative;height:240px"><canvas id="waAllocPie"></canvas></div>
+        <div class="alloc-grid" id="waAllocLegend"></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Monthly naira deployment (₦)</div>
+        <div style="position:relative;height:240px"><canvas id="waAllocBar"></canvas></div>
+      </div>
+    </div>
+
+    <div class="sec">Lump Sum Deployment Protocol</div>
+    <div class="windfall-box" style="margin-bottom:1rem">
+      <div class="wf-icon">⏱</div>
+      <div>
+        <div class="wf-title">72-Hour Cooling Period — Non-negotiable</div>
+        <div class="wf-text">Any bonus, windfall, or unexpected income triggers a mandatory 72-hour decision period before any deployment. Crypto / speculative bucket never exceeds 10% of any lump sum.</div>
+      </div>
+    </div>
+    <div class="lump-protocol-table">
+      <div class="lpt-hdr">
+        <div class="ch">Lump Sum Size</div><div class="ch c">Tranches</div><div class="ch">Schedule</div><div class="ch">Rule</div>
+      </div>
+      <div class="lpt-row"><div class="lpt-cell mono" style="color:var(--teal)">Below ₦500K</div><div class="lpt-cell mono" style="color:var(--gold2);text-align:center">1</div><div class="lpt-cell" style="font-size:12px">Deploy immediately per allocation %</div><div class="lpt-cell" style="font-size:11.5px;color:var(--muted)">Standard allocation applies</div></div>
+      <div class="lpt-row"><div class="lpt-cell mono" style="color:var(--amber)">₦500K — ₦5M</div><div class="lpt-cell mono" style="color:var(--gold2);text-align:center">3</div><div class="lpt-cell" style="font-size:12px">Month 0 / Month 1 / Month 2</div><div class="lpt-cell" style="font-size:11.5px;color:var(--muted)">Emergency fund topped up from Tranche 1 first</div></div>
+      <div class="lpt-row"><div class="lpt-cell mono" style="color:var(--red)">Above ₦5M</div><div class="lpt-cell mono" style="color:var(--gold2);text-align:center">6</div><div class="lpt-cell" style="font-size:12px">One per month over 6 months</div><div class="lpt-cell" style="font-size:11.5px;color:var(--muted)">Debt + Emergency Fund receive full share from Tranche 1</div></div>
+    </div>
+
+    <div style="padding:12px 16px;background:var(--bg2);border:1px solid rgba(248,113,113,.2);border-radius:var(--r);font-size:12px;color:var(--muted)">
+      <strong style="color:var(--red)">Crypto DCA Pause Rule:</strong> BTC/ETH DCA is paused until Emergency Fund is fully funded and Stanbic debt is on a clear clearance trajectory. No altcoin speculation without the 72-hour rule. BTC/ETH DCA only.
+    </div>
+  </div>
+
+  <!-- ══ SINKING FUNDS ══ -->
+  <div id="view-sinking" class="panel">
+    <div class="summary" id="sfSummary"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:1rem">
+      <p style="font-size:12px;color:var(--muted);max-width:600px">Each goal has a dedicated sinking fund. Monthly contributions accumulate until target is reached. No cross-contamination between funds. Update "Saved to Date" monthly during your 20-minute financial review.</p>
+      <button class="btn btn-sm btn-gold" onclick="openSFModal()">+ Add Goal</button>
+    </div>
+    <div id="sfCards"></div>
+  </div>
+
+  <!-- ══ DCA TRACKER ══ -->
+  <div id="view-dca" class="panel">
+    <div class="summary" id="dcaSummary"></div>
+    <div class="chart-toggle">
+      <span class="ctog active" onclick="dcaTab('ngx',this)">NGX — ACCESSCORP</span>
+      <span class="ctog" onclick="dcaTab('usd',this)">USD — PLAB</span>
+      <span class="ctog" onclick="dcaTab('spec',this)">Speculative Bucket</span>
+      <span class="ctog" onclick="dcaTab('rules',this)">DCA Rules</span>
+    </div>
+    <div id="dca-ngx"></div>
+    <div id="dca-usd" style="display:none"></div>
+    <div id="dca-spec" style="display:none"></div>
+    <div id="dca-rules" style="display:none"></div>
+  </div>
+
+  <!-- ══ NET WORTH ══ -->
+  <div id="view-networth" class="panel">
+    <div class="summary" id="nwSummary"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:1rem">
+      <p style="font-size:12px;color:var(--muted)">Update quarterly. Honest scoring only — this document is for you, not for performance.</p>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-sm" onclick="addNWPeriod()">+ Add Period</button>
+        <button class="btn btn-sm btn-gold" onclick="saveAll()">Save ✓</button>
+      </div>
+    </div>
+    <div class="nw-period-tabs" id="nwPeriodTabs"></div>
+    <div id="nwContent"></div>
+    <div class="sec" style="margin-top:1.5rem">Net Worth Trajectory</div>
+    <div class="chart-box full" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem">
+      <div class="chart-title">Net worth across all periods (₦)</div>
+      <div style="position:relative;height:200px"><canvas id="nwChart"></canvas></div>
     </div>
   </div>
 
@@ -465,7 +618,7 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
     <div class="summary" id="portSummary"></div>
     <div class="portfolio-tabs">
       <div class="ptab active" onclick="portTab('ngx')">NGX Equities</div>
-      <div class="ptab" onclick="portTab('us')">US Stocks & ETFs</div>
+      <div class="ptab" onclick="portTab('us')">US Stocks &amp; ETFs</div>
       <div class="ptab" onclick="portTab('crypto')">Crypto</div>
       <div class="ptab" onclick="portTab('reits')">REITs</div>
       <div class="ptab" onclick="portTab('bonds')">Bonds / T-Bills</div>
@@ -489,7 +642,7 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
   <!-- ══ MILESTONES ══ -->
   <div id="view-milestones" class="panel">
-    <div class="sec">Life milestones & savings goals</div>
+    <div class="sec">Life milestones &amp; savings goals</div>
     <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
       <button class="btn btn-sm btn-gold" onclick="openMilestoneModal()">+ Add milestone</button>
     </div>
@@ -512,7 +665,7 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
 <div class="toast" id="toast"></div>
 
-<!-- MODALS -->
+<!-- ══ MODALS ══ -->
 <div class="modal-bg" id="modalHolding">
   <div class="modal">
     <div class="modal-title" id="modalHoldingTitle">Add Holding</div>
@@ -648,6 +801,45 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
   </div>
 </div>
 
+<!-- Sinking Fund Modal -->
+<div class="modal-bg" id="modalSF">
+  <div class="modal">
+    <div class="modal-title">Add Sinking Fund Goal</div>
+    <div class="form-row"><label class="form-label">Goal Name</label><input class="form-input" id="sf_name" placeholder="e.g. Vacation Fund, Car, School Fees"></div>
+    <div class="form-row-2">
+      <div class="form-row"><label class="form-label">Target Amount (₦)</label><input class="form-input" id="sf_target" type="number" placeholder="0"></div>
+      <div class="form-row"><label class="form-label">Monthly Contribution (₦)</label><input class="form-input" id="sf_monthly" type="number" placeholder="0"></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row"><label class="form-label">Saved to Date (₦)</label><input class="form-input" id="sf_saved" type="number" placeholder="0"></div>
+      <div class="form-row"><label class="form-label">Target Date</label><input class="form-input" id="sf_date" placeholder="e.g. Aug 2026, 2028-2029"></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row"><label class="form-label">Horizon</label>
+        <select class="form-input" id="sf_horizon">
+          <option value="near">Near-term (under 2 years)</option>
+          <option value="mid">Medium-term (2-5 years)</option>
+          <option value="long">Long-term (5+ years)</option>
+          <option value="recurring">Recurring / Permanent</option>
+        </select>
+      </div>
+      <div class="form-row"><label class="form-label">Color</label>
+        <select class="form-input" id="sf_color">
+          <option value="#c9a84c">Gold</option><option value="#4ade80">Green</option>
+          <option value="#22d3ee">Cyan</option><option value="#f472b6">Pink</option>
+          <option value="#a78bfa">Purple</option><option value="#fbbf24">Amber</option>
+          <option value="#f87171">Red</option><option value="#2dd4bf">Teal</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row"><label class="form-label">Notes</label><input class="form-input" id="sf_notes" placeholder="Vehicle, conditions, rules for this fund"></div>
+    <div class="modal-actions">
+      <button class="btn btn-sm" onclick="closeModal('modalSF')">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="saveSFGoal()">Add Goal</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════════════════════════════════════
 // CONSTANTS & HELPERS
@@ -673,9 +865,8 @@ function bP(b){return b.items.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);}
 function bA(b){return b.items.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);}
 function totalP(bkts){return bkts.reduce((s,b)=>s+bP(b),0);}
 function totalA(bkts){return bkts.reduce((s,b)=>s+bA(b),0);}
-function incP(incomes){return incomes.filter(i=>i.type!=='lump').reduce((s,i)=>s+(parseFloat(i.planned)||0),0);}
-function incA(incomes){return incomes.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);}
 function incTotal(incomes){return incomes.reduce((s,i)=>s+(parseFloat(i.planned)||0),0);}
+function incA(incomes){return incomes.reduce((s,i)=>s+(parseFloat(i.actual)||0),0);}
 function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 
 // ═══════════════════════════════════════════════════════════
@@ -690,7 +881,6 @@ const DEFAULT_INCOMES=[
 ];
 
 const DEFAULT_BUCKETS=[
-  // FIXED OBLIGATIONS
   {id:'fixed',name:'Fixed Obligations',color:'#f87171',tag:'fixed',addable:true,items:[
     {name:'Rent',note:'Own apartment — monthly',planned:300000,actual:'',tag:'fixed',entity:'personal'},
     {name:'Transport — commute',note:'Ride-share, BRT, fuel (commute only)',planned:80000,actual:'',tag:'fixed',entity:'personal'},
@@ -698,12 +888,10 @@ const DEFAULT_BUCKETS=[
     {name:'HMO / health insurance',note:'',planned:20000,actual:'',tag:'fixed',entity:'personal'},
     {name:'Life insurance premium',note:'Term policy',planned:15000,actual:'',tag:'fixed',entity:'personal'},
   ]},
-  // DEBT REPAYMENT
   {id:'debt',name:'Debt Repayment',color:'#f43f5e',tag:'debt',addable:true,items:[
     {name:'Stanbic IBTC — bank loan',note:'₦250k/month · clears ~mid 2028',planned:250000,actual:'',tag:'debt',entity:'personal'},
     {name:'VGG — deferred',note:'On hold. They owe pension & taxes. Revisit 2028.',planned:0,actual:'',tag:'debt',entity:'personal'},
   ]},
-  // SAVINGS — separated from investments
   {id:'savings',name:'Savings',color:'#2dd4bf',tag:'save',addable:true,items:[
     {name:'Emergency fund',note:'Target ₦5m (3 months expenses) — Stanbic HY',planned:200000,actual:'',tag:'save',entity:'personal'},
     {name:'USD savings — dollar account',note:'Bamboo / Stanbic dollar. Naira hedge.',planned:150000,actual:'',tag:'save',entity:'personal'},
@@ -711,7 +899,6 @@ const DEFAULT_BUCKETS=[
     {name:'Wedding fund',note:'Deliberate allocation — no pressure on timing',planned:0,actual:'',tag:'ms',entity:'personal'},
     {name:'War chest — surplus parking',note:'Unallocated surplus → war chest for deployment',planned:0,actual:'',tag:'save',entity:'personal'},
   ]},
-  // INVESTMENTS — own top-level bucket
   {id:'investments',name:'Investments',color:'#a78bfa',tag:'inv',addable:true,items:[
     {name:'NGX equities — monthly DCA',note:'Dividend-paying blue chips. DRIP where possible.',planned:320000,actual:'',tag:'inv',entity:'personal'},
     {name:'US index fund — S&P 500',note:'Bamboo/Trove: VOO or IVV. Monthly. No stock picking.',planned:0,actual:'',tag:'inv',entity:'personal'},
@@ -723,7 +910,6 @@ const DEFAULT_BUCKETS=[
     {name:'Private equity / angel',note:'Direct startup stakes or co-investments. Long horizon.',planned:0,actual:'',tag:'inv',entity:'personal'},
     {name:'Commodities (Gold / agro)',note:'Store of value. Gold-backed instruments or direct.',planned:0,actual:'',tag:'inv',entity:'personal'},
   ]},
-  // BUSINESS ENTITIES
   {id:'axisgaia',name:'Business Entities',color:'#c9a84c',tag:'biz',addable:true,items:[
     {name:'ThinkATS — infrastructure & ops',note:'AWS, Cloudflare, dev tools, SaaS, domain',planned:80000,actual:'',tag:'biz',entity:'thinkats'},
     {name:'Resourcin — operating costs',note:'Marketing, admin, client engagement',planned:20000,actual:'',tag:'biz',entity:'resourcin'},
@@ -731,7 +917,6 @@ const DEFAULT_BUCKETS=[
     {name:'Legal & compliance buffer',note:'Annual CAC returns, FIRS, NDPR',planned:10000,actual:'',tag:'biz',entity:'axisgaia'},
     {name:'New entity / venture seed',note:'Reserve for new ventures under Trust structure',planned:0,actual:'',tag:'biz',entity:'trust'},
   ]},
-  // GROCERIES — separated
   {id:'groceries',name:'Groceries',color:'#f97316',tag:'var',addable:true,items:[
     {name:'Weekly grocery run — staples & protein',note:'',planned:160000,actual:'',tag:'var',entity:'personal'},
     {name:'Blueberries, grapes & premium fruit',note:'',planned:16000,actual:'',tag:'var',entity:'personal'},
@@ -739,14 +924,12 @@ const DEFAULT_BUCKETS=[
     {name:'Yoghurt & dairy',note:'',planned:24000,actual:'',tag:'var',entity:'personal'},
     {name:'Eggs (bulk)',note:'',planned:16000,actual:'',tag:'var',entity:'personal'},
   ]},
-  // KITCHEN / COOKING — separated
   {id:'kitchen',name:'Kitchen & Cooking',color:'#fb923c',tag:'var',addable:true,items:[
     {name:'Cooking gas refill',note:'12kg cylinder',planned:10000,actual:'',tag:'fixed',entity:'personal'},
     {name:'Alcohol — whiskey (1 bottle/month)',note:'',planned:40000,actual:'',tag:'var',entity:'personal'},
     {name:'Alcohol — wine (max 2 bottles/month)',note:'',planned:20000,actual:'',tag:'var',entity:'personal'},
     {name:'Restaurants & dining out',note:'Business lunches, social engagements',planned:25000,actual:'',tag:'var',entity:'personal'},
   ]},
-  // UTILITIES
   {id:'utilities',name:'Utilities & Connectivity',color:'#38bdf8',tag:'fixed',addable:true,items:[
     {name:'Electricity — NEPA prepaid',note:'',planned:40000,actual:'',tag:'fixed',entity:'personal'},
     {name:'Generator fuel',note:'',planned:100000,actual:'',tag:'fixed',entity:'personal'},
@@ -758,39 +941,33 @@ const DEFAULT_BUCKETS=[
     {name:'Fuel — personal errands (non-commute)',note:'',planned:30000,actual:'',tag:'var',entity:'personal'},
     {name:'Vehicle maintenance buffer',note:'',planned:20000,actual:'',tag:'var',entity:'personal'},
   ]},
-  // TOILETRIES — own bucket
   {id:'toiletries',name:'Toiletries & Grooming',color:'#e879f9',tag:'var',addable:true,items:[
     {name:'Toiletries & grooming',note:'Skincare, deodorant, personal care',planned:40000,actual:'',tag:'var',entity:'personal'},
     {name:'Haircut / barber',note:'',planned:20000,actual:'',tag:'var',entity:'personal'},
     {name:'Laundry — dry clean & wash',note:'',planned:20000,actual:'',tag:'var',entity:'personal'},
   ]},
-  // PERSONAL & HEALTH
   {id:'personal',name:'Personal & Health',color:'#ec4899',tag:'var',addable:true,items:[
     {name:'Gym / fitness membership',note:'',planned:50000,actual:'',tag:'fixed',entity:'personal'},
     {name:'Health & pharmacy buffer',note:'OTC meds, supplements, doctor visits',planned:15000,actual:'',tag:'var',entity:'personal'},
     {name:'Clothing & footwear',note:'Intentional only — not impulsive',planned:20000,actual:'',tag:'var',entity:'personal'},
   ]},
-  // LEARNING
   {id:'growth',name:'Learning & Growth',color:'#86efac',tag:'inv',addable:true,items:[
     {name:'Books — physical & digital',note:'2–3 per month',planned:8000,actual:'',tag:'inv',entity:'personal'},
     {name:'Online courses & platforms',note:'Coursera, Udemy, Selar',planned:10000,actual:'',tag:'inv',entity:'personal'},
     {name:'Software tools & subscriptions',note:'Claude Pro, Notion, design tools',planned:15000,actual:'',tag:'inv',entity:'personal'},
     {name:'Events, conferences, networking',note:'Professional visibility and deal flow',planned:10000,actual:'',tag:'inv',entity:'personal'},
   ]},
-  // GIVING
   {id:'giving',name:'Giving & Family',color:'#94a3b8',tag:'var',addable:true,items:[
     {name:'Family support — parents / siblings',note:'Intentional generosity',planned:20000,actual:'',tag:'var',entity:'personal'},
     {name:'Gifts & celebrations',note:'',planned:5000,actual:'',tag:'var',entity:'personal'},
     {name:'Tithe / sadaqah / charity',note:'',planned:15000,actual:'',tag:'var',entity:'personal'},
   ]},
-  // LEISURE
   {id:'leisure',name:'Leisure & Travel',color:'#818cf8',tag:'var',addable:true,items:[
     {name:'Streaming — Netflix / Showmax / Spotify',note:'',planned:7000,actual:'',tag:'fixed',entity:'personal'},
     {name:'Outings, concerts, experiences',note:'Capped and intentional',planned:15000,actual:'',tag:'var',entity:'personal'},
     {name:'Holiday travel fund',note:'Accumulate monthly toward annual trip',planned:20000,actual:'',tag:'save',entity:'personal'},
     {name:'Staycation / weekend getaway',note:'',planned:10000,actual:'',tag:'var',entity:'personal'},
   ]},
-  // BUFFER
   {id:'buffer',name:'Flex Buffer',color:'#64748b',tag:'var',addable:false,items:[
     {name:'Overflow — tap only if truly needed',note:'Unspent → war chest at month end',planned:15000,actual:'',tag:'var',entity:'personal'},
   ]},
@@ -812,9 +989,9 @@ const DEFAULT_MILESTONES=[
 
 const INVEST_POLICY=[
   {rule:'Never invest money you cannot afford to lock up for 12+ months in equities.'},
-  {rule:'Crypto: hard cap at 5% of total investable assets. BTC spot only. No leverage, no altcoins, no DeFi.'},
+  {rule:"Crypto: hard cap at 5% of total investable assets. BTC spot only. No leverage, no altcoins, no DeFi."},
   {rule:'Never chase a thesis after the entry window has closed. If you missed it, move on.'},
-  {rule:'All equity DCA mandates must survive a 40% drawdown. If they don\'t, reduce size — not conviction.'},
+  {rule:"All equity DCA mandates must survive a 40% drawdown. If they don't, reduce size — not conviction."},
   {rule:'Real estate purchases only with minimum 30% equity contribution. No 100% debt financing.'},
   {rule:'Private equity / angel investments: max 10% of total portfolio, single position max 3%.'},
   {rule:'Dollar savings account is naira hedge, not investment. Minimum $200/month when income allows.'},
@@ -833,10 +1010,110 @@ const ASSET_LIMITS=[
 ];
 
 // ═══════════════════════════════════════════════════════════
+// WEALTH ARCHITECTURE DEFAULTS (from Excel)
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_WA_INCOME=1700000;
+const DEFAULT_WA_ESSENTIALS=680000;
+const DEFAULT_WA_DEBT=300000;
+const DEFAULT_WA_SURPLUS=720000;
+
+const DEFAULT_WA_ALLOC=[
+  {goal:'Emergency Fund',pct:20,monthly:144000,duration:'Permanent (6-mo target)',vehicle:'Money Market / T-Bills (90-day)',priority:1,status:'building',color:'#2dd4bf'},
+  {goal:'NGX Equities — DCA',pct:25,monthly:180000,duration:'5–10 years minimum',vehicle:'ACCESSCORP (DCA anchor) + blue chips',priority:2,status:'active',color:'#4ade80'},
+  {goal:'USD Equities — DCA',pct:20,monthly:144000,duration:'5–7 years minimum',vehicle:'PLAB (DCA anchor) + S&P index',priority:3,status:'active',color:'#22d3ee'},
+  {goal:'Cash / War Chest',pct:10,monthly:72000,duration:'3–6 months then deploy',vehicle:'High-yield savings / 30-day T-Bills',priority:4,status:'building',color:'#c9a84c'},
+  {goal:'Crypto & Alternatives',pct:10,monthly:72000,duration:'3 years minimum',vehicle:'BTC 60% / ETH 30% / Alt 10% — DCA only',priority:5,status:'paused',color:'#f472b6'},
+  {goal:'Real Estate Sinking',pct:10,monthly:72000,duration:'Accumulate to target',vehicle:'Dedicated account — land acquisition fund',priority:6,status:'building',color:'#fb923c'},
+  {goal:'ThinkATS / Business',pct:5,monthly:36000,duration:'10 years',vehicle:'Capital reserve for ops/growth',priority:7,status:'active',color:'#a78bfa'},
+];
+
+// ═══════════════════════════════════════════════════════════
+// SINKING FUNDS DEFAULTS (from Excel)
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_SF=[
+  {id:'sf_1',name:'Rent Deposit & Move',target:600000,monthly:200000,saved:0,targetDate:'Aug 2026',horizon:'near',color:'#fbbf24',notes:'3 months deposit + agent fee. Magodo Ph1/Gbagada/Ikeja corridor. ≤₦3.6M/yr'},
+  {id:'sf_2',name:'Emergency Fund (6 months)',target:1020000,monthly:100000,saved:0,targetDate:'Dec 2026',horizon:'near',color:'#2dd4bf',notes:'6× monthly living (₦170K). T-bills / money market. SACRED — never touched'},
+  {id:'sf_3',name:'Debt Clearance — Stanbic',target:0,monthly:300000,saved:0,targetDate:'2027-2028',horizon:'near',color:'#f87171',notes:'₦300K/month committed. Target: full clearance. Track balance separately'},
+  {id:'sf_4',name:'Car',target:6000000,monthly:240000,saved:0,targetDate:'Mid 2027',horizon:'near',color:'#c9a84c',notes:'₦5-7M range. Clean used Mercedes or equivalent. ₦240K transport → car payment'},
+  {id:'sf_5',name:'Wedding',target:5000000,monthly:150000,saved:0,targetDate:'2028-2029',horizon:'mid',color:'#f472b6',notes:'₦5M floor. Accumulate in equities sinking — redeploy if timeline shifts'},
+  {id:'sf_6',name:'Land Acquisition',target:30000000,monthly:170000,saved:0,targetDate:'2028-2029',horizon:'mid',color:'#fb923c',notes:'Surulere / Gbagada / Yaba. ₦25-35M target. Dedicated account — no raiding'},
+  {id:'sf_7',name:'House Build',target:200000000,monthly:0,saved:0,targetDate:'2030-2032',horizon:'long',color:'#818cf8',notes:'₦200M+ custom build. Funded via land + ThinkATS equity + investment liquidation'},
+  {id:'sf_8',name:'School Fees Fund',target:2000000,monthly:50000,saved:0,targetDate:'Ongoing',horizon:'long',color:'#86efac',notes:'Start building now. Compounds into significant sum by school age'},
+  {id:'sf_9',name:'Vacation Fund',target:1500000,monthly:80000,saved:0,targetDate:'Annually',horizon:'recurring',color:'#22d3ee',notes:'Annual reset. Cruise / international. The Harvey Specter holiday — earned, not guilty'},
+  {id:'sf_10',name:'Health Emergency Reserve',target:500000,monthly:30000,saved:0,targetDate:'Ongoing',horizon:'recurring',color:'#4ade80',notes:'Separate from Emergency Fund. Medical only. HMO + cash buffer'},
+  {id:'sf_11',name:'Burial & Death Cover',target:0,monthly:20000,saved:0,targetDate:'Ongoing',horizon:'recurring',color:'#94a3b8',notes:'Life insurance premium or dedicated burial fund. Family protected regardless'},
+  {id:'sf_12',name:'Financial Independence',target:0,monthly:0,saved:0,targetDate:'2033-2035',horizon:'long',color:'#a78bfa',notes:'The sea. The fish. Work becomes a choice. Passive income ≥ total expenses'},
+];
+
+// ═══════════════════════════════════════════════════════════
+// DCA TRACKER DEFAULTS (from Excel)
+// ═══════════════════════════════════════════════════════════
+const DCA_MONTHS_NGX=['Jul 2026','Aug 2026','Sep 2026','Oct 2026','Nov 2026','Dec 2026','Jan 2027','Feb 2027','Mar 2027','Apr 2027','May 2027','Jun 2027'];
+const DCA_MONTHS_USD=['Jul 2026','Aug 2026','Sep 2026','Oct 2026','Nov 2026','Dec 2026','Jan 2027','Feb 2027','Mar 2027','Apr 2027','May 2027','Jun 2027'];
+
+function mkDcaNgxDefault(){return DCA_MONTHS_NGX.map((m,i)=>({month:m,amount:50000,price:0,units:0,notes:''}));}
+function mkDcaUsdDefault(){return DCA_MONTHS_USD.map((m,i)=>({month:m,amount:50,price:0,units:0,notes:''}));}
+
+const DEFAULT_SPEC_POSITIONS=[
+  {ticker:'NNBR',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'},
+  {ticker:'LODE',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'},
+  {ticker:'MP',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'},
+  {ticker:'UEC',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'},
+  {ticker:'UUUU',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'},
+  {ticker:'RNGR',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'},
+  {ticker:'EGY',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'},
+];
+
+// ═══════════════════════════════════════════════════════════
+// NET WORTH DEFAULTS (from Excel)
+// ═══════════════════════════════════════════════════════════
+const NW_ASSET_ITEMS=[
+  {id:'nw_cash',label:'Cash & Savings',note:'Current bank balance'},
+  {id:'nw_emf',label:'Emergency Fund',note:'Target: ₦1.02M (6 months)'},
+  {id:'nw_warchest',label:'War Chest / T-Bills',note:'Dry powder'},
+  {id:'nw_ngx',label:'NGX Equities (ACCESS+)',note:'At cost — update monthly'},
+  {id:'nw_usd',label:'USD Equities (PLAB+)',note:'Convert to NGN at spot rate'},
+  {id:'nw_crypto',label:'Crypto (BTC/ETH)',note:'At current market value'},
+  {id:'nw_thinkats',label:'ThinkATS Equity',note:'Estimated — conservative'},
+  {id:'nw_resourcin',label:'Resourcin Directorship',note:'Estimated fair value'},
+  {id:'nw_re',label:'Real Estate Sinking Fund',note:'Accumulating for land'},
+  {id:'nw_other',label:'Other Assets',note:''},
+];
+const NW_LIABILITY_ITEMS=[
+  {id:'nw_stanbic',label:'Stanbic Debt',note:'₦300K/month repayment plan'},
+  {id:'nw_other_liab',label:'Other Debts',note:''},
+];
+
+function mkNWPeriod(label){
+  const assets={};NW_ASSET_ITEMS.forEach(a=>assets[a.id]=0);
+  const liabilities={};NW_LIABILITY_ITEMS.forEach(l=>liabilities[l.id]=0);
+  return{label,assets,liabilities};
+}
+
+// ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
-const KEY='victorplc_v2';
-let S={months:{},fxRate:1600,fxStress:1700,holdings:[],dcaLog:[],milestones:JSON.parse(JSON.stringify(DEFAULT_MILESTONES)),entities:JSON.parse(JSON.stringify(DEFAULT_ENTITIES)),chestLedger:[],parking:[]};
+const KEY='victorplc_v3';
+let S={
+  months:{},
+  fxRate:1600,fxStress:1700,
+  holdings:[],dcaLog:[],
+  milestones:JSON.parse(JSON.stringify(DEFAULT_MILESTONES)),
+  entities:JSON.parse(JSON.stringify(DEFAULT_ENTITIES)),
+  chestLedger:[],parking:[],
+  // NEW: Wealth Architecture
+  waAlloc:JSON.parse(JSON.stringify(DEFAULT_WA_ALLOC)),
+  waIncome:DEFAULT_WA_INCOME,waEssentials:DEFAULT_WA_ESSENTIALS,waDebt:DEFAULT_WA_DEBT,
+  // NEW: Sinking Funds
+  sinkingFunds:JSON.parse(JSON.stringify(DEFAULT_SF)),
+  // NEW: DCA Tracker
+  dcaNGX:mkDcaNgxDefault(),
+  dcaUSD:mkDcaUsdDefault(),
+  specPositions:JSON.parse(JSON.stringify(DEFAULT_SPEC_POSITIONS)),
+  // NEW: Net Worth
+  nwPeriods:[mkNWPeriod('May 2026'),mkNWPeriod('Dec 2026'),mkNWPeriod('Dec 2027')],
+  curNWPeriod:0,
+};
 
 function load(){try{const s=localStorage.getItem(KEY);if(s){const p=JSON.parse(s);S={...S,...p};}}catch(e){console.error(e);}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){toast('Storage error — data not saved');}}
@@ -849,7 +1126,7 @@ function getMonth(m,y){
     const srcB=S.months[pk]?JSON.parse(JSON.stringify(S.months[pk].buckets)):JSON.parse(JSON.stringify(DEFAULT_BUCKETS));
     srcB.forEach(b=>b.items.forEach(i=>i.actual=''));
     const srcI=S.months[pk]?JSON.parse(JSON.stringify(S.months[pk].incomes||DEFAULT_INCOMES)):JSON.parse(JSON.stringify(DEFAULT_INCOMES));
-    srcI.forEach(i=>{i.actual='';if(i.type==='lump')i.planned=0;});// lump sums don't carry forward
+    srcI.forEach(i=>{i.actual='';if(i.type==='lump')i.planned=0;});
     S.months[k]={incomes:srcI,buckets:srcB,_open:{}};
   }
   return S.months[k];
@@ -869,7 +1146,7 @@ function nav(v){
   const monthNav=document.getElementById('monthNavEl');
   const copyBtn=document.getElementById('copyPrevBtn');
   const exportBtn=document.getElementById('exportBtn');
-  fxBar.style.display=(['budget','dashboard','warchest'].includes(v))?'flex':'none';
+  fxBar.style.display=(['budget','dashboard','warchest','wealth','networth'].includes(v))?'flex':'none';
   monthNav.style.display=(['budget','dashboard','annual'].includes(v))?'flex':'none';
   copyBtn.style.display=v==='budget'?'':'none';
   exportBtn.style.display=v==='budget'?'':'none';
@@ -877,6 +1154,10 @@ function nav(v){
     budget:['Monthly Budget','Zero-based · every naira assigned with intention'],
     dashboard:['Dashboard','Visual overview of your financial position'],
     annual:['Annual Review','Full-year snapshot — 12 months at a glance'],
+    wealth:['Wealth Architecture','Surplus allocation strategy · deployment protocols'],
+    sinking:['Sinking Funds','12 life goals · dedicated accumulation funds'],
+    dca:['DCA Tracker','ACCESSCORP · PLAB · Speculative bucket'],
+    networth:['Net Worth Snapshot','Quarterly assets, liabilities & net worth'],
     warchest:['War Chest','Deployable capital · parking instruments · projection'],
     portfolio:['Portfolio','All asset classes · P&L · DCA log'],
     milestones:['Milestones','Life goals and savings targets'],
@@ -888,6 +1169,10 @@ function nav(v){
   if(v==='budget')renderBudget();
   if(v==='dashboard')renderDashboard();
   if(v==='annual')renderAnnual();
+  if(v==='wealth')renderWealth();
+  if(v==='sinking')renderSinking();
+  if(v==='dca')renderDCA();
+  if(v==='networth')renderNetWorth();
   if(v==='warchest')renderWarchest();
   if(v==='portfolio')renderPortfolio();
   if(v==='milestones')renderMilestones();
@@ -921,10 +1206,12 @@ function onFxChange(){
   S.fxRate=parseFloat(document.getElementById('fxRate').value)||1600;
   S.fxStress=parseFloat(document.getElementById('fxStress').value)||1700;
   document.getElementById('fxDisplay').textContent='₦'+Math.round(S.fxRate).toLocaleString();
-  document.getElementById('fxStressDisplay').textContent='/ ₦'+Math.round(S.fxStress).toLocaleString();
+  document.getElementById('fxStressDisplay').textContent='/ ₦'+Math.round(S.fxStress||1700).toLocaleString();
   if(curView==='budget')renderBudget();
   if(curView==='dashboard')renderDashboard();
   if(curView==='warchest')renderWarchest();
+  if(curView==='wealth')renderWealth();
+  if(curView==='networth')renderNetWorth();
 }
 
 function dashView(which,el){
@@ -997,21 +1284,14 @@ function renderIncomeTable(md,pInc){
       <div class="cc c"><button class="del-btn" onclick="delIncome(${ii})">✕</button></div>
     </div>`;
   });
-
   const pRec=md.incomes.filter(i=>i.type!=='lump').reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
   const pLp=md.incomes.filter(i=>i.type==='lump').reduce((s,i)=>s+(parseFloat(i.planned)||0),0);
-
   document.getElementById('incomeTable').innerHTML=`<div class="card-table">
     <div class="ct-header" style="grid-template-columns:${cols}">
       <div class="ch">Source</div><div class="ch r">Planned (₦)</div><div class="ch r">Actual (₦)</div><div class="ch r">USD equiv</div><div class="ch c">Variance</div><div class="ch c">Entity</div><div class="ch"></div>
     </div>${rows}
     <div class="ct-footer">
-      <div style="font-size:11.5px;color:var(--muted)">
-        Recurring: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(pRec)}</strong>
-        ${pLp?` + Lump: <strong style="font-family:var(--mono);color:var(--amber)">${fmt(pLp)}</strong>`:''} 
-        · Total: <strong style="font-family:var(--mono);color:var(--text)">${fmt(pInc)}</strong>
-        · <span style="font-family:var(--mono);color:var(--muted)">$${Math.round(toUSD(pInc)).toLocaleString()}</span>
-      </div>
+      <div style="font-size:11.5px;color:var(--muted)">Recurring: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(pRec)}</strong>${pLp?` + Lump: <strong style="font-family:var(--mono);color:var(--amber)">${fmt(pLp)}</strong>`:''} · Total: <strong style="font-family:var(--mono);color:var(--text)">${fmt(pInc)}</strong> · <span style="font-family:var(--mono);color:var(--muted)">$${Math.round(toUSD(pInc)).toLocaleString()}</span></div>
     </div>
   </div>`;
 }
@@ -1031,7 +1311,6 @@ function renderBuckets(md,pInc){
       const v=act!==''?act-(parseFloat(item.planned)||0):'';
       const usd=Math.round(toUSD(parseFloat(item.planned)||0));
       const iPct=pInc>0?Math.round((parseFloat(item.planned)||0)/pInc*100):0;
-      // For expense buckets, overage is negative (red), underage is positive (green)
       const isExpense=['fixed','debt','var','biz','ms'].includes(item.tag);
       rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
         <div class="cc"><input class="edit-name" value="${esc(item.name)}" onchange="updItem(${bi},${ii},'name',this.value)"><input class="edit-note" value="${esc(item.note||'')}" onchange="updItem(${bi},${ii},'note',this.value)" placeholder="Note…"></div>
@@ -1109,7 +1388,6 @@ function renderDashboard(){
       charts['bar']=new Chart(document.getElementById('barChart').getContext('2d'),{type:'bar',data:{labels:nz.map(b=>b.name.split(' ')[0]),datasets:[{label:'Planned',data:nz.map(b=>bP(b)),backgroundColor:nz.map(b=>b.color+'88'),borderColor:nz.map(b=>b.color),borderWidth:1},{label:'Actual',data:nz.map(b=>bA(b)),backgroundColor:'rgba(255,255,255,.06)',borderColor:'rgba(255,255,255,.15)',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
     }
   }
-
   if(activeView==='byitem'&&document.getElementById('lineItemChart')){
     dc('lineItemChart');
     const allItems=[];
@@ -1117,7 +1395,6 @@ function renderDashboard(){
     allItems.sort((a,b)=>b.val-a.val);
     charts['lineItemChart']=new Chart(document.getElementById('lineItemChart').getContext('2d'),{type:'bar',data:{labels:allItems.map(i=>i.name),datasets:[{label:'Planned (₦)',data:allItems.map(i=>i.val),backgroundColor:allItems.map(i=>i.color+'aa'),borderColor:allItems.map(i=>i.color),borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${fmt(ctx.raw)} (${pInc>0?Math.round(ctx.raw/pInc*100):0}%)`}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#9ca3af',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}}}}});
   }
-
   if(activeView==='trends'){
     const labels12=[],netData=[],incData=[],spendData=[];
     for(let i=11;i>=0;i--){let m=curMonth-i,y=curYear;while(m<0){m+=12;y--;}labels12.push(MS[m]+' '+y);const k=mkey(m,y);if(S.months[k]){const d=S.months[k];const inc=incTotal(d.incomes||[]);const sp=totalP(d.buckets);netData.push(inc-sp);incData.push(inc);spendData.push(sp);}else{netData.push(0);incData.push(0);spendData.push(0);}}
@@ -1125,7 +1402,6 @@ function renderDashboard(){
     if(document.getElementById('netChart'))charts['netChart']=new Chart(document.getElementById('netChart').getContext('2d'),{type:'line',data:{labels:labels12,datasets:[{label:'Net surplus',data:netData,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.08)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#c9a84c'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
     if(document.getElementById('trendChart'))charts['trendChart']=new Chart(document.getElementById('trendChart').getContext('2d'),{type:'line',data:{labels:labels12,datasets:[{label:'Income',data:incData,borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,.06)',fill:true,tension:.4,pointRadius:3},{label:'Spending',data:spendData,borderColor:'#f87171',backgroundColor:'rgba(248,113,113,.06)',fill:true,tension:.4,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
   }
-
   if(activeView==='investments'){renderInvestDash();}
 }
 
@@ -1135,30 +1411,23 @@ function renderInvestDash(){
   const totalNGN=Object.values(byClass).reduce((s,v)=>s+v.val,0);
   const totalCost=Object.values(byClass).reduce((s,v)=>s+v.cost,0);
   const totalPL=totalNGN-totalCost;
-
   document.getElementById('investSummary').innerHTML=[
     {l:'Total portfolio (₦)',v:fmtK(totalNGN),c:'gold',s:'$'+Math.round(toUSD(totalNGN)).toLocaleString()+' USD equiv'},
     {l:'Total invested (cost)',v:fmtK(totalCost),c:'amber',s:'At avg cost basis'},
     {l:'Unrealised P&L',v:fmtK(totalPL),c:totalPL>=0?'green':'red',s:totalCost>0?Math.round(totalPL/totalCost*100)+'% return':'—'},
     {l:'Asset classes',v:Object.keys(byClass).length.toString(),c:'cyan',s:S.holdings.length+' positions · '+S.dcaLog.length+' DCA entries'},
   ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
-
-  // Pie by class
   dc('portPieChart');
   if(document.getElementById('portPieChart')&&Object.keys(byClass).length){
     const clsKeys=Object.keys(byClass);
     charts['portPieChart']=new Chart(document.getElementById('portPieChart').getContext('2d'),{type:'doughnut',data:{labels:clsKeys.map(k=>ASSET_CLASS_LABELS[k]||k),datasets:[{data:clsKeys.map(k=>byClass[k].val),backgroundColor:clsKeys.map(k=>(ASSET_CLASS_COLORS[k]||'#888')+'bb'),borderColor:clsKeys.map(k=>ASSET_CLASS_COLORS[k]||'#888'),borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:10}}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${fmtK(ctx.raw)} (${totalNGN>0?Math.round(ctx.raw/totalNGN*100):0}%)`}}}}});
     const lg=document.getElementById('portLegend');if(lg){lg.innerHTML='';clsKeys.forEach(k=>{const pct=totalNGN>0?Math.round(byClass[k].val/totalNGN*100):0;lg.innerHTML+=`<div class="alloc-item"><div class="alloc-dot" style="background:${ASSET_CLASS_COLORS[k]||'#888'}"></div><div class="alloc-name">${ASSET_CLASS_LABELS[k]||k}</div><div class="alloc-pct">${pct}%</div></div>`;});}
   }
-
-  // P&L bar by ticker
   dc('plChart');
   if(document.getElementById('plChart')&&S.holdings.length){
     const tickers=S.holdings.filter(h=>h.qty>0).map(h=>{const val=h.qty*(h.price||0);const cost=h.qty*(h.avgCost||h.cost||0);const pl=h.ccy==='USD'?toNGN(val-cost):val-cost;return{t:h.ticker,pl};}).sort((a,b)=>Math.abs(b.pl)-Math.abs(a.pl)).slice(0,12);
     charts['plChart']=new Chart(document.getElementById('plChart').getContext('2d'),{type:'bar',data:{labels:tickers.map(t=>t.t),datasets:[{label:'P&L (₦)',data:tickers.map(t=>t.pl),backgroundColor:tickers.map(t=>t.pl>=0?'rgba(74,222,128,.4)':'rgba(248,113,113,.4)'),borderColor:tickers.map(t=>t.pl>=0?'#4ade80':'#f87171'),borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw>=0?'+':''}${fmtK(ctx.raw)}`}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
   }
-
-  // DCA bar
   dc('dcaBarChart');
   if(document.getElementById('dcaBarChart')&&S.dcaLog.length){
     const byTicker={};
@@ -1199,6 +1468,382 @@ function renderAnnual(){
 }
 
 // ═══════════════════════════════════════════════════════════
+// WEALTH ARCHITECTURE
+// ═══════════════════════════════════════════════════════════
+function renderWealth(){
+  const surplus=S.waIncome-S.waEssentials-S.waDebt;
+  const totalMonthly=S.waAlloc.reduce((s,a)=>s+(a.monthly||0),0);
+  document.getElementById('waSummary').innerHTML=[
+    {l:'Gross Income (net)',v:fmt(S.waIncome),c:'gold',s:'KPMG midpoint · update when confirmed'},
+    {l:'Living Essentials',v:fmt(S.waEssentials),c:'amber',s:'40% cap · Rent + Food + Util + Transport'},
+    {l:'Debt Repayment',v:fmt(S.waDebt),c:'red',s:'Stanbic — non-negotiable until cleared'},
+    {l:'Investable Surplus',v:fmt(surplus),c:'green',s:'Base for all allocation percentages'},
+    {l:'Total Allocated',v:fmt(totalMonthly),c:'teal',s:surplus>0?Math.round(totalMonthly/surplus*100)+'% of surplus deployed':'—'},
+    {l:'USD equivalent',v:'$'+Math.round(toUSD(surplus)).toLocaleString(),c:'cyan',s:'At ₦'+Math.round(S.fxRate).toLocaleString()+'/$'},
+  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
+
+  // Income/surplus inputs
+  const inputRow=`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Income (₦):</span><input type="number" class="fx-input" style="width:130px" value="${S.waIncome}" onchange="S.waIncome=parseFloat(this.value)||0;renderWealth()"></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Essentials (₦):</span><input type="number" class="fx-input" style="width:130px" value="${S.waEssentials}" onchange="S.waEssentials=parseFloat(this.value)||0;renderWealth()"></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Debt (₦):</span><input type="number" class="fx-input" style="width:130px" value="${S.waDebt}" onchange="S.waDebt=parseFloat(this.value)||0;renderWealth()"></div>
+    <button class="btn btn-sm btn-gold" onclick="saveAll()">Save ✓</button>
+  </div>`;
+
+  const statusMap={active:'status-active',building:'status-building',paused:'status-paused',planned:'status-planned'};
+  const statusLabel={active:'Active',building:'Building',paused:'Paused*',planned:'Planned'};
+
+  const rows=S.waAlloc.map((a,i)=>`
+    <div class="ct-row" style="grid-template-columns:1fr 80px 110px 100px 1fr 90px">
+      <div class="cc"><strong style="font-size:13px">${esc(a.goal)}</strong></div>
+      <div class="cc c"><span style="font-family:var(--mono);font-size:13px;color:var(--gold2)">${a.pct}%</span></div>
+      <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${a.monthly}" onchange="S.waAlloc[${i}].monthly=parseFloat(this.value)||0;renderWealth()"></div></div>
+      <div class="cc" style="font-size:11.5px;color:var(--muted)">${esc(a.duration)}</div>
+      <div class="cc" style="font-size:11.5px;color:var(--muted)">${esc(a.vehicle)}</div>
+      <div class="cc c"><span class="status-badge ${statusMap[a.status]||'status-building'}">${statusLabel[a.status]||a.status}</span></div>
+    </div>`).join('');
+
+  document.getElementById('waAllocRows').innerHTML=rows;
+  document.getElementById('waAllocFooter').innerHTML=`<span>Total surplus allocated: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(totalMonthly)}</strong> / <span style="color:var(--muted)">${fmt(surplus)} available</span></span><span style="color:var(--muted);font-size:11.5px">${surplus>0?Math.round(totalMonthly/surplus*100)+'% deployed':'—'}</span>`;
+
+  // Insert input row before allocation table
+  const allocSection=document.querySelector('#view-wealth .card-table');
+  if(allocSection&&!document.getElementById('waInputRow')){
+    const div=document.createElement('div');div.id='waInputRow';div.innerHTML=inputRow;allocSection.parentNode.insertBefore(div,allocSection);
+  } else if(document.getElementById('waInputRow')){
+    document.getElementById('waInputRow').innerHTML=inputRow;
+  }
+
+  // Charts
+  dc('waAllocPie');dc('waAllocBar');
+  const nonZero=S.waAlloc.filter(a=>a.monthly>0);
+  if(document.getElementById('waAllocPie')&&nonZero.length){
+    charts['waAllocPie']=new Chart(document.getElementById('waAllocPie').getContext('2d'),{type:'doughnut',data:{labels:nonZero.map(a=>a.goal),datasets:[{data:nonZero.map(a=>a.pct),backgroundColor:nonZero.map(a=>a.color+'cc'),borderColor:nonZero.map(a=>a.color),borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw}% (${fmt(nonZero[ctx.dataIndex].monthly)})`}}}}});
+    const lg=document.getElementById('waAllocLegend');if(lg){lg.innerHTML=nonZero.map(a=>`<div class="alloc-item"><div class="alloc-dot" style="background:${a.color}"></div><div class="alloc-name">${a.goal}</div><div class="alloc-pct" style="color:${a.color}">${a.pct}%</div></div>`).join('');}
+  }
+  if(document.getElementById('waAllocBar')&&nonZero.length){
+    charts['waAllocBar']=new Chart(document.getElementById('waAllocBar').getContext('2d'),{type:'bar',data:{labels:nonZero.map(a=>a.goal.split(' ')[0]),datasets:[{label:'Monthly (₦)',data:nonZero.map(a=>a.monthly),backgroundColor:nonZero.map(a=>a.color+'99'),borderColor:nonZero.map(a=>a.color),borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmt(ctx.raw)}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// SINKING FUNDS
+// ═══════════════════════════════════════════════════════════
+function renderSinking(){
+  const total=S.sinkingFunds.reduce((s,f)=>s+(f.saved||0),0);
+  const totalTarget=S.sinkingFunds.filter(f=>f.target>0).reduce((s,f)=>s+f.target,0);
+  const totalMonthly=S.sinkingFunds.reduce((s,f)=>s+(f.monthly||0),0);
+  const nearTerm=S.sinkingFunds.filter(f=>f.horizon==='near').length;
+
+  document.getElementById('sfSummary').innerHTML=[
+    {l:'Total saved across all funds',v:fmtK(total),c:'gold',s:'$'+Math.round(toUSD(total)).toLocaleString()+' equiv'},
+    {l:'Total target (defined goals)',v:fmtK(totalTarget),c:'amber',s:'Across '+S.sinkingFunds.filter(f=>f.target>0).length+' goals with targets'},
+    {l:'Monthly contribution total',v:fmt(totalMonthly),c:'teal',s:'All active sinking fund allocations'},
+    {l:'Near-term goals',v:nearTerm.toString(),c:'orange',s:'Need attention in < 2 years'},
+  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
+
+  const horizonClass={near:'sf-near',mid:'sf-mid',long:'sf-long',recurring:'sf-recurring'};
+  const horizonLabel={near:'Near-term',mid:'Medium-term',long:'Long-term',recurring:'Recurring'};
+
+  const cards=document.getElementById('sfCards');
+  cards.innerHTML=S.sinkingFunds.map((f,i)=>{
+    const pct=f.target>0?Math.min(100,Math.round((f.saved||0)/f.target*100)):0;
+    const monthsLeft=f.monthly>0&&f.target>0?Math.ceil((f.target-(f.saved||0))/f.monthly):null;
+    const projected=f.monthly>0&&monthsLeft?Math.round((f.saved||0)+f.monthly*Math.min(monthsLeft,36)):f.saved||0;
+    const onTrack=f.target>0?projected>=f.target:true;
+    return`<div class="sf-card" style="border-color:${f.color}30">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${f.color},${f.color}44)"></div>
+      <div class="sf-header">
+        <div><div class="sf-name">${esc(f.name)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(f.notes)}</div></div>
+        <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+          <div class="sf-target">${f.target>0?fmt(f.target):'Open'}</div>
+          <span class="sf-horizon ${horizonClass[f.horizon]||'sf-mid'}">${horizonLabel[f.horizon]||f.horizon} · ${esc(f.targetDate)}</span>
+        </div>
+      </div>
+      ${f.target>0?`<div class="sf-bar-track"><div class="sf-bar-fill" style="width:${pct}%;background:${f.color}"></div></div>`:
+      '<div style="height:5px;margin:7px 0 6px"></div>'}
+      <div class="sf-meta">
+        <div class="sf-meta-item"><strong>${fmt(f.saved||0)}</strong>Saved to date ${f.target>0?`(${pct}%)`:''}</div>
+        <div class="sf-meta-item"><strong>${f.monthly?fmt(f.monthly):'—'}</strong>Monthly contribution</div>
+        <div class="sf-meta-item"><strong style="color:${onTrack?'var(--green)':'var(--amber)'}">${f.target>0&&monthsLeft?monthsLeft+' mo':f.target>0?'On track':'—'}</strong>${f.target>0?'Months to target':'Status'}</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--muted)">Update saved (₦):</span>
+        <input type="number" value="${f.saved||0}" onchange="updSF(${i},'saved',this.value)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:5px;width:110px;outline:none">
+        <span style="font-size:11px;color:var(--muted)">Monthly (₦):</span>
+        <input type="number" value="${f.monthly||0}" onchange="updSF(${i},'monthly',this.value)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:5px;width:100px;outline:none">
+        <button class="del-btn" onclick="delSF(${i})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openSFModal(){['sf_name','sf_target','sf_monthly','sf_saved','sf_date','sf_notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('modalSF').classList.add('open');}
+function saveSFGoal(){
+  const name=document.getElementById('sf_name').value.trim();
+  if(!name){toast('Enter goal name');return;}
+  S.sinkingFunds.push({id:'sf_'+Date.now(),name,target:parseFloat(document.getElementById('sf_target').value)||0,monthly:parseFloat(document.getElementById('sf_monthly').value)||0,saved:parseFloat(document.getElementById('sf_saved').value)||0,targetDate:document.getElementById('sf_date').value,horizon:document.getElementById('sf_horizon').value,color:document.getElementById('sf_color').value,notes:document.getElementById('sf_notes').value});
+  closeModal('modalSF');renderSinking();toast('Goal added');
+}
+function updSF(i,f,v){S.sinkingFunds[i][f]=parseFloat(v)||0;renderSinking();}
+function delSF(i){if(confirm('Remove this sinking fund?')){S.sinkingFunds.splice(i,1);renderSinking();}}
+
+// ═══════════════════════════════════════════════════════════
+// DCA TRACKER
+// ═══════════════════════════════════════════════════════════
+let curDcaTab='ngx';
+function dcaTab(t,el){
+  curDcaTab=t;
+  ['ngx','usd','spec','rules'].forEach(v=>{const d=document.getElementById('dca-'+v);if(d)d.style.display=v===t?'block':'none';});
+  document.querySelectorAll('#view-dca .ctog').forEach(e=>e.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderDCA();
+}
+
+function renderDCA(){
+  // Summary
+  const ngxDeployed=S.dcaNGX.reduce((s,r)=>s+(r.amount||0),0);
+  const usdDeployed=S.dcaUSD.reduce((s,r)=>s+(r.amount||0),0);
+  const ngxUnits=S.dcaNGX.reduce((s,r)=>s+(parseFloat(r.units)||0),0);
+  const usdUnits=S.dcaUSD.reduce((s,r)=>s+(parseFloat(r.units)||0),0);
+  const specTotal=S.specPositions.reduce((s,p)=>s+(parseFloat(p.currentVal)||0),0);
+
+  document.getElementById('dcaSummary').innerHTML=[
+    {l:'ACCESSCORP deployed (₦)',v:fmt(ngxDeployed),c:'green',s:ngxUnits>0?ngxUnits.toFixed(2)+' units accumulated':'0 units — update prices'},
+    {l:'PLAB deployed ($)',v:'$'+usdDeployed.toLocaleString(),c:'cyan',s:usdUnits>0?usdUnits.toFixed(4)+' shares accumulated':'0 shares — update prices'},
+    {l:'Speculative bucket',v:'$'+specTotal.toLocaleString(),c:'purple',s:S.specPositions.filter(p=>p.posSize&&p.posSize!=='—').length+' active positions'},
+    {l:'DCA discipline',v:'Fixed',c:'gold',s:'Fixed amount · fixed date · every month'},
+  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
+
+  if(curDcaTab==='ngx'){renderDCANGX();}
+  if(curDcaTab==='usd'){renderDCAUSD();}
+  if(curDcaTab==='spec'){renderDCASpec();}
+  if(curDcaTab==='rules'){renderDCARules();}
+}
+
+function renderDCANGX(){
+  const cols='100px 100px 90px 90px 100px 110px 90px 110px 110px 1fr';
+  let cumUnits=0,cumCost=0;
+  const rows=S.dcaNGX.map((r,i)=>{
+    const units=r.price>0?(r.amount/r.price):0;
+    cumUnits+=units;cumCost+=r.amount;
+    const curVal=r.currentPrice>0?cumUnits*r.currentPrice:0;
+    const pl=curVal-cumCost;
+    return`<div class="ct-row" style="grid-template-columns:${cols}">
+      <div class="cc" style="font-size:12px">${esc(r.month)}</div>
+      <div class="cc r"><input class="amt" type="number" value="${r.amount}" onchange="S.dcaNGX[${i}].amount=parseFloat(this.value)||0;renderDCA()"></div>
+      <div class="cc r"><input class="amt" type="number" value="${r.price||''}" placeholder="0" step="any" onchange="S.dcaNGX[${i}].price=parseFloat(this.value)||0;renderDCA()"></div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${units>0?units.toFixed(2):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${cumUnits>0?cumUnits.toFixed(2):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${fmt(cumCost)}</div>
+      <div class="cc r"><input class="amt" type="number" value="${r.currentPrice||''}" placeholder="0" step="any" onchange="S.dcaNGX[${i}].currentPrice=parseFloat(this.value)||0;renderDCA()"></div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--gold2)">${curVal>0?fmt(curVal):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${pl>=0?'var(--green)':'var(--red)'}">${pl!==0?(pl>0?'+':'')+fmt(pl):'—'}</div>
+      <div class="cc" style="font-size:11px;color:var(--muted)"><input class="edit-note" value="${esc(r.notes||'')}" placeholder="Notes…" onchange="S.dcaNGX[${i}].notes=this.value"></div>
+    </div>`;
+  }).join('');
+
+  const totalUnits=S.dcaNGX.reduce((s,r)=>s+(r.price>0?r.amount/r.price:0),0);
+  const totalCost=S.dcaNGX.reduce((s,r)=>s+r.amount,0);
+  const lastPrice=S.dcaNGX.slice().reverse().find(r=>r.currentPrice>0)?.currentPrice||0;
+  const totalVal=lastPrice>0?totalUnits*lastPrice:0;
+  const totalPL=totalVal-totalCost;
+
+  document.getElementById('dca-ngx').innerHTML=`
+    <div class="dca-ticker-header">
+      <div><div class="dca-ticker-name" style="color:var(--green)">ACCESSCORP (NGX)</div><div style="font-size:11px;color:var(--muted)">Primary DCA anchor · ₦50,000/month · blue-chip dividend stock</div></div>
+      <div class="dca-stat">Deployed: <strong>${fmt(totalCost)}</strong></div>
+      <div class="dca-stat">Units: <strong>${totalUnits.toFixed(2)}</strong></div>
+      <div class="dca-stat">Current value: <strong style="color:var(--gold2)">${totalVal>0?fmt(totalVal):'—'}</strong></div>
+      <div class="dca-stat">P&L: <strong style="color:${totalPL>=0?'var(--green)':'var(--red)'}">${totalPL!==0?(totalPL>0?'+':'')+fmt(totalPL):'—'}</strong></div>
+      <button class="btn btn-sm" onclick="addDCARow('ngx')">+ Add month</button>
+    </div>
+    <div class="card-table">
+      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Month</div><div class="ch r">Amount (₦)</div><div class="ch r">Buy Price</div><div class="ch r">Units Bought</div><div class="ch r">Cum. Units</div><div class="ch r">Cum. Cost</div><div class="ch r">Curr. Price</div><div class="ch r">Curr. Value</div><div class="ch r">P&L (₦)</div><div class="ch">Notes</div></div>
+      ${rows}
+    </div>`;
+}
+
+function renderDCAUSD(){
+  const cols='100px 80px 90px 90px 100px 100px 90px 100px 100px 1fr';
+  let cumUnits=0,cumCost=0;
+  const rows=S.dcaUSD.map((r,i)=>{
+    const units=r.price>0?(r.amount/r.price):0;
+    cumUnits+=units;cumCost+=r.amount;
+    const curVal=r.currentPrice>0?cumUnits*r.currentPrice:0;
+    const pl=curVal-cumCost;
+    return`<div class="ct-row" style="grid-template-columns:${cols}">
+      <div class="cc" style="font-size:12px">${esc(r.month)}</div>
+      <div class="cc r"><input class="amt" type="number" value="${r.amount}" onchange="S.dcaUSD[${i}].amount=parseFloat(this.value)||0;renderDCA()"></div>
+      <div class="cc r"><input class="amt" type="number" value="${r.price||''}" placeholder="0" step="any" onchange="S.dcaUSD[${i}].price=parseFloat(this.value)||0;renderDCA()"></div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${units>0?units.toFixed(4):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${cumUnits>0?cumUnits.toFixed(4):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">$${cumCost.toFixed(0)}</div>
+      <div class="cc r"><input class="amt" type="number" value="${r.currentPrice||''}" placeholder="0" step="any" onchange="S.dcaUSD[${i}].currentPrice=parseFloat(this.value)||0;renderDCA()"></div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--gold2)">${curVal>0?'$'+curVal.toFixed(2):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${pl>=0?'var(--green)':'var(--red)'}">${pl!==0?(pl>0?'+$':'-$')+Math.abs(pl).toFixed(2):'—'}</div>
+      <div class="cc" style="font-size:11px;color:var(--muted)"><input class="edit-note" value="${esc(r.notes||'')}" placeholder="Notes…" onchange="S.dcaUSD[${i}].notes=this.value"></div>
+    </div>`;
+  }).join('');
+
+  const totalUnits=S.dcaUSD.reduce((s,r)=>s+(r.price>0?r.amount/r.price:0),0);
+  const totalCost=S.dcaUSD.reduce((s,r)=>s+r.amount,0);
+  const lastPrice=S.dcaUSD.slice().reverse().find(r=>r.currentPrice>0)?.currentPrice||0;
+  const totalVal=lastPrice>0?totalUnits*lastPrice:0;
+  const totalPL=totalVal-totalCost;
+
+  document.getElementById('dca-usd').innerHTML=`
+    <div class="dca-ticker-header">
+      <div><div class="dca-ticker-name" style="color:var(--cyan)">PLAB — Photronics (USD)</div><div style="font-size:11px;color:var(--muted)">Primary USD DCA anchor · $50/month · S&P index also running parallel</div></div>
+      <div class="dca-stat">Deployed: <strong>$${totalCost.toLocaleString()}</strong></div>
+      <div class="dca-stat">Shares: <strong>${totalUnits.toFixed(4)}</strong></div>
+      <div class="dca-stat">Current value: <strong style="color:var(--gold2)">${totalVal>0?'$'+totalVal.toFixed(2):'—'}</strong></div>
+      <div class="dca-stat">P&L: <strong style="color:${totalPL>=0?'var(--green)':'var(--red)'}">${totalPL!==0?(totalPL>0?'+$':'-$')+Math.abs(totalPL).toFixed(2):'—'}</strong></div>
+      <button class="btn btn-sm" onclick="addDCARow('usd')">+ Add month</button>
+    </div>
+    <div class="card-table">
+      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Month</div><div class="ch r">Amount ($)</div><div class="ch r">Buy Price</div><div class="ch r">Shares Bought</div><div class="ch r">Cum. Shares</div><div class="ch r">Cum. Cost</div><div class="ch r">Curr. Price</div><div class="ch r">Curr. Value</div><div class="ch r">P&L ($)</div><div class="ch">Notes</div></div>
+      ${rows}
+    </div>`;
+}
+
+function renderDCASpec(){
+  const cols='90px 1fr 100px 90px 90px 90px 90px 80px 90px 1fr 30px';
+  const rows=S.specPositions.map((p,i)=>`
+    <div class="ct-row" style="grid-template-columns:${cols}">
+      <div class="cc"><strong style="font-family:var(--mono)">${esc(p.ticker)}</strong></div>
+      <div class="cc"><input class="edit-name" value="${esc(p.thesis)}" placeholder="One-line thesis" onchange="S.specPositions[${i}].thesis=this.value"></div>
+      <div class="cc r" style="font-size:11.5px;color:var(--muted)">${esc(p.entryDate)}</div>
+      <div class="cc r" style="font-size:11.5px;color:var(--muted)">${esc(p.entryPrice)}</div>
+      <div class="cc r"><input class="amt" type="number" value="${p.posSize!=='—'?p.posSize:''}" placeholder="—" step="any" onchange="S.specPositions[${i}].posSize=this.value||'—'"></div>
+      <div class="cc r"><input class="amt" type="number" value="${p.currentPrice||''}" placeholder="0" step="any" onchange="S.specPositions[${i}].currentPrice=parseFloat(this.value)||0;renderDCA()"></div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--gold2)">${p.currentVal?'$'+parseFloat(p.currentVal).toFixed(2):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${parseFloat(p.pl)>=0?'var(--green)':'var(--red)'}">${p.pl?'$'+parseFloat(p.pl).toFixed(2):'—'}</div>
+      <div class="cc c" style="font-size:11px;color:var(--muted)">${esc(p.rule72)}</div>
+      <div class="cc" style="font-size:11px;color:var(--muted)">${esc(p.exitTrigger)}</div>
+      <div class="cc c"><button class="del-btn" onclick="delSpec(${i})">✕</button></div>
+    </div>`).join('');
+
+  document.getElementById('dca-spec').innerHTML=`
+    <div style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.18);border-radius:var(--r);padding:12px 16px;margin-bottom:1rem">
+      <strong style="color:var(--red)">Speculative Bucket — Hard Rules:</strong>
+      <span style="font-size:12px;color:var(--muted);margin-left:8px">(1) Total never exceeds 10% of investable surplus &nbsp;·&nbsp; (2) 72-hour rule on every entry — no exceptions &nbsp;·&nbsp; (3) No leverage. Ever &nbsp;·&nbsp; (4) If this bucket goes to zero, life is unchanged. Size accordingly.</span>
+    </div>
+    <div class="card-table">
+      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Ticker</div><div class="ch">Thesis (1 line)</div><div class="ch r">Entry Date</div><div class="ch r">Entry Price</div><div class="ch r">Pos. Size ($)</div><div class="ch r">Curr. Price</div><div class="ch r">Curr. Value</div><div class="ch r">P&L</div><div class="ch c">72-hr?</div><div class="ch">Exit Trigger</div><div class="ch"></div></div>
+      ${rows}
+    </div>
+    <button class="add-btn" style="width:100%;margin:8px 0" onclick="addSpecRow()">+ Add position</button>`;
+}
+
+function renderDCARules(){
+  document.getElementById('dca-rules').innerHTML=`
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem">
+      <div style="font-family:var(--serif);font-size:18px;color:var(--gold2);margin-bottom:1rem">The DCA Manifesto</div>
+      ${['DCA discipline: fixed amount, fixed date, every month. Do not skip.','Do not time the market. Do not add extra on euphoria. Do not stop on fear.','ACCESSCORP (NGX) — ₦50,000/month. Primary NGX DCA anchor.','PLAB (Photronics) — $50/month. Primary USD DCA anchor.','If the market drops 20%, you celebrate. You are buying more units for the same money.','If the market drops 40%, you re-read this document and you do not sell.','Dollar-cost averaging is not a strategy for making money quickly. It is a strategy for becoming wealthy slowly. That is the point.','The exit condition for a DCA position is: the thesis is broken, not the price.'].map((r,i)=>`
+        <div class="policy-rule">
+          <div class="policy-num">${String(i+1).padStart(2,'0')}.</div>
+          <div class="policy-text">${esc(r)}</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function addDCARow(type){
+  if(type==='ngx'){S.dcaNGX.push({month:'New month',amount:50000,price:0,currentPrice:0,notes:''});}
+  else{S.dcaUSD.push({month:'New month',amount:50,price:0,currentPrice:0,notes:''});}
+  renderDCA();
+}
+function addSpecRow(){S.specPositions.push({ticker:'NEW',thesis:'—',entryDate:'—',entryPrice:'—',posSize:'—',currentPrice:0,currentVal:0,pl:0,rule72:'—',exitTrigger:'—'});renderDCA();}
+function delSpec(i){if(confirm('Remove position?')){S.specPositions.splice(i,1);renderDCA();}}
+
+// ═══════════════════════════════════════════════════════════
+// NET WORTH
+// ═══════════════════════════════════════════════════════════
+function renderNetWorth(){
+  if(!S.nwPeriods||!S.nwPeriods.length){S.nwPeriods=[mkNWPeriod('May 2026')];S.curNWPeriod=0;}
+  if(S.curNWPeriod>=S.nwPeriods.length)S.curNWPeriod=0;
+
+  // Period tabs
+  const tabs=document.getElementById('nwPeriodTabs');
+  tabs.innerHTML=S.nwPeriods.map((p,i)=>`<div class="nwtab${i===S.curNWPeriod?' active':''}" onclick="S.curNWPeriod=${i};renderNetWorth()">${esc(p.label)}</div>`).join('');
+
+  const period=S.nwPeriods[S.curNWPeriod];
+  const totalAssets=NW_ASSET_ITEMS.reduce((s,a)=>s+(parseFloat(period.assets[a.id])||0),0);
+  const totalLiab=NW_LIABILITY_ITEMS.reduce((s,l)=>s+(parseFloat(period.liabilities[l.id])||0),0);
+  const netWorth=totalAssets-totalLiab;
+
+  document.getElementById('nwSummary').innerHTML=[
+    {l:'Total Assets',v:fmtK(totalAssets),c:'gold',s:'$'+Math.round(toUSD(totalAssets)).toLocaleString()+' equiv'},
+    {l:'Total Liabilities',v:fmtK(totalLiab),c:'red',s:'Debt obligations'},
+    {l:'Net Worth',v:fmtK(netWorth),c:netWorth>=0?'green':'red',s:'The only number that truly matters'},
+    {l:'Period',v:period.label,c:'teal',s:'Update quarterly — honest scoring only'},
+  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
+
+  // Main table
+  const assetRows=NW_ASSET_ITEMS.map(a=>`
+    <div class="nw-row">
+      <div class="nw-label"><div>${esc(a.label)}</div><div class="nw-note">${esc(a.note)}</div></div>
+      <div class="nw-val"><input class="amt" type="number" value="${period.assets[a.id]||0}" style="text-align:right;font-family:var(--mono);font-size:13px;background:transparent;border:none;outline:none;color:var(--text);width:120px" onchange="S.nwPeriods[S.curNWPeriod].assets['${a.id}']=parseFloat(this.value)||0;renderNetWorth()"></div>
+    </div>`).join('');
+
+  const liabRows=NW_LIABILITY_ITEMS.map(l=>`
+    <div class="nw-row">
+      <div class="nw-label"><div>${esc(l.label)}</div><div class="nw-note">${esc(l.note)}</div></div>
+      <div class="nw-val"><input class="amt" type="number" value="${period.liabilities[l.id]||0}" style="text-align:right;font-family:var(--mono);font-size:13px;background:transparent;border:none;outline:none;color:var(--red);width:120px" onchange="S.nwPeriods[S.curNWPeriod].liabilities['${l.id}']=parseFloat(this.value)||0;renderNetWorth()"></div>
+    </div>`).join('');
+
+  document.getElementById('nwContent').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex-wrap:wrap" class="chart-grid">
+      <div>
+        <div class="card-table">
+          <div class="nw-section-hdr">ASSETS</div>
+          ${assetRows}
+          <div class="nw-total-row">
+            <div class="nw-label" style="font-weight:600;padding:9px 14px">TOTAL ASSETS</div>
+            <div class="nw-val" style="padding:9px 14px;text-align:right;font-family:var(--mono);font-weight:600;color:var(--gold2)">${fmt(totalAssets)}</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-table">
+          <div class="nw-section-hdr">LIABILITIES</div>
+          ${liabRows}
+          <div class="nw-total-row">
+            <div class="nw-label" style="font-weight:600;padding:9px 14px">TOTAL LIABILITIES</div>
+            <div class="nw-val" style="padding:9px 14px;text-align:right;font-family:var(--mono);font-weight:600;color:var(--red)">${fmt(totalLiab)}</div>
+          </div>
+        </div>
+        <div class="card-table" style="margin-top:.65rem">
+          <div class="nw-grand-row">
+            <div class="nw-label" style="font-family:var(--serif);font-size:16px;padding:12px 14px;color:var(--gold2)">NET WORTH</div>
+            <div class="nw-val" style="padding:12px 14px;text-align:right;font-family:var(--mono);font-size:18px;font-weight:600;color:${netWorth>=0?'var(--green)':'var(--red)'}">${fmt(netWorth)}</div>
+          </div>
+          <div style="padding:8px 14px;font-size:11px;color:var(--muted)">$${Math.round(toUSD(netWorth)).toLocaleString()} at ₦${Math.round(S.fxRate).toLocaleString()}/$ · Period: ${esc(period.label)}</div>
+        </div>
+      </div>
+    </div>`;
+
+  // Chart
+  dc('nwChart');
+  if(document.getElementById('nwChart')&&S.nwPeriods.length){
+    const labels=S.nwPeriods.map(p=>p.label);
+    const assets=S.nwPeriods.map(p=>NW_ASSET_ITEMS.reduce((s,a)=>s+(parseFloat(p.assets[a.id])||0),0));
+    const liabs=S.nwPeriods.map(p=>NW_LIABILITY_ITEMS.reduce((s,l)=>s+(parseFloat(p.liabilities[l.id])||0),0));
+    const nws=assets.map((a,i)=>a-liabs[i]);
+    charts['nwChart']=new Chart(document.getElementById('nwChart').getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Assets',data:assets,backgroundColor:'rgba(201,168,76,.35)',borderColor:'#c9a84c',borderWidth:1},{label:'Liabilities',data:liabs,backgroundColor:'rgba(248,113,113,.3)',borderColor:'#f87171',borderWidth:1},{label:'Net Worth',data:nws,type:'line',borderColor:'#4ade80',backgroundColor:'transparent',pointBackgroundColor:'#4ade80',pointRadius:5,tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:11}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
+  }
+}
+
+function addNWPeriod(){
+  const label=prompt('Period label (e.g. Jun 2027):');
+  if(!label)return;
+  S.nwPeriods.push(mkNWPeriod(label));
+  S.curNWPeriod=S.nwPeriods.length-1;
+  renderNetWorth();
+  toast('Period added');
+}
+
+// ═══════════════════════════════════════════════════════════
 // WAR CHEST
 // ═══════════════════════════════════════════════════════════
 function renderWarchest(){
@@ -1214,21 +1859,15 @@ function renderWarchest(){
     {l:'Parking instruments',v:fmtK(parkBalance),u:'',c:'teal',s:'Earning yield while awaiting deployment'},
     {l:'Est. monthly yield',v:fmtK(Math.round(parkYield)),u:'',c:'green',s:'From T-Bills, MMF, HY savings'},
     {l:'Total deployed',v:fmtK(totalDep),u:'',c:'purple',s:S.chestLedger.filter(e=>e.type==='deployed').length+' deployment events'},
-    {l:'Stress-test (₦'+Math.round(S.fxStress||1700).toLocaleString()+')','v':'$'+Math.round(balance/(S.fxStress||1700)).toLocaleString(),u:'',c:'amber',s:'Stress FX rate applied to balance'},
+    {l:'Stress-test (₦'+Math.round(S.fxStress||1700).toLocaleString()+')',"v":'$'+Math.round(balance/(S.fxStress||1700)).toLocaleString(),u:'',c:'amber',s:'Stress FX rate applied to balance'},
   ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div>${c.u?`<div class="ssub2">${c.u}</div>`:''}<div class="ssub">${c.s}</div></div>`).join('');
 
-  // Ledger
   const ledgerCols='110px 1fr 80px 100px 36px';
-  const sorted=[...S.chestLedger].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  let run=0;
-  const withBalance=[...S.chestLedger].sort((a,b)=>new Date(a.date)-new Date(b.date)).map(e=>{
-    const amt=parseFloat(e.amount)||0;
-    if(e.type==='inflow')run+=amt;else run-=amt;
+  const withBalance=[...S.chestLedger].sort((a,b)=>new Date(a.date)-new Date(b.date)).map((e,i,arr)=>{
+    let run=0;arr.slice(0,i+1).forEach(x=>{const a=parseFloat(x.amount)||0;if(x.type==='inflow')run+=a;else run-=a;});
     return{...e,bal:run};
   }).reverse();
-  const ledgerRows=withBalance.length?withBalance.map((e,i)=>{
-    const orig=S.chestLedger.findIndex(x=>x===withBalance[withBalance.length-1-i]);
-    const idx=S.chestLedger.length-1-i;
+  const ledgerRows=withBalance.length?withBalance.map((e)=>{
     const typeColor={inflow:'var(--green)',deployed:'var(--purple)',withdrawal:'var(--red)'}[e.type]||'var(--muted)';
     const sign={inflow:'+',deployed:'-',withdrawal:'-'}[e.type]||'';
     return`<div class="ct-row" style="grid-template-columns:${ledgerCols}">
@@ -1246,7 +1885,6 @@ function renderWarchest(){
     <div class="ct-footer"><span>Balance: <strong style="font-family:var(--mono);color:var(--gold2)">${fmtK(balance)}</strong></span><span style="color:var(--muted);font-size:11.5px">$${Math.round(toUSD(balance)).toLocaleString()} base · $${Math.round(balance/(S.fxStress||1700)).toLocaleString()} stress</span></div>
   </div>`;
 
-  // Parking
   const pkCols='1fr 100px 80px 100px 90px 36px';
   const pkRows=S.parking.length?S.parking.map((p,i)=>{
     const monthlyYield=((parseFloat(p.balance)||0)*(parseFloat(p.rate)||0)/100/12);
@@ -1265,7 +1903,6 @@ function renderWarchest(){
     <div class="ct-footer"><span>Total parked: <strong style="font-family:var(--mono);color:var(--teal)">${fmtK(parkBalance)}</strong></span><span>Est. yield: <strong style="font-family:var(--mono);color:var(--green)">${fmtK(Math.round(parkYield))}/month</strong></span></div>
   </div>`;
 
-  // Projection chart
   dc('chestChart');
   if(document.getElementById('chestChart')){
     const md=cmd();
@@ -1277,7 +1914,6 @@ function renderWarchest(){
     charts['chestChart']=new Chart(document.getElementById('chestChart').getContext('2d'),{type:'line',data:{labels,datasets:[{label:'Projected balance (₦)',data,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.07)',fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#c9a84c'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
   }
 
-  // FX sensitivity
   const el=document.getElementById('fxSensitivity');
   if(el){
     const rates=[1500,S.fxRate,S.fxStress,1800,2000];
@@ -1308,7 +1944,6 @@ function portTab(t){
 }
 
 function renderPortfolio(){
-  // Summary
   const byClass={};
   S.holdings.forEach(h=>{
     if(!byClass[h.cls])byClass[h.cls]={val:0,cost:0};
@@ -1350,7 +1985,7 @@ function holdingRows(holdings,ccy,cls){
     ?`<div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Name</div><div class="ch r">Units</div><div class="ch r">Avg Cost (₦)</div><div class="ch r">Curr Price (₦)</div><div class="ch r">Value (₦)</div><div class="ch r">P&L (₦)</div><div class="ch r">P&L %</div><div class="ch"></div></div>`
     :`<div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Name</div><div class="ch r">Units</div><div class="ch r">Avg Cost ($)</div><div class="ch r">Curr Price ($)</div><div class="ch r">Value ($)</div><div class="ch r">₦ equiv</div><div class="ch r">P&L %</div><div class="ch"></div></div>`;
   let rows='';
-  holdings.forEach((h,localIdx)=>{
+  holdings.forEach((h)=>{
     const globalIdx=S.holdings.indexOf(h);
     const val=h.qty*(h.price||0);const cost=h.qty*(h.avgCost||h.cost||0);const pl=val-cost;
     const plPct=cost>0?Math.round(pl/cost*100):0;
@@ -1390,7 +2025,7 @@ function renderDCALogTab(){
   const summaryRows=Object.values(byTicker).map(t=>{const avg=t.totalUnits>0?t.totalCost/t.totalUnits:0;const ccy=t.cls==='ngx'?'₦':'$';return`<div style="display:flex;gap:12px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;font-weight:500">${esc(t.ticker)}</div><div style="font-family:var(--mono);color:var(--muted)">${t.entries} purchases</div><div style="font-family:var(--mono)">${parseFloat(t.totalUnits).toFixed(4)} units</div><div style="font-family:var(--mono);color:var(--gold2)">Avg: ${ccy}${avg.toFixed(2)}</div><div style="font-family:var(--mono);color:var(--muted)">Total: ${ccy}${t.totalCost.toLocaleString()}</div></div>`;}).join('');
   const cols='100px 1fr 80px 80px 90px 90px 80px 36px';
   let rows='';
-  logs.forEach((l,i)=>{const origIdx=S.dcaLog.indexOf(l);const ccy=l.cls==='ngx'?'₦':'$';rows+=`<div class="ct-row" style="grid-template-columns:${cols}"><div class="cc" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${l.date||'—'}</div><div class="cc"><strong style="font-size:12.5px">${esc(l.ticker)}</strong><div style="font-size:10.5px;color:var(--muted)">${esc(l.note||'')}</div></div><div class="cc c"><span class="tag" style="background:${(ASSET_CLASS_COLORS[l.cls]||'#888')+'22'};color:${ASSET_CLASS_COLORS[l.cls]||'#888'}">${l.cls?.toUpperCase()}</span></div><div class="cc r" style="font-family:var(--mono);font-size:11.5px">${parseFloat(l.qty).toFixed(4)}</div><div class="cc r" style="font-family:var(--mono);font-size:11.5px">${ccy}${parseFloat(l.price).toFixed(2)}</div><div class="cc r" style="font-family:var(--mono);font-size:11.5px;color:var(--gold2)">${ccy}${parseFloat(l.total).toLocaleString()}</div><div class="cc c" style="font-size:10.5px;color:var(--muted)">${l.ccy}</div><div class="cc c"><button class="del-btn" onclick="delDCA(${origIdx})">✕</button></div></div>`;});
+  logs.forEach((l)=>{const origIdx=S.dcaLog.indexOf(l);const ccy=l.cls==='ngx'?'₦':'$';rows+=`<div class="ct-row" style="grid-template-columns:${cols}"><div class="cc" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${l.date||'—'}</div><div class="cc"><strong style="font-size:12.5px">${esc(l.ticker)}</strong><div style="font-size:10.5px;color:var(--muted)">${esc(l.note||'')}</div></div><div class="cc c"><span class="tag" style="background:${(ASSET_CLASS_COLORS[l.cls]||'#888')+'22'};color:${ASSET_CLASS_COLORS[l.cls]||'#888'}">${l.cls?.toUpperCase()}</span></div><div class="cc r" style="font-family:var(--mono);font-size:11.5px">${parseFloat(l.qty).toFixed(4)}</div><div class="cc r" style="font-family:var(--mono);font-size:11.5px">${ccy}${parseFloat(l.price).toFixed(2)}</div><div class="cc r" style="font-family:var(--mono);font-size:11.5px;color:var(--gold2)">${ccy}${parseFloat(l.total).toLocaleString()}</div><div class="cc c" style="font-size:10.5px;color:var(--muted)">${l.ccy}</div><div class="cc c"><button class="del-btn" onclick="delDCA(${origIdx})">✕</button></div></div>`;});
   document.getElementById('ptab-dca').innerHTML=`
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.75rem">
       <button class="btn btn-sm btn-gold" onclick="document.getElementById('modalDCA').classList.add('open')">+ Log purchase</button>
@@ -1407,7 +2042,7 @@ function openHoldingModal(cls){
   document.getElementById('mh_class').value=cls;
   document.getElementById('mh_ccy').value=(cls==='us'||cls==='crypto')?'USD':'NGN';
   ['mh_ticker','mh_qty','mh_cost','mh_price','mh_note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('modalHoldingTitle').textContent='Add '+ASSET_CLASS_LABELS[cls]||cls;
+  document.getElementById('modalHoldingTitle').textContent='Add '+(ASSET_CLASS_LABELS[cls]||cls);
   document.getElementById('modalHolding').classList.add('open');
 }
 function saveHolding(){
@@ -1523,7 +2158,7 @@ function renderPolicy(){
     </div>
     <div class="sec" style="margin-top:1.5rem">Alpha entry criteria — all 5 must pass before deployment</div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem">
-      ${['Thesis is written down in 3 sentences or fewer — if you can\'t, you don\'t understand it.','Entry price implies ≥ 20% upside to fair value estimate over 12–18 months.','Position survives a 40% drawdown without triggering a forced sale.','Does not violate any asset class hard limit after entry.','At least one asymmetric risk factor identified (political, macro, sector catalyst).'].map((r,i)=>`<div class="policy-rule"><div class="policy-num">0${i+1}.</div><div class="policy-text">${esc(r)}</div></div>`).join('')}
+      ${["Thesis is written down in 3 sentences or fewer — if you can't, you don't understand it.","Entry price implies ≥ 20% upside to fair value estimate over 12–18 months.","Position survives a 40% drawdown without triggering a forced sale.","Does not violate any asset class hard limit after entry.","At least one asymmetric risk factor identified (political, macro, sector catalyst)."].map((r,i)=>`<div class="policy-rule"><div class="policy-num">0${i+1}.</div><div class="policy-text">${esc(r)}</div></div>`).join('')}
     </div>`;
 }
 
@@ -1563,6 +2198,18 @@ document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e
 // ═══════════════════════════════════════════════════════════
 window.onload=()=>{
   load();
+  // Ensure new state keys exist (migration from v2 to v3)
+  if(!S.waAlloc)S.waAlloc=JSON.parse(JSON.stringify(DEFAULT_WA_ALLOC));
+  if(!S.waIncome)S.waIncome=DEFAULT_WA_INCOME;
+  if(!S.waEssentials)S.waEssentials=DEFAULT_WA_ESSENTIALS;
+  if(!S.waDebt)S.waDebt=DEFAULT_WA_DEBT;
+  if(!S.sinkingFunds)S.sinkingFunds=JSON.parse(JSON.stringify(DEFAULT_SF));
+  if(!S.dcaNGX)S.dcaNGX=mkDcaNgxDefault();
+  if(!S.dcaUSD)S.dcaUSD=mkDcaUsdDefault();
+  if(!S.specPositions)S.specPositions=JSON.parse(JSON.stringify(DEFAULT_SPEC_POSITIONS));
+  if(!S.nwPeriods)S.nwPeriods=[mkNWPeriod('May 2026'),mkNWPeriod('Dec 2026'),mkNWPeriod('Dec 2027')];
+  if(S.curNWPeriod===undefined)S.curNWPeriod=0;
+
   document.getElementById('fxRate').value=S.fxRate;
   document.getElementById('fxStress').value=S.fxStress||1700;
   document.getElementById('fxDisplay').textContent='₦'+Math.round(S.fxRate).toLocaleString();
