@@ -587,9 +587,6 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
   <div class="nav-section">
 
     <div class="nav-label">Wealth Architecture</div>
-
-    <div class="nav-item" onclick="nav('wealth')"><span class="nav-icon">◈</span> Wealth Architecture</div>
-
     <div class="nav-item" onclick="nav('sinking')"><span class="nav-icon">◇</span> Sinking Funds</div>
 
     <div class="nav-item" onclick="nav('dca')"><span class="nav-icon">⟳</span> DCA Tracker</div>
@@ -597,28 +594,6 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
     <div class="nav-item" onclick="nav('networth')"><span class="nav-icon">⬡</span> Net Worth</div>
 
   </div>
-
-  <div class="nav-section">
-
-    <div class="nav-label">Capital</div>
-
-    <div class="nav-item" onclick="nav('warchest')"><span class="nav-icon">⬡</span> War Chest</div>
-
-    <div class="nav-item" onclick="nav('portfolio')"><span class="nav-icon">◈</span> Portfolio</div>
-
-  </div>
-
-  <div class="nav-section">
-
-    <div class="nav-label">Structure</div>
-
-    <div class="nav-item" onclick="nav('entities')"><span class="nav-icon">☰</span> Entities</div>
-
-    <div class="nav-item" onclick="nav('policy')"><span class="nav-icon">§</span> Invest Policy</div>
-
-  </div>
-
-  <div class="nav-section">
 
     <div class="nav-label">History</div>
 
@@ -887,105 +862,6 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
   </div>
 
   <!-- ══ WEALTH ARCHITECTURE ══ -->
-
-  <div id="view-wealth" class="panel">
-
-    <div class="wa-mission">
-
-      <div class="wa-mission-text">"I am a patient, long-horizon investor and serial builder with a trained eye for value — in markets, businesses, and people. I invest to fund a specific life: beautiful, sophisticated, and completely free."</div>
-
-      <div class="wa-mission-attr">Victor Ephraim — Investment Mission Statement · AxisGaia v2.0</div>
-
-    </div>
-
-    <div class="summary" id="waSummary"></div>
-
-
-  <div id="waIncomeBanner" class="banner warn" style="display:none;margin-bottom:1rem"></div>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
-      <div class="sec" style="margin:0">Monthly Surplus Allocation Strategy <span style="font-size:11px;color:var(--teal);font-weight:400">· % automatically applies to your budget's investable surplus</span></div>
-      <button class="btn btn-sm btn-gold" onclick="addWAAlloc()">+ Add allocation</button>
-    </div>
-
-    <div class="card-table">
-
-      <div class="ct-header" style="grid-template-columns:2fr 90px 130px 110px 1fr 110px 36px">
-
-        <div class="ch">Goal / Bucket</div><div class="ch c">% Surplus</div><div class="ch r">Monthly (₦) auto</div><div class="ch">Duration</div><div class="ch c">Status</div><div class="ch c">Colour</div><div class="ch"></div>
-
-      </div>
-
-      <div id="waAllocRows"></div>
-
-      <div class="ct-footer" id="waAllocFooter"></div>
-
-    </div>
-
-    <div class="sec">Surplus Allocation — Visual Split</div>
-
-    <div class="chart-grid">
-
-      <div class="chart-box">
-
-        <div class="chart-title">Allocation by bucket (% of investable surplus)</div>
-
-        <div style="position:relative;height:240px"><canvas id="waAllocPie"></canvas></div>
-
-        <div class="alloc-grid" id="waAllocLegend"></div>
-
-      </div>
-
-      <div class="chart-box">
-
-        <div class="chart-title">Monthly naira deployment (₦)</div>
-
-        <div style="position:relative;height:240px"><canvas id="waAllocBar"></canvas></div>
-
-      </div>
-
-    </div>
-
-    <div class="sec">Lump Sum Deployment Protocol</div>
-
-    <div class="windfall-box" style="margin-bottom:1rem">
-
-      <div class="wf-icon">⏱</div>
-
-      <div>
-
-        <div class="wf-title">72-Hour Cooling Period — Non-negotiable</div>
-
-        <div class="wf-text">Any bonus, windfall, or unexpected income triggers a mandatory 72-hour decision period before any deployment. Crypto / speculative bucket never exceeds 10% of any lump sum.</div>
-
-      </div>
-
-    </div>
-
-    <div class="lump-protocol-table">
-
-      <div class="lpt-hdr">
-
-        <div class="ch">Lump Sum Size</div><div class="ch c">Tranches</div><div class="ch">Schedule</div><div class="ch">Rule</div>
-
-      </div>
-
-      <div class="lpt-row"><div class="lpt-cell mono" style="color:var(--teal)">Below ₦500K</div><div class="lpt-cell mono" style="color:var(--gold2);text-align:center">1</div><div class="lpt-cell" style="font-size:12px">Deploy immediately per allocation %</div><div class="lpt-cell" style="font-size:11.5px;color:var(--muted)">Standard allocation applies</div></div>
-
-      <div class="lpt-row"><div class="lpt-cell mono" style="color:var(--amber)">₦500K — ₦5M</div><div class="lpt-cell mono" style="color:var(--gold2);text-align:center">3</div><div class="lpt-cell" style="font-size:12px">Month 0 / Month 1 / Month 2</div><div class="lpt-cell" style="font-size:11.5px;color:var(--muted)">Emergency fund topped up from Tranche 1 first</div></div>
-
-      <div class="lpt-row"><div class="lpt-cell mono" style="color:var(--red)">Above ₦5M</div><div class="lpt-cell mono" style="color:var(--gold2);text-align:center">6</div><div class="lpt-cell" style="font-size:12px">One per month over 6 months</div><div class="lpt-cell" style="font-size:11.5px;color:var(--muted)">Debt + Emergency Fund receive full share from Tranche 1</div></div>
-
-    </div>
-
-    <div style="padding:12px 16px;background:var(--bg2);border:1px solid rgba(248,113,113,.2);border-radius:var(--r);font-size:12px;color:var(--muted)">
-
-      <strong style="color:var(--red)">Crypto DCA Pause Rule:</strong> BTC/ETH DCA is paused until Emergency Fund is fully funded and Stanbic debt is on a clear clearance trajectory. No altcoin speculation without the 72-hour rule. BTC/ETH DCA only.
-
-    </div>
-
-  </div>
-
   <!-- ══ SINKING FUNDS ══ -->
 
   <div id="view-sinking" class="panel">
@@ -1055,99 +931,10 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
   </div>
 
   <!-- ══ WAR CHEST ══ -->
-
-  <div id="view-warchest" class="panel">
-
-    <div class="summary" id="chestSummary"></div>
-
-    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
-
-      <div style="flex:1;min-width:280px">
-
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:.75rem">
-
-          <div class="sec" style="margin:0;flex:1">Ledger</div>
-
-          <button class="btn btn-sm btn-gold" onclick="openChestModal()">+ Entry</button>
-
-        </div>
-
-        <div id="chestLedger"></div>
-
-        <div class="sec">Parking instruments</div>
-
-        <div style="display:flex;justify-content:flex-end;margin-bottom:.5rem">
-
-          <button class="btn btn-sm" onclick="openParkingModal()">+ Add instrument</button>
-
-        </div>
-
-        <div id="parkingTable"></div>
-
-      </div>
-
-      <div style="flex:1;min-width:280px">
-
-        <div class="sec">24-month projection</div>
-
-        <div class="chart-box" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem">
-
-          <div class="chart-title">War chest growth (monthly net accumulation)</div>
-
-          <div style="position:relative;height:220px"><canvas id="chestChart"></canvas></div>
-
-        </div>
-
-        <div style="margin-top:1rem;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-size:12px">
-
-          <div style="color:var(--gold2);font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">FX Sensitivity</div>
-
-          <div id="fxSensitivity"></div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
   <!-- ══ PORTFOLIO ══ -->
-
-  <div id="view-portfolio" class="panel">
-
-    <div class="summary" id="portSummary"></div>
-
-    <div id="portfolioTabsBar" class="portfolio-tabs"></div>
-
-    <div id="portfolioTabPanels"></div>
-
-  </div>
-
   <!-- Milestones panel removed — redirected to Sinking Funds -->
-
-  <div id="view-milestones" class="panel" style="display:none"></div>
-
   <!-- ══ ENTITIES ══ -->
-
-  <div id="view-entities" class="panel">
-
-    <div class="sec">Entity register — Ephraim Family Trust</div>
-
-    <div id="entityList"></div>
-
-  </div>
-
   <!-- ══ POLICY ══ -->
-
-  <div id="view-policy" class="panel">
-
-    <div class="sec">Investment Policy Statement</div>
-
-    <div id="policyView"></div>
-
-  </div>
-
 </main>
 
 </div>
@@ -1155,231 +942,6 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 <div class="toast" id="toast"></div>
 
 <!-- ══ MODALS ══ -->
-
-<div class="modal-bg" id="modalHolding">
-
-  <div class="modal">
-
-    <div class="modal-title" id="modalHoldingTitle">Add Holding</div>
-
-    <div class="form-row"><label class="form-label">Ticker / Name</label><input class="form-input" id="mh_ticker" placeholder="e.g. ZENITHBANK, VOO, BTC, UPDC"></div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Units / Quantity</label><input class="form-input" id="mh_qty" type="number" placeholder="0" step="any"></div>
-
-      <div class="form-row"><label class="form-label">Avg cost per unit</label><input class="form-input" id="mh_cost" type="number" placeholder="0" step="any"></div>
-
-    </div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Current price</label><input class="form-input" id="mh_price" type="number" placeholder="0" step="any"></div>
-
-      <div class="form-row"><label class="form-label">Currency</label>
-
-        <select class="form-input" id="mh_ccy">
-
-          <option value="NGN">NGN (₦)</option>
-
-          <option value="USD">USD ($)</option>
-
-        </select>
-
-      </div>
-
-    </div>
-
-    <div class="form-row"><label class="form-label">Asset class</label>
-
-      <select class="form-input" id="mh_class"></select>
-
-    </div>
-
-    <div class="form-row"><label class="form-label">Notes (optional)</label><input class="form-input" id="mh_note" placeholder="e.g. DCA active, dividend play"></div>
-
-    <div class="modal-actions">
-
-      <button class="btn btn-sm" onclick="closeModal('modalHolding')">Cancel</button>
-
-      <button class="btn btn-gold btn-sm" onclick="saveHolding()">Save</button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="modal-bg" id="modalDCA">
-
-  <div class="modal">
-
-    <div class="modal-title">Log DCA Purchase</div>
-
-    <div class="form-row"><label class="form-label">Asset / Ticker</label><input class="form-input" id="md_ticker" placeholder="e.g. BTC, VOO, ZENITHBANK"></div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Date</label><input class="form-input" id="md_date" type="date"></div>
-
-      <div class="form-row"><label class="form-label">Asset class</label>
-
-        <select class="form-input" id="md_class"></select>
-
-      </div>
-
-    </div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Units bought</label><input class="form-input" id="md_qty" type="number" placeholder="0" step="any"></div>
-
-      <div class="form-row"><label class="form-label">Price per unit</label><input class="form-input" id="md_price" type="number" placeholder="0" step="any"></div>
-
-    </div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Currency</label>
-
-        <select class="form-input" id="md_ccy">
-
-          <option value="NGN">NGN (₦)</option>
-
-          <option value="USD">USD ($)</option>
-
-        </select>
-
-      </div>
-
-      <div class="form-row"><label class="form-label">Total cost (auto-calc)</label><input class="form-input" id="md_total" type="number" placeholder="0" step="any"></div>
-
-    </div>
-
-    <div class="form-row"><label class="form-label">Notes</label><input class="form-input" id="md_note" placeholder="e.g. Monthly DCA, dip buy, dividend reinvestment"></div>
-
-    <div class="modal-actions">
-
-      <button class="btn btn-sm" onclick="closeModal('modalDCA')">Cancel</button>
-
-      <button class="btn btn-gold btn-sm" onclick="saveDCA()">Log purchase</button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="modal-bg" id="modalMilestone">
-
-  <div class="modal">
-
-    <div class="modal-title">Add Milestone</div>
-
-    <div class="form-row"><label class="form-label">Name</label><input class="form-input" id="mm_name" placeholder="e.g. Wedding Fund, Land Deposit"></div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Target amount (₦)</label><input class="form-input" id="mm_target" type="number" placeholder="0"></div>
-
-      <div class="form-row"><label class="form-label">Target year</label><input class="form-input" id="mm_year" type="number" placeholder="2028"></div>
-
-    </div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Monthly allocation (₦)</label><input class="form-input" id="mm_monthly" type="number" placeholder="0"></div>
-
-      <div class="form-row"><label class="form-label">Current saved (₦)</label><input class="form-input" id="mm_saved" type="number" placeholder="0"></div>
-
-    </div>
-
-    <div class="form-row"><label class="form-label">Notes</label><input class="form-input" id="mm_note" placeholder=""></div>
-
-    <div class="modal-actions">
-
-      <button class="btn btn-sm" onclick="closeModal('modalMilestone')">Cancel</button>
-
-      <button class="btn btn-gold btn-sm" onclick="saveMilestone()">Save</button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="modal-bg" id="modalChest">
-
-  <div class="modal">
-
-    <div class="modal-title">War Chest Entry</div>
-
-    <div class="form-row"><label class="form-label">Date</label><input class="form-input" id="mc_date" type="date"></div>
-
-    <div class="form-row-2">
-
-      <div class="form-row"><label class="form-label">Type</label>
-
-        <select class="form-input" id="mc_type">
-
-          <option value="inflow">Inflow (deposit)</option>
-
-          <option value="deployed">Deployed (investment made)</option>
-
-          <option value="withdrawal">Withdrawal (planned)</option>
-
-        </select>
-
-      </div>
-
-      <div class="form-row"><label class="form-label">Amount (₦)</label><input class="form-input" id="mc_amount" type="number" placeholder="0"></div>
-
-    </div>
-
-    <div class="form-row"><label class="form-label">Description</label><input class="form-input" id="mc_desc" placeholder="e.g. Monthly surplus, NGX equity purchase"></div>
-
-    <div class="modal-actions">
-
-      <button class="btn btn-sm" onclick="closeModal('modalChest')">Cancel</button>
-
-      <button class="btn btn-gold btn-sm" onclick="saveChestEntry()">Save</button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="modal-bg" id="modalParking">
-
-  <div class="modal">
-
-    <div class="modal-title">Add Parking Instrument</div>
-
-    <div class="form-row"><label class="form-label">Name / Platform</label><input class="form-input" id="mp_name" placeholder="e.g. Cowrywise MMF, ARM T-Bill, Stanbic HY Savings"></div>
-
-    <div class="form-row-3">
-
-      <div class="form-row"><label class="form-label">Balance (₦)</label><input class="form-input" id="mp_balance" type="number" placeholder="0"></div>
-
-      <div class="form-row"><label class="form-label">Rate (% p.a.)</label><input class="form-input" id="mp_rate" type="number" placeholder="e.g. 18.5" step="any"></div>
-
-      <div class="form-row"><label class="form-label">Maturity / Tenor</label><input class="form-input" id="mp_tenor" placeholder="e.g. 90 days, rolling"></div>
-
-    </div>
-
-    <div class="modal-actions">
-
-      <button class="btn btn-sm" onclick="closeModal('modalParking')">Cancel</button>
-
-      <button class="btn btn-gold btn-sm" onclick="saveParking()">Save</button>
-
-    </div>
-
-  </div>
-
-</div>
-
 <!-- Sinking Fund Modal -->
 
 <div class="modal-bg" id="modalSF">
@@ -1477,13 +1039,7 @@ const TAG_CLASS={fixed:'tag-fixed',var:'tag-var',save:'tag-save',inv:'tag-inv',d
 const TAG_LABEL={fixed:'Fixed',var:'Variable',save:'Saving',inv:'Invest',debt:'Debt',biz:'Business',ms:'Milestone'};
 
 // Asset class helpers — reads from S.assetClasses (dynamic)
-function acLabel(k){const ac=S.assetClasses?.find(a=>a.id===k);return ac?ac.label:k;}
-function acColor(k){const ac=S.assetClasses?.find(a=>a.id===k);return ac?ac.color:'#888';}
-function acCcy(k){const ac=S.assetClasses?.find(a=>a.id===k);return ac?ac.ccy:'NGN';}
 // Legacy shims so old code using ASSET_CLASS_LABELS/COLORS still works
-const ASSET_CLASS_LABELS=new Proxy({},{get:(_,k)=>acLabel(k)});
-const ASSET_CLASS_COLORS=new Proxy({},{get:(_,k)=>acColor(k)});
-
 function fmt(n,ccy){if(n===''||n===null||n===undefined)return'—';const v=Math.round(n);if(ccy==='USD')return'$'+v.toLocaleString('en-US');return'₦'+v.toLocaleString('en-NG');}
 
 function fmtK(n){if(!n)return'₦0';const abs=Math.abs(n);const sign=n<0?'-':'';if(abs>=1e9)return sign+'₦'+(abs/1e9).toFixed(2)+'b';if(abs>=1e6)return sign+'₦'+(abs/1e6).toFixed(1)+'m';if(abs>=1e3)return sign+'₦'+(abs/1e3).toFixed(0)+'k';return sign+'₦'+abs;}
@@ -1717,71 +1273,6 @@ const DEFAULT_BUCKETS=[
   ]},
 
 ];
-
-const DEFAULT_ENTITIES=[
-
-  {id:'trust',name:'Ephraim Family Trust',type:'Trust',status:'Planned',notes:'Parent trust holding all entities. To be established on marriage or first child.',color:'#f472b6'},
-
-  {id:'axisgaia',name:'AxisGaia Limited',type:'Holdco',status:'Planned',notes:'Holding company. To be incorporated Q3 2026. Will own 100% of ThinkATS and Resourcin.',color:'#c9a84c'},
-
-  {id:'thinkats',name:'ThinkATS Technology Solutions Limited',type:'OpCo',status:'Active',regNo:'9151027',incorporated:'Jan 2026',notes:'SaaS ATS platform. "Hiring infrastructure for modern teams."',color:'#4ade80'},
-
-  {id:'resourcin',name:'Resourcin Human Capital Advisors Limited',type:'OpCo',status:'Active',regNo:'8087452',incorporated:'Nov 2024',notes:'Executive search and HR consulting. Birthed ThinkATS.',color:'#a78bfa'},
-
-];
-
-const DEFAULT_MILESTONES=[
-
-  {id:'ms_wedding',name:'Wedding Fund',target:5000000,monthly:0,saved:0,year:2028,color:'#f472b6',note:'No pressure. Accumulate deliberately.'},
-
-  {id:'ms_emfund',name:'Emergency Fund (3 months)',target:5000000,monthly:200000,saved:0,year:2027,color:'#2dd4bf',note:'Stanbic HY savings. Must be liquid.'},
-
-  {id:'ms_land',name:'Land / Home Deposit',target:10000000,monthly:50000,saved:0,year:2029,color:'#c9a84c',note:'First real estate acquisition. Ibeju-Lekki, Epe, Mowe, or equivalent.'},
-
-  {id:'ms_child1',name:"First Child — Education Fund",target:20000000,monthly:0,saved:0,year:2040,color:'#86efac',note:'Start from birth. Dollar-denominated index fund.'},
-
-];
-
-const INVEST_POLICY=[
-
-  {rule:'Never invest money you cannot afford to lock up for 12+ months in equities.'},
-
-  {rule:"Crypto: hard cap at 5% of total investable assets. BTC spot only. No leverage, no altcoins, no DeFi."},
-
-  {rule:'Never chase a thesis after the entry window has closed. If you missed it, move on.'},
-
-  {rule:"All equity DCA mandates must survive a 40% drawdown. If they don't, reduce size — not conviction."},
-
-  {rule:'Real estate purchases only with minimum 30% equity contribution. No 100% debt financing.'},
-
-  {rule:'Private equity / angel investments: max 10% of total portfolio, single position max 3%.'},
-
-  {rule:'Dollar savings account is naira hedge, not investment. Minimum $200/month when income allows.'},
-
-];
-
-const ASSET_LIMITS=[
-
-  {cls:'NGX Equities',target:'40%',max:'55%',note:'Core. DRIP. Dividend-paying blue chips only.'},
-
-  {cls:'US Stocks / ETFs',target:'15%',max:'25%',note:'Index funds only. No individual US stocks unless >5yr thesis.'},
-
-  {cls:'REITs (NGX)',target:'10%',max:'15%',note:'Bridge to direct real estate. UPDC, SFS, similar.'},
-
-  {cls:'Real Estate (direct)',target:'20%',max:'35%',note:'Primary asset class for long-term wealth. Acquire with surplus.'},
-
-  {cls:'Bonds / T-Bills',target:'5%',max:'15%',note:'Tactical. Park war chest here during deployment gaps.'},
-
-  {cls:'Crypto (BTC)',target:'2%',max:'5%',note:'HARD LIMIT. Spot only. No exceptions.'},
-
-  {cls:'Private Equity',target:'5%',max:'10%',note:'Long-horizon. Direct value creation exposure.'},
-
-  {cls:'Cash / MMF',target:'5%',max:'10%',note:'Deployment-ready capital. Not idle — earning yield.'},
-
-  {cls:'Commodities',target:'3%',max:'5%',note:'Gold-backed instruments for store of value.'},
-
-];
-
 // ═══════════════════════════════════════════════════════════
 
 // WEALTH ARCHITECTURE DEFAULTS (from Excel)
@@ -1789,28 +1280,6 @@ const ASSET_LIMITS=[
 // ═══════════════════════════════════════════════════════════
 
 const DEFAULT_WA_SURPLUS=720000;
-
-const DEFAULT_WA_ALLOC=[
-
-  {goal:'Emergency Fund',pct:20,monthly:144000,duration:'Permanent (6-mo target)',vehicle:'Money Market / T-Bills (90-day)',priority:1,status:'building',color:'#2dd4bf'},
-
-  {goal:'NGX Equities — DCA',pct:25,monthly:180000,duration:'5–10 years minimum',vehicle:'ACCESSCORP (DCA anchor) + blue chips',priority:2,status:'active',color:'#4ade80'},
-
-  {goal:'USD Equities — DCA',pct:20,monthly:144000,duration:'5–7 years minimum',vehicle:'PLAB (DCA anchor) + S&P index',priority:3,status:'active',color:'#22d3ee'},
-
-  {goal:'Cash / War Chest',pct:10,monthly:72000,duration:'3–6 months then deploy',vehicle:'High-yield savings / 30-day T-Bills',priority:4,status:'building',color:'#c9a84c'},
-
-  {goal:'Crypto & Alternatives',pct:10,monthly:72000,duration:'3 years minimum',vehicle:'BTC 60% / ETH 30% / Alt 10% — DCA only',priority:5,status:'paused',color:'#f472b6'},
-
-  {goal:'Real Estate Sinking',pct:10,monthly:72000,duration:'Accumulate to target',vehicle:'Dedicated account — land acquisition fund',priority:6,status:'building',color:'#fb923c'},
-
-  {goal:'ThinkATS / Business',pct:5,monthly:36000,duration:'10 years',vehicle:'Capital reserve for ops/growth',priority:7,status:'active',color:'#a78bfa'},
-
-];
-
-function delWAAlloc(i){if(confirm('Remove this allocation?')){S.waAlloc.splice(i,1);save();renderWealth();}}
-function addWAAlloc(){S.waAlloc.push({goal:'New goal',pct:5,duration:'—',vehicle:'—',status:'building',color:'#888888'});save();renderWealth();}
-
 // ═══════════════════════════════════════════════════════════
 
 // SINKING FUNDS DEFAULTS (from Excel)
@@ -1926,19 +1395,6 @@ function mkNWPeriod(label){
   return{label,assets,liabilities};
 
 }
-
-const DEFAULT_ASSET_CLASSES=[
-  {id:'ngx',label:'NGX Equities',color:'#4ade80',ccy:'NGN'},
-  {id:'us',label:'US Stocks & ETFs',color:'#22d3ee',ccy:'USD'},
-  {id:'crypto',label:'Crypto',color:'#f472b6',ccy:'USD'},
-  {id:'reits',label:'REITs',color:'#fbbf24',ccy:'NGN'},
-  {id:'bonds',label:'Bonds / T-Bills',color:'#818cf8',ccy:'NGN'},
-  {id:'realestate',label:'Real Estate',color:'#c9a84c',ccy:'NGN'},
-  {id:'pe',label:'Private Equity',color:'#fb923c',ccy:'NGN'},
-  {id:'mmf',label:'Cash / MMF',color:'#2dd4bf',ccy:'NGN'},
-  {id:'commodities',label:'Commodities',color:'#a3e635',ccy:'NGN'},
-];
-
 // ═══════════════════════════════════════════════════════════
 
 // STATE
@@ -1953,17 +1409,9 @@ let S={
 
   fxRate:1600,fxStress:1700,
 
-  holdings:[],dcaLog:[],
 
-  milestones:JSON.parse(JSON.stringify(DEFAULT_MILESTONES)),
-
-  entities:JSON.parse(JSON.stringify(DEFAULT_ENTITIES)),
-
-  chestLedger:[],parking:[],
 
   // NEW: Wealth Architecture
-
-  waAlloc:JSON.parse(JSON.stringify(DEFAULT_WA_ALLOC)),
 
   // NEW: Sinking Funds
 
@@ -1980,8 +1428,6 @@ let S={
   dcaTickers:JSON.parse(JSON.stringify(DEFAULT_DCA_TICKERS)),
 
   // Dynamic asset classes
-
-  assetClasses:JSON.parse(JSON.stringify(DEFAULT_ASSET_CLASSES)),
 
   // NEW: Net Worth
 
@@ -2094,7 +1540,6 @@ function nav(v){
 
     annual:['Annual Review','Full-year snapshot — 12 months at a glance'],
 
-    wealth:['Wealth Architecture','Surplus allocation strategy · deployment protocols'],
 
     sinking:['Sinking Funds','12 life goals · dedicated accumulation funds'],
 
@@ -2102,15 +1547,10 @@ function nav(v){
 
     networth:['Net Worth Snapshot','Quarterly assets, liabilities & net worth'],
 
-    warchest:['War Chest','Deployable capital · parking instruments · projection'],
 
-    portfolio:['Portfolio','All asset classes · P&L · DCA log'],
 
-    milestones:['Sinking Funds','Life goals · redirected to Sinking Funds'],
 
-    entities:['Entities','Ephraim Family Trust corporate structure'],
 
-    policy:['Investment Policy','Your written rules before every deployment decision'],
 
   };
 
@@ -2124,7 +1564,6 @@ function nav(v){
 
   if(v==='annual')renderAnnual();
 
-  if(v==='wealth')renderWealth();
 
   if(v==='sinking')renderSinking();
 
@@ -2132,15 +1571,11 @@ function nav(v){
 
   if(v==='networth')renderNetWorth();
 
-  if(v==='warchest')renderWarchest();
 
-  if(v==='portfolio')renderPortfolio();
 
   if(v==='milestones'){nav('sinking');return;}  // milestones merged into sinking funds
 
-  if(v==='entities')renderEntities();
 
-  if(v==='policy')renderPolicy();
 
 }
 
@@ -2198,9 +1633,7 @@ function onFxChange(){
 
   if(curView==='dashboard')renderDashboard();
 
-  if(curView==='warchest')renderWarchest();
 
-  if(curView==='wealth')renderWealth();
 
   if(curView==='networth')renderNetWorth();
 
@@ -2674,89 +2107,6 @@ function renderAnnual(){
 // WEALTH ARCHITECTURE
 
 // ═══════════════════════════════════════════════════════════
-
-function renderWealth(){
-  // Read entirely from budget — no separate waIncome/waEssentials
-  const {pInc,debt,essentials,savings,investments,surplus,investable,md}=bt();
-  // totalMonthly now computed per-row from pct × investable — see liveTotal below
-
-  document.getElementById('waSummary').innerHTML=[
-    {l:'Monthly income (from budget)',v:fmt(pInc),c:'gold',s:pInc?'Live from cashflow · '+md.incomes.filter(i=>parseFloat(i.planned)>0).length+' income streams':'Set income in Budget tab'},
-    {l:'Living essentials',v:fmt(essentials),c:'amber',s:'Fixed + Food + Utilities + Personal · '+Math.round(pInc>0?essentials/pInc*100:0)+'% of income'},
-    {l:'Debt repayment',v:fmt(debt),c:'red',s:'From budget debt bucket · non-negotiable until cleared'},
-    {l:'Investable surplus',v:fmt(investable),c:'green',s:'Income − essentials − debt · base for all allocations'},
-    {l:'Total % allocated (WA)',v:(()=>{const tp=S.waAlloc.reduce((s,a)=>s+(a.pct||0),0);return tp+'%';})(),c:'teal',s:(()=>{const lt=investable>0?S.waAlloc.reduce((s,a)=>s+Math.round(investable*a.pct/100),0):0;return lt>0?fmt(lt)+' /month from budget':'Set % allocations below'})()},
-    {l:'USD equivalent',v:'$'+Math.round(toUSD(investable)).toLocaleString(),c:'cyan',s:'At ₦'+Math.round(S.fxRate).toLocaleString()+'/$'},
-  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
-
-  const incomeBanner=document.getElementById('waIncomeBanner');
-  if(incomeBanner){
-    if(!pInc){
-      incomeBanner.style.display='block';
-      incomeBanner.innerHTML='⚠ No income found in the current month budget. <a href="#" onclick="nav(\'budget\');return false" style="color:var(--gold2)">Go to Budget →</a>';
-    } else {
-      incomeBanner.style.display='none';
-    }
-  }
-
-  const statusMap={active:'status-active',building:'status-building',paused:'status-paused',planned:'status-planned'};
-  const statusLabel={active:'Active',building:'Building',paused:'Paused*',planned:'Planned'};
-
-  // Compute each allocation's monthly from pct × investable (live from budget)
-  // If user manually overrides monthly, pct is back-computed; pct is the authority
-  const rows=S.waAlloc.map((a,i)=>{
-    const computed=investable>0?Math.round(investable*a.pct/100):0;
-    // Show computed value; user can override pct to change it
-    return`<div class="ct-row" style="grid-template-columns:2fr 90px 130px 110px 1fr 110px 36px">
-      <div class="cc">
-        <input class="edit-name" value="${esc(a.goal)}" onchange="S.waAlloc[${i}].goal=this.value;save();renderWealth()">
-        <input class="edit-note" value="${esc(a.vehicle)}" placeholder="Vehicle / account" onchange="S.waAlloc[${i}].vehicle=this.value;save()">
-      </div>
-      <div class="cc c">
-        <div class="amt-cell"><input class="amt" type="number" value="${a.pct}" step="1" min="0" max="100" onchange="S.waAlloc[${i}].pct=parseFloat(this.value)||0;save();renderWealth()" style="text-align:center"></div>
-        <div style="font-size:9px;color:var(--muted);text-align:center">% of surplus</div>
-      </div>
-      <div class="cc r">
-        <div style="font-family:var(--mono);font-size:13px;color:var(--gold2)">${fmt(computed)}</div>
-        <div style="font-size:9px;color:var(--muted)">auto · from budget</div>
-      </div>
-      <div class="cc">
-        <input class="edit-note" value="${esc(a.duration)}" placeholder="Duration / horizon" onchange="S.waAlloc[${i}].duration=this.value;save()">
-      </div>
-      <div class="cc c">
-        <select style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-size:11px;padding:3px 6px;border-radius:4px;width:100%" onchange="S.waAlloc[${i}].status=this.value;save();renderWealth()">
-          ${['active','building','paused','planned'].map(s=>`<option value="${s}"${a.status===s?' selected':''}>${statusLabel[s]}</option>`).join('')}
-        </select>
-      </div>
-      <div class="cc c"><input type="color" value="${a.color||'#888'}" style="background:none;border:none;cursor:pointer;width:36px;height:24px" onchange="S.waAlloc[${i}].color=this.value;save();renderWealth()"></div>
-      <div class="cc c"><button class="del-btn" onclick="delWAAlloc(${i})">✕</button></div>
-    </div>`;
-  }).join('');
-
-  const liveTotal=investable>0?S.waAlloc.reduce((s,a)=>s+Math.round(investable*a.pct/100),0):0;
-  const totalPct=S.waAlloc.reduce((s,a)=>s+(a.pct||0),0);
-  document.getElementById('waAllocRows').innerHTML=rows;
-  document.getElementById('waAllocFooter').innerHTML=`
-    <span>Total % allocated: <strong style="font-family:var(--mono);color:${totalPct>100?'var(--red)':'var(--gold2)'}">${totalPct}%</strong>
-    · Monthly: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(liveTotal)}</strong>
-    / <span style="color:var(--muted)">${fmt(investable)} investable</span></span>
-    <span style="color:${totalPct>100?'var(--red)':'var(--muted)'};font-size:11.5px">${totalPct>100?'⚠ Over-allocated — reduce %':'Remaining: '+fmt(Math.max(0,investable-liveTotal))}</span>`;
-
-  const old2=document.getElementById('waInputRow');if(old2)old2.remove();
-
-  // Charts
-  dc('waAllocPie');dc('waAllocBar');
-  const nonZero=S.waAlloc.filter(a=>a.monthly>0);
-  if(document.getElementById('waAllocPie')&&nonZero.length){
-    charts['waAllocPie']=new Chart(document.getElementById('waAllocPie').getContext('2d'),{type:'doughnut',data:{labels:nonZero.map(a=>a.goal),datasets:[{data:nonZero.map(a=>a.pct),backgroundColor:nonZero.map(a=>a.color+'cc'),borderColor:nonZero.map(a=>a.color),borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw}% (${fmt(nonZero[ctx.dataIndex].monthly)})`}}}}});
-    const lg=document.getElementById('waAllocLegend');if(lg){lg.innerHTML=nonZero.map(a=>`<div class="alloc-item"><div class="alloc-dot" style="background:${a.color}"></div><div class="alloc-name">${a.goal}</div><div class="alloc-pct" style="color:${a.color}">${a.pct}%</div></div>`).join('');}
-  }
-  if(document.getElementById('waAllocBar')&&nonZero.length){
-    charts['waAllocBar']=new Chart(document.getElementById('waAllocBar').getContext('2d'),{type:'bar',data:{labels:nonZero.map(a=>a.goal.split(' ')[0]),datasets:[{label:'Monthly (₦)',data:nonZero.map(a=>a.monthly),backgroundColor:nonZero.map(a=>a.color+'99'),borderColor:nonZero.map(a=>a.color),borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmt(ctx.raw)}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
-  }
-}
-
-
 // ═══════════════════════════════════════════════════════════
 
 // SINKING FUNDS
@@ -3141,165 +2491,6 @@ function addNWPeriod(){
 // WAR CHEST
 
 // ═══════════════════════════════════════════════════════════
-
-function renderWarchest(){
-
-  const totalIn=S.chestLedger.filter(e=>e.type==='inflow').reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
-
-  const totalDep=S.chestLedger.filter(e=>e.type==='deployed').reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
-
-  const totalOut=S.chestLedger.filter(e=>e.type==='withdrawal').reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
-
-  const balance=totalIn-totalDep-totalOut;
-
-  const parkBalance=S.parking.reduce((s,p)=>s+(parseFloat(p.balance)||0),0);
-
-  const parkYield=S.parking.reduce((s,p)=>s+(parseFloat(p.balance)||0)*(parseFloat(p.rate)||0)/100/12,0);
-
-  document.getElementById('chestSummary').innerHTML=[
-
-    {l:'War chest balance',v:fmtK(balance),u:'$'+Math.round(toUSD(balance)).toLocaleString(),c:'gold',s:'Total inflows minus deployed & withdrawals'},
-
-    {l:'Parking instruments',v:fmtK(parkBalance),u:'',c:'teal',s:'Earning yield while awaiting deployment'},
-
-    {l:'Est. monthly yield',v:fmtK(Math.round(parkYield)),u:'',c:'green',s:'From T-Bills, MMF, HY savings'},
-
-    {l:'Total deployed',v:fmtK(totalDep),u:'',c:'purple',s:S.chestLedger.filter(e=>e.type==='deployed').length+' deployment events'},
-
-    {l:'Stress-test (₦'+Math.round(S.fxStress||1700).toLocaleString()+')',"v":'$'+Math.round(balance/(S.fxStress||1700)).toLocaleString(),u:'',c:'amber',s:'Stress FX rate applied to balance'},
-
-  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div>${c.u?`<div class="ssub2">${c.u}</div>`:''}<div class="ssub">${c.s}</div></div>`).join('');
-
-  const ledgerCols='110px 1fr 80px 100px 36px';
-
-  const withBalance=[...S.chestLedger].sort((a,b)=>new Date(a.date)-new Date(b.date)).map((e,i,arr)=>{
-
-    let run=0;arr.slice(0,i+1).forEach(x=>{const a=parseFloat(x.amount)||0;if(x.type==='inflow')run+=a;else run-=a;});
-
-    return{...e,bal:run};
-
-  }).reverse();
-
-  const ledgerRows=withBalance.length?withBalance.map((e)=>{
-
-    const typeColor={inflow:'var(--green)',deployed:'var(--purple)',withdrawal:'var(--red)'}[e.type]||'var(--muted)';
-
-    const sign={inflow:'+',deployed:'-',withdrawal:'-'}[e.type]||'';
-
-    return`<div class="ct-row" style="grid-template-columns:${ledgerCols}">
-
-      <div class="cc" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${e.date||'—'}</div>
-
-      <div class="cc"><div style="font-size:12.5px">${esc(e.desc||'')}</div><div style="font-size:10px;color:${typeColor};text-transform:uppercase;letter-spacing:.5px">${e.type}</div></div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:12px;color:${typeColor}">${sign}${fmtK(parseFloat(e.amount)||0)}</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:12px;color:var(--gold2)">${fmtK(e.bal)}</div>
-
-      <div class="cc c"><button class="del-btn" onclick="delChestEntry(${S.chestLedger.indexOf(e)})">✕</button></div>
-
-    </div>`;
-
-  }).join(''):'<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">No entries yet. Log your first deposit above.</div>';
-
-  document.getElementById('chestLedger').innerHTML=`<div class="card-table">
-
-    <div class="ct-header" style="grid-template-columns:${ledgerCols}"><div class="ch">Date</div><div class="ch">Description</div><div class="ch r">Amount</div><div class="ch r">Running balance</div><div class="ch"></div></div>
-
-    ${ledgerRows}
-
-    <div class="ct-footer"><span>Balance: <strong style="font-family:var(--mono);color:var(--gold2)">${fmtK(balance)}</strong></span><span style="color:var(--muted);font-size:11.5px">$${Math.round(toUSD(balance)).toLocaleString()} base · $${Math.round(balance/(S.fxStress||1700)).toLocaleString()} stress</span></div>
-
-  </div>`;
-
-  const pkCols='1fr 100px 80px 100px 90px 36px';
-
-  const pkRows=S.parking.length?S.parking.map((p,i)=>{
-
-    const monthlyYield=((parseFloat(p.balance)||0)*(parseFloat(p.rate)||0)/100/12);
-
-    return`<div class="ct-row" style="grid-template-columns:${pkCols}">
-
-      <div class="cc"><strong style="font-size:13px">${esc(p.name)}</strong></div>
-
-      <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${p.balance||0}" onchange="updParking(${i},'balance',this.value)"></div></div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:12px;color:var(--teal)">${p.rate||0}% p.a.</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:12px;color:var(--green)">${fmtK(Math.round(monthlyYield))}/mo</div>
-
-      <div class="cc c" style="font-size:11px;color:var(--muted)">${esc(p.tenor||'—')}</div>
-
-      <div class="cc c"><button class="del-btn" onclick="delParking(${i})">✕</button></div>
-
-    </div>`;
-
-  }).join(''):'<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">No instruments. Add T-Bills, MMF, HY savings here.</div>';
-
-  document.getElementById('parkingTable').innerHTML=`<div class="card-table">
-
-    <div class="ct-header" style="grid-template-columns:${pkCols}"><div class="ch">Platform / Instrument</div><div class="ch r">Balance (₦)</div><div class="ch r">Rate</div><div class="ch r">Monthly yield</div><div class="ch c">Tenor</div><div class="ch"></div></div>
-
-    ${pkRows}
-
-    <div class="ct-footer"><span>Total parked: <strong style="font-family:var(--mono);color:var(--teal)">${fmtK(parkBalance)}</strong></span><span>Est. yield: <strong style="font-family:var(--mono);color:var(--green)">${fmtK(Math.round(parkYield))}/month</strong></span></div>
-
-  </div>`;
-
-  dc('chestChart');
-
-  if(document.getElementById('chestChart')){
-
-    const md=cmd();
-
-    const pInc=incTotal(md.incomes||[]);
-
-    const pSpend=totalP(md.buckets||[]);
-
-    const netMonthly=Math.max(0,pInc-pSpend);
-
-    const labels=[],data=[];let proj=balance;
-
-    for(let i=0;i<24;i++){const m=(curMonth+i)%12,y=curYear+Math.floor((curMonth+i)/12);labels.push(MS[m]+' '+y);proj+=netMonthly;data.push(Math.round(proj));}
-
-    charts['chestChart']=new Chart(document.getElementById('chestChart').getContext('2d'),{type:'line',data:{labels,datasets:[{label:'Projected balance (₦)',data,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.07)',fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#c9a84c'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>fmtK(v)},grid:{color:'rgba(255,255,255,.04)'}}}}});
-
-  }
-
-  const el=document.getElementById('fxSensitivity');
-
-  if(el){
-
-    const rates=[1500,S.fxRate,S.fxStress,1800,2000];
-
-    el.innerHTML=rates.map(r=>`<div style="display:flex;justify-content:space-between;font-size:11.5px;padding:3px 0;border-bottom:1px solid var(--border)">
-
-      <span style="font-family:var(--mono);color:${r===S.fxRate?'var(--gold2)':r===S.fxStress?'var(--red)':'var(--muted)'}">₦${r.toLocaleString()}/$</span>
-
-      <span style="font-family:var(--mono)">$${Math.round(balance/r).toLocaleString()} <span style="color:var(--muted)">(balance)</span></span>
-
-      <span style="font-family:var(--mono)">$${Math.round(parkBalance/r).toLocaleString()} <span style="color:var(--muted)">(parked)</span></span>
-
-    </div>`).join('');
-
-  }
-
-}
-
-function openChestModal(){document.getElementById('mc_date').value=new Date().toISOString().split('T')[0];document.getElementById('mc_amount').value='';document.getElementById('mc_desc').value='';document.getElementById('modalChest').classList.add('open');}
-
-function saveChestEntry(){const amount=parseFloat(document.getElementById('mc_amount').value)||0;if(!amount){toast('Enter amount');return;}S.chestLedger.push({date:document.getElementById('mc_date').value,type:document.getElementById('mc_type').value,amount,desc:document.getElementById('mc_desc').value});closeModal('modalChest');renderWarchest();toast('Entry saved');}
-
-function delChestEntry(i){if(confirm('Delete this entry?')){S.chestLedger.splice(i,1);renderWarchest();}}
-
-function openParkingModal(){['mp_name','mp_balance','mp_rate','mp_tenor'].forEach(id=>document.getElementById(id).value='');document.getElementById('modalParking').classList.add('open');}
-
-function saveParking(){const name=document.getElementById('mp_name').value.trim();if(!name){toast('Enter name');return;}S.parking.push({name,balance:parseFloat(document.getElementById('mp_balance').value)||0,rate:parseFloat(document.getElementById('mp_rate').value)||0,tenor:document.getElementById('mp_tenor').value});closeModal('modalParking');renderWarchest();toast('Instrument added');}
-
-function updParking(i,f,v){S.parking[i][f]=parseFloat(v)||0;renderWarchest();}
-
-function delParking(i){if(confirm('Remove?')){S.parking.splice(i,1);renderWarchest();}}
-
 // ═══════════════════════════════════════════════════════════
 
 // PORTFOLIO
@@ -3307,316 +2498,6 @@ function delParking(i){if(confirm('Remove?')){S.parking.splice(i,1);renderWarche
 // ═══════════════════════════════════════════════════════════
 
 let curPortTab='';
-
-function portTab(t){
-
-  curPortTab=t;
-
-  document.querySelectorAll('.ptab').forEach(p=>p.classList.remove('active'));
-
-  document.querySelectorAll('.ptab-panel').forEach(p=>p.classList.remove('active'));
-
-  document.querySelector(`.ptab[data-tab="${t}"]`)?.classList.add('active');
-
-  document.getElementById('ptab-'+t)?.classList.add('active');
-
-}
-
-function buildPortfolioTabs(){
-  const tabBar=document.getElementById('portfolioTabsBar');
-  const panels=document.getElementById('portfolioTabPanels');
-  if(!tabBar||!panels)return;
-  // Tabs: one per asset class + manage + dca
-  const allTabs=[...S.assetClasses,{id:'dca',label:'DCA Log',color:'#c9a84c'}];
-  const firstId=curPortTab&&allTabs.find(t=>t.id===curPortTab)?curPortTab:S.assetClasses[0]?.id||'dca';
-  tabBar.innerHTML=allTabs.map(t=>`<div class="ptab${t.id===firstId?' active':''}" data-tab="${t.id}" onclick="portTab('${t.id}')">${esc(t.label)}</div>`).join('')
-    +`<div class="ptab" data-tab="manage" onclick="portTab('manage')" style="margin-left:auto;color:var(--muted)">⚙ Asset Classes</div>`;
-  panels.innerHTML=allTabs.map(t=>`<div id="ptab-${t.id}" class="ptab-panel${t.id===firstId?' active':''}"></div>`).join('')
-    +`<div id="ptab-manage" class="ptab-panel${firstId==='manage'?' active':''}"></div>`;
-}
-
-function renderPortfolio(){
-
-  buildPortfolioTabs();
-
-  const byClass={};
-
-  S.holdings.forEach(h=>{
-
-    if(!byClass[h.cls])byClass[h.cls]={val:0,cost:0};
-
-    const val=h.qty*(h.price||0);const cost=h.qty*(h.avgCost||h.cost||0);
-
-    byClass[h.cls].val+=acCcy(h.cls)==='USD'?toNGN(val):val;
-
-    byClass[h.cls].cost+=acCcy(h.cls)==='USD'?toNGN(cost):cost;
-
-  });
-
-  const totalNGN=Object.values(byClass).reduce((s,v)=>s+v.val,0);
-
-  const totalCost=Object.values(byClass).reduce((s,v)=>s+v.cost,0);
-
-  const totalPL=totalNGN-totalCost;
-
-  document.getElementById('portSummary').innerHTML=[
-
-    {l:'Total portfolio (₦)',v:fmtK(totalNGN),c:'gold',s:'$'+Math.round(toUSD(totalNGN)).toLocaleString()+' USD equiv'},
-
-    {l:'Unrealised P&L',v:fmtK(totalPL),c:totalPL>=0?'green':'red',s:totalCost>0?(Math.round(totalPL/totalCost*100)+'% return'):'—'},
-
-    {l:'Asset classes',v:S.assetClasses.length.toString(),c:'teal',s:S.holdings.length+' total positions'},
-
-    {l:'DCA log entries',v:S.dcaLog.length.toString(),c:'amber',s:'Total purchase records'},
-
-  ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
-
-  S.assetClasses.forEach(ac=>{
-
-    const el=document.getElementById('ptab-'+ac.id);
-
-    if(!el)return;
-
-    const h=S.holdings.filter(x=>x.cls===ac.id);
-
-    const ccy=ac.ccy||'NGN';
-
-    el.innerHTML=`
-
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.75rem">
-
-        <button class="btn btn-sm btn-gold" onclick="openHoldingModal('${ac.id}')">+ Add ${esc(ac.label)}</button>
-
-      </div>
-
-      <div class="card-table">${holdingRows(h,ccy,ac.id)}</div>`;
-
-  });
-
-  // Manage asset classes panel
-  const mgEl=document.getElementById('ptab-manage');
-  if(mgEl){
-    const rows=S.assetClasses.map((ac,i)=>`
-      <div class="ct-row" style="grid-template-columns:1fr 80px 70px 90px 36px">
-        <div class="cc"><input class="edit-name" value="${esc(ac.label)}" placeholder="Class name" onchange="S.assetClasses[${i}].label=this.value;save();renderPortfolio()"></div>
-        <div class="cc c"><input type="color" value="${ac.color}" style="background:none;border:none;cursor:pointer;width:36px;height:24px" onchange="S.assetClasses[${i}].color=this.value;save();renderPortfolio()"></div>
-        <div class="cc c">
-          <select style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-size:11px;padding:2px 6px;border-radius:4px" onchange="S.assetClasses[${i}].ccy=this.value;save();renderPortfolio()">
-            <option value="NGN"${ac.ccy==='NGN'?' selected':''}>₦ NGN</option>
-            <option value="USD"${ac.ccy==='USD'?' selected':''}>$ USD</option>
-          </select>
-        </div>
-        <div class="cc c" style="font-size:10px;color:var(--muted)">${S.holdings.filter(h=>h.cls===ac.id).length} pos.</div>
-        <div class="cc c"><button class="del-btn" onclick="delAssetClass(${i})">✕</button></div>
-      </div>`).join('');
-    mgEl.innerHTML=`
-      <div style="max-width:560px">
-        <div class="sec">Manage asset classes</div>
-        <div class="card-table" style="margin-bottom:.75rem">
-          <div class="ct-header" style="grid-template-columns:1fr 80px 70px 90px 36px"><div class="ch">Name</div><div class="ch c">Colour</div><div class="ch c">CCY</div><div class="ch c">Holdings</div><div class="ch"></div></div>
-          ${rows||'<div style="padding:1rem;text-align:center;color:var(--muted)">No classes yet.</div>'}
-        </div>
-        <button class="btn btn-sm btn-gold" onclick="addAssetClass()">+ Add asset class</button>
-        <p style="font-size:11px;color:var(--muted);margin-top:.75rem">Deleting a class with holdings will prompt confirmation. Holdings are preserved in the portfolio data but will show as orphaned until reassigned.</p>
-      </div>`;
-  }
-
-  renderDCALogTab();
-
-}
-
-function addAssetClass(){
-  const label=prompt('Asset class name (e.g. "Gold ETFs"):');
-  if(!label)return;
-  const id='ac_'+Date.now();
-  S.assetClasses.push({id,label,color:'#888888',ccy:'NGN'});
-  save();renderPortfolio();toast('Asset class added');
-}
-
-function delAssetClass(i){
-  const ac=S.assetClasses[i];
-  const cnt=S.holdings.filter(h=>h.cls===ac.id).length;
-  const msg=cnt>0?`"${ac.label}" has ${cnt} holding(s). Remove class anyway? Holdings will be kept but unlinked.`:`Remove "${ac.label}"?`;
-  if(confirm(msg)){S.assetClasses.splice(i,1);if(curPortTab===ac.id)curPortTab='';save();renderPortfolio();toast('Removed');}
-}
-
-
-function holdingRows(holdings,ccy,cls){
-
-  if(!holdings.length)return`<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">No positions yet. Add your first ${acLabel(cls)} position above.</div>`;
-
-  const cols=ccy==='NGN'?'1fr 80px 110px 110px 110px 100px 90px 36px':'1fr 80px 100px 100px 100px 100px 90px 36px';
-
-  const hdr=ccy==='NGN'
-
-    ?`<div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Name</div><div class="ch r">Units</div><div class="ch r">Avg Cost (₦)</div><div class="ch r">Curr Price (₦)</div><div class="ch r">Value (₦)</div><div class="ch r">P&L (₦)</div><div class="ch r">P&L %</div><div class="ch"></div></div>`
-
-    :`<div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Name</div><div class="ch r">Units</div><div class="ch r">Avg Cost ($)</div><div class="ch r">Curr Price ($)</div><div class="ch r">Value ($)</div><div class="ch r">₦ equiv</div><div class="ch r">P&L %</div><div class="ch"></div></div>`;
-
-  let rows='';
-
-  holdings.forEach((h)=>{
-
-    const globalIdx=S.holdings.indexOf(h);
-
-    const val=h.qty*(h.price||0);const cost=h.qty*(h.avgCost||h.cost||0);const pl=val-cost;
-
-    const plPct=cost>0?Math.round(pl/cost*100):0;
-
-    const plColor=pl>=0?'var(--green)':'var(--red)';
-
-    if(ccy==='NGN'){
-
-      rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
-
-        <div class="cc"><strong style="font-size:13px">${esc(h.ticker)}</strong><div style="font-size:11px;color:var(--muted)">${esc(h.note||'')}</div></div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">${h.qty.toLocaleString()}</div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">₦${(h.avgCost||h.cost||0).toLocaleString()}</div>
-
-        <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${h.price||0}" step="any" onchange="updHolding(${globalIdx},'price',this.value)"></div></div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:12px;color:var(--gold2)">₦${Math.round(val).toLocaleString()}</div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${plColor}">${pl>=0?'+':''}₦${Math.round(pl).toLocaleString()}</div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${plColor}">${pl>=0?'+':''}${plPct}%</div>
-
-        <div class="cc c"><button class="del-btn" onclick="delHolding(${globalIdx})">✕</button></div>
-
-      </div>`;
-
-    } else {
-
-      const ngnEquiv=Math.round(toNGN(val));
-
-      rows+=`<div class="ct-row" style="grid-template-columns:${cols}">
-
-        <div class="cc"><strong style="font-size:13px">${esc(h.ticker)}</strong><div style="font-size:11px;color:var(--muted)">${esc(h.note||'')}</div></div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">${parseFloat(h.qty).toFixed(4)}</div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:12px">$${(h.avgCost||h.cost||0).toFixed(2)}</div>
-
-        <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${h.price||0}" step="any" onchange="updHolding(${globalIdx},'price',this.value)"></div></div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:12px;color:var(--gold2)">$${val.toFixed(2)}</div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">₦${ngnEquiv.toLocaleString()}</div>
-
-        <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${plColor}">${pl>=0?'+':''}${plPct}%</div>
-
-        <div class="cc c"><button class="del-btn" onclick="delHolding(${globalIdx})">✕</button></div>
-
-      </div>`;
-
-    }
-
-  });
-
-  return hdr+rows;
-
-}
-
-function renderDCALogTab(){
-
-  const logs=[...S.dcaLog].sort((a,b)=>new Date(b.date)-new Date(a.date));
-
-  const byTicker={};
-
-  logs.forEach(l=>{if(!byTicker[l.ticker])byTicker[l.ticker]={ticker:l.ticker,cls:l.cls,totalUnits:0,totalCost:0,entries:0};byTicker[l.ticker].totalUnits+=parseFloat(l.qty)||0;byTicker[l.ticker].totalCost+=parseFloat(l.total)||0;byTicker[l.ticker].entries++;});
-
-  const summaryRows=Object.values(byTicker).map(t=>{const avg=t.totalUnits>0?t.totalCost/t.totalUnits:0;const ccy=acCcy(t.cls)==='USD'?'$':'₦';return`<div style="display:flex;gap:12px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;font-weight:500">${esc(t.ticker)}</div><div style="font-family:var(--mono);color:var(--muted)">${t.entries} purchases</div><div style="font-family:var(--mono)">${parseFloat(t.totalUnits).toFixed(4)} units</div><div style="font-family:var(--mono);color:var(--gold2)">Avg: ${ccy}${avg.toFixed(2)}</div><div style="font-family:var(--mono);color:var(--muted)">Total: ${ccy}${t.totalCost.toLocaleString()}</div></div>`;}).join('');
-
-  const cols='100px 1fr 80px 80px 90px 90px 80px 36px';
-
-  let rows='';
-
-  logs.forEach((l)=>{const origIdx=S.dcaLog.indexOf(l);const ccy=acCcy(l.cls)==='USD'?'$':'₦';rows+=`<div class="ct-row" style="grid-template-columns:${cols}"><div class="cc" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${l.date||'—'}</div><div class="cc"><strong style="font-size:12.5px">${esc(l.ticker)}</strong><div style="font-size:10.5px;color:var(--muted)">${esc(l.note||'')}</div></div><div class="cc c"><span class="tag" style="background:${(ASSET_CLASS_COLORS[l.cls]||'#888')+'22'};color:${ASSET_CLASS_COLORS[l.cls]||'#888'}">${l.cls?.toUpperCase()}</span></div><div class="cc r" style="font-family:var(--mono);font-size:11.5px">${parseFloat(l.qty).toFixed(4)}</div><div class="cc r" style="font-family:var(--mono);font-size:11.5px">${ccy}${parseFloat(l.price).toFixed(2)}</div><div class="cc r" style="font-family:var(--mono);font-size:11.5px;color:var(--gold2)">${ccy}${parseFloat(l.total).toLocaleString()}</div><div class="cc c" style="font-size:10.5px;color:var(--muted)">${l.ccy}</div><div class="cc c"><button class="del-btn" onclick="delDCA(${origIdx})">✕</button></div></div>`;});
-
-  document.getElementById('ptab-dca').innerHTML=`
-
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.75rem">
-
-      <button class="btn btn-sm btn-gold" onclick="populateClassSelect('md_class','ngx');document.getElementById('modalDCA').classList.add('open')">+ Log purchase</button>
-
-    </div>
-
-    ${Object.keys(byTicker).length?`<div class="card-table" style="margin-bottom:1rem"><div style="padding:8px 14px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:9.5px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase">DCA Summary by Asset</div>${summaryRows}</div>`:''}
-
-    <div class="sec">Full purchase log</div>
-
-    <div class="card-table">
-
-      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Date</div><div class="ch">Asset</div><div class="ch c">Class</div><div class="ch r">Units</div><div class="ch r">Price</div><div class="ch r">Total</div><div class="ch c">CCY</div><div class="ch"></div></div>
-
-      ${rows||'<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">No purchases logged yet.</div>'}
-
-    </div>`;
-
-}
-
-function populateClassSelect(selId,selectedCls){
-  const sel=document.getElementById(selId);
-  if(!sel)return;
-  sel.innerHTML=S.assetClasses.map(ac=>`<option value="${ac.id}"${ac.id===selectedCls?' selected':''}>${ac.label}</option>`).join('');
-}
-
-function openHoldingModal(cls){
-
-  populateClassSelect('mh_class',cls);
-
-  document.getElementById('mh_class').value=cls;
-
-  document.getElementById('mh_ccy').value=acCcy(cls)||'NGN';
-
-  ['mh_ticker','mh_qty','mh_cost','mh_price','mh_note'].forEach(id=>document.getElementById(id).value='');
-
-  document.getElementById('modalHoldingTitle').textContent='Add '+acLabel(cls);
-
-  document.getElementById('modalHolding').classList.add('open');
-
-}
-
-function saveHolding(){
-
-  const ticker=document.getElementById('mh_ticker').value.trim().toUpperCase();
-
-  if(!ticker){toast('Enter ticker or name');return;}
-
-  const qty=parseFloat(document.getElementById('mh_qty').value)||0;
-
-  const cost=parseFloat(document.getElementById('mh_cost').value)||0;
-
-  const price=parseFloat(document.getElementById('mh_price').value)||cost;
-
-  const cls=document.getElementById('mh_class').value;
-
-  const existing=S.holdings.findIndex(h=>h.ticker===ticker&&h.cls===cls);
-
-  if(existing>=0){
-
-    const h=S.holdings[existing];const totalQty=h.qty+qty;
-
-    h.avgCost=totalQty>0?((h.qty*(h.avgCost||h.cost||0))+(qty*cost))/totalQty:cost;
-
-    h.qty=totalQty;h.price=price;h.note=document.getElementById('mh_note').value;
-
-  } else {
-
-    S.holdings.push({ticker,qty,cost,avgCost:cost,price,ccy:document.getElementById('mh_ccy').value,cls,note:document.getElementById('mh_note').value});
-
-  }
-
-  closeModal('modalHolding');renderPortfolio();toast(ticker+' saved');
-
-}
-
-function updHolding(i,f,v){S.holdings[i][f]=parseFloat(v)||0;renderPortfolio();}
-
-function delHolding(i){if(confirm('Remove this holding?')){S.holdings.splice(i,1);renderPortfolio();}}
-
 function saveDCA(){
 
   const ticker=document.getElementById('md_ticker').value.trim().toUpperCase();
@@ -3631,11 +2512,9 @@ function saveDCA(){
 
   S.dcaLog.push({ticker,date:document.getElementById('md_date').value,cls:document.getElementById('md_class').value,qty,price,total,ccy:document.getElementById('md_ccy').value,note:document.getElementById('md_note').value});
 
-  closeModal('modalDCA');renderPortfolio();toast('Purchase logged');
 
 }
 
-function delDCA(i){if(confirm('Delete this entry?')){S.dcaLog.splice(i,1);renderPortfolio();}}
 
 document.addEventListener('change',e=>{if(e.target.id==='md_qty'||e.target.id==='md_price'){const q=parseFloat(document.getElementById('md_qty').value)||0;const p=parseFloat(document.getElementById('md_price').value)||0;if(q&&p)document.getElementById('md_total').value=(q*p).toFixed(4);}});
 
@@ -3644,165 +2523,16 @@ document.addEventListener('change',e=>{if(e.target.id==='md_qty'||e.target.id===
 // MILESTONES
 
 // ═══════════════════════════════════════════════════════════
-
-function openMilestoneModal(){['mm_name','mm_target','mm_year','mm_monthly','mm_saved','mm_note'].forEach(id=>document.getElementById(id).value='');document.getElementById('modalMilestone').classList.add('open');}
-
-function saveMilestone(){const name=document.getElementById('mm_name').value.trim();if(!name){toast('Enter name');return;}S.milestones.push({id:'ms_'+Date.now(),name,target:parseFloat(document.getElementById('mm_target').value)||0,year:parseInt(document.getElementById('mm_year').value)||2030,monthly:parseFloat(document.getElementById('mm_monthly').value)||0,saved:parseFloat(document.getElementById('mm_saved').value)||0,note:document.getElementById('mm_note').value,color:'#c9a84c'});closeModal('modalMilestone');renderMilestones();}
-
-function renderMilestones(){
-
-  const el=document.getElementById('milestoneList');
-
-  if(!S.milestones.length){el.innerHTML='<div style="text-align:center;color:var(--muted);padding:2rem">No milestones yet.</div>';return;}
-
-  el.innerHTML=S.milestones.map((ms,i)=>{
-
-    const pct=ms.target>0?Math.min(100,Math.round(ms.saved/ms.target*100)):0;
-
-    const monthsLeft=Math.max(0,(ms.year-curYear)*12+(12-curMonth));
-
-    const projected=ms.saved+(ms.monthly*monthsLeft);
-
-    const onTrack=projected>=ms.target;
-
-    return`<div class="milestone-card">
-
-      <div class="ms-header">
-
-        <div><div class="ms-name">${esc(ms.name)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(ms.note||'')} · Target year: ${ms.year}</div></div>
-
-        <div style="text-align:right"><div class="ms-target">${fmt(ms.target)}</div><div style="font-size:11px;color:var(--muted)">$${Math.round(toUSD(ms.target)).toLocaleString()} equiv</div></div>
-
-      </div>
-
-      <div class="ms-bar-track"><div class="ms-bar-fill" style="width:${pct}%;background:${ms.color}"></div></div>
-
-      <div class="ms-meta">
-
-        <span>Saved: <strong style="font-family:var(--mono);color:var(--text)">${fmt(ms.saved)}</strong> (${pct}%)</span>
-
-        <span>Monthly: <strong style="font-family:var(--mono);color:var(--text)">${ms.monthly?fmt(ms.monthly):'—'}</strong></span>
-
-        <span style="color:${onTrack?'var(--green)':'var(--amber)'}">${onTrack?'✓ On track':'⚠ Needs review'}</span>
-
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
-
-        <div style="font-size:11px;color:var(--muted);flex:1">Projected by ${ms.year}: <strong style="font-family:var(--mono);color:${projected>=ms.target?'var(--green)':'var(--amber)'}">${fmt(Math.round(projected))}</strong></div>
-
-        <div style="display:flex;align-items:center;gap:8px">
-
-          <span style="font-size:11px;color:var(--muted)">Update saved:</span>
-
-          <input type="number" value="${ms.saved}" onchange="updMilestone(${i},'saved',this.value)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:5px;width:100px;outline:none">
-
-          <button class="del-btn" onclick="delMilestone(${i})">✕</button>
-
-        </div>
-
-      </div>
-
-    </div>`;
-
-  }).join('');
-
-}
-
-function updMilestone(i,f,v){S.milestones[i][f]=parseFloat(v)||0;renderMilestones();}
-
-function delMilestone(i){if(confirm('Remove milestone?')){S.milestones.splice(i,1);renderMilestones();}}
-
 // ═══════════════════════════════════════════════════════════
 
 // ENTITIES
 
 // ═══════════════════════════════════════════════════════════
-
-function renderEntities(){
-
-  function renderEntity(id,depth){
-
-    const e=S.entities.find(x=>x.id===id);if(!e)return'';
-
-    const children=({trust:['axisgaia'],axisgaia:['thinkats','resourcin'],thinkats:[],resourcin:[]})[id]||[];
-
-    return`<div class="entity-card" style="${depth?`margin-left:${depth*24}px;border-left:3px solid ${e.color}35;border-radius:0 var(--r) var(--r) 0`:''}">
-
-      <div class="entity-header">
-
-        <div><div class="entity-name">${esc(e.name)}</div><div class="entity-type">${e.type}${e.regNo?' · CAC: '+e.regNo:''} · ${e.incorporated?'Inc: '+e.incorporated:'Not yet incorporated'}</div></div>
-
-        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:${e.status==='Active'?'rgba(74,222,128,.1)':'rgba(251,191,36,.1)'};color:${e.status==='Active'?'var(--green)':'var(--amber)'};">${e.status}</span>
-
-      </div>
-
-      <div style="font-size:12px;color:var(--muted)">${esc(e.notes||'')}</div>
-
-      ${children.length?`<div style="margin-top:12px">${children.map(cid=>renderEntity(cid,0)).join('')}</div>`:''}
-
-    </div>`;
-
-  }
-
-  document.getElementById('entityList').innerHTML=renderEntity('trust',0)+`
-
-    <div style="margin-top:1.25rem;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-size:12px;color:var(--muted)">
-
-      <strong style="color:var(--gold2)">Roadmap:</strong> (1) Incorporate AxisGaia Limited (Q3 2026) → (2) Transfer Resourcin & ThinkATS shares to AxisGaia → (3) Draft Trust deed (on marriage or first child) → (4) Trust holds all AxisGaia shares → (5) Update will to reflect Trust as primary beneficiary.
-
-    </div>`;
-
-}
-
 // ═══════════════════════════════════════════════════════════
 
 // INVESTMENT POLICY
 
 // ═══════════════════════════════════════════════════════════
-
-function renderPolicy(){
-
-  document.getElementById('policyView').innerHTML=`
-
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem">
-
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem">Core Rules — Non-negotiable</div>
-
-      ${INVEST_POLICY.map((r,i)=>`<div class="policy-rule"><div class="policy-num">${String(i+1).padStart(2,'0')}.</div><div class="policy-text">${esc(r.rule)}</div></div>`).join('')}
-
-    </div>
-
-    <div class="sec">Asset class allocation targets & hard limits</div>
-
-    <div class="card-table">
-
-      <div class="ct-header" style="grid-template-columns:1.5fr 80px 80px 1fr"><div class="ch">Asset Class</div><div class="ch c">Target %</div><div class="ch c">Max %</div><div class="ch">Notes</div></div>
-
-      ${ASSET_LIMITS.map(a=>`<div class="ct-row" style="grid-template-columns:1.5fr 80px 80px 1fr">
-
-        <div class="cc"><strong style="font-size:13px">${esc(a.cls)}</strong></div>
-
-        <div class="cc c" style="font-family:var(--mono);font-size:13px;color:var(--teal)">${a.target}</div>
-
-        <div class="cc c" style="font-family:var(--mono);font-size:13px;color:var(--amber)">${a.max}</div>
-
-        <div class="cc" style="font-size:11.5px;color:var(--muted)">${esc(a.note)}</div>
-
-      </div>`).join('')}
-
-    </div>
-
-    <div class="sec" style="margin-top:1.5rem">Alpha entry criteria — all 5 must pass before deployment</div>
-
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem">
-
-      ${["Thesis is written down in 3 sentences or fewer — if you can't, you don't understand it.","Entry price implies ≥ 20% upside to fair value estimate over 12–18 months.","Position survives a 40% drawdown without triggering a forced sale.","Does not violate any asset class hard limit after entry.","At least one asymmetric risk factor identified (political, macro, sector catalyst)."].map((r,i)=>`<div class="policy-rule"><div class="policy-num">0${i+1}.</div><div class="policy-text">${esc(r)}</div></div>`).join('')}
-
-    </div>`;
-
-}
-
 // ═══════════════════════════════════════════════════════════
 
 // UTILITIES
@@ -3820,10 +2550,8 @@ function renderAll(){
   renderBudget();
   if(document.getElementById('view-dashboard')?.classList.contains('active'))renderDashboard();
   if(document.getElementById('view-annual')?.classList.contains('active'))renderAnnual();
-  if(document.getElementById('view-wealth')?.classList.contains('active'))renderWealth();
   if(document.getElementById('view-sinking')?.classList.contains('active'))renderSinking();
   if(document.getElementById('view-networth')?.classList.contains('active'))renderNetWorth();
-  if(document.getElementById('view-warchest')?.classList.contains('active'))renderWarchest();
 }
 
 // Master re-render — call when budget data changes to cascade to all panels
@@ -3833,10 +2561,8 @@ function renderAll(){
   // Cascade to other panels only if they're visible (cheap — they check DOM)
   if(document.getElementById('view-dashboard')?.classList.contains('active'))renderDashboard();
   if(document.getElementById('view-annual')?.classList.contains('active'))renderAnnual();
-  if(document.getElementById('view-wealth')?.classList.contains('active'))renderWealth();
   if(document.getElementById('view-sinking')?.classList.contains('active'))renderSinking();
   if(document.getElementById('view-networth')?.classList.contains('active'))renderNetWorth();
-  if(document.getElementById('view-warchest')?.classList.contains('active'))renderWarchest();
 }
 
 function copyPrev(){
@@ -3893,8 +2619,6 @@ window.onload=()=>{
 
   // Ensure new state keys exist (migration from v2 to v3)
 
-  if(!S.waAlloc)S.waAlloc=JSON.parse(JSON.stringify(DEFAULT_WA_ALLOC));
-
   if(!S.sinkingFunds)S.sinkingFunds=JSON.parse(JSON.stringify(DEFAULT_SF));
 
   if(!S.dcaNGX)S.dcaNGX=mkDcaNgxDefault();
@@ -3904,8 +2628,6 @@ window.onload=()=>{
   if(!S.specPositions)S.specPositions=JSON.parse(JSON.stringify(DEFAULT_SPEC_POSITIONS));
 
   if(!S.dcaTickers)S.dcaTickers=JSON.parse(JSON.stringify(DEFAULT_DCA_TICKERS));
-
-  if(!S.assetClasses)S.assetClasses=JSON.parse(JSON.stringify(DEFAULT_ASSET_CLASSES));
 
   if(!S.nwPeriods)S.nwPeriods=[mkNWPeriod('May 2026'),mkNWPeriod('Dec 2026'),mkNWPeriod('Dec 2027')];
 
