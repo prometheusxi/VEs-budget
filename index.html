@@ -2699,7 +2699,7 @@ function renderWealth(){
   if(incomeBanner){
     if(!pInc){
       incomeBanner.style.display='block';
-      incomeBanner.innerHTML='⚠ No income found in the current month budget. <a href="#" onclick="nav('budget');return false" style="color:var(--gold2)">Go to Budget →</a>';
+      incomeBanner.innerHTML='⚠ No income found in the current month budget. <a href="#" onclick="nav(\'budget\');return false" style="color:var(--gold2)">Go to Budget →</a>';
     } else {
       incomeBanner.style.display='none';
     }
@@ -2763,7 +2763,7 @@ function renderSinking(){
     const diff=Math.abs(totalMonthly-budgetSavings);
     const diverged=totalMonthly>0&&budgetSavings>0&&diff>budgetSavings*0.1;
     syncEl.style.display=diverged?'block':'none';
-    syncEl.innerHTML=diverged?`Sinking fund commitments (${fmt(totalMonthly)}) differ from budget savings+invest (${fmt(budgetSavings)}) by ${fmt(diff)}. <a href="#" onclick="nav('budget');return false" style="color:var(--gold2)">Review Budget →</a>`:'';
+    syncEl.innerHTML=diverged?`Sinking fund commitments (${fmt(totalMonthly)}) differ from budget savings+invest (${fmt(budgetSavings)}) by ${fmt(diff)}. <a href="#" onclick="nav(&apos;budget&apos;);return false" style="color:var(--gold2)">Review Budget →</a>`:'';
   }
 
   const horizonClass={near:'sf-near',mid:'sf-mid',long:'sf-long',recurring:'sf-recurring'};
