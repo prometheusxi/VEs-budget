@@ -903,13 +903,16 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
   <div id="waIncomeBanner" class="banner warn" style="display:none;margin-bottom:1rem"></div>
 
-    <div class="sec">Monthly Surplus Allocation Strategy</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
+      <div class="sec" style="margin:0">Monthly Surplus Allocation Strategy <span style="font-size:11px;color:var(--teal);font-weight:400">· % automatically applies to your budget's investable surplus</span></div>
+      <button class="btn btn-sm btn-gold" onclick="addWAAlloc()">+ Add allocation</button>
+    </div>
 
     <div class="card-table">
 
-      <div class="ct-header" style="grid-template-columns:1fr 80px 110px 100px 1fr 90px">
+      <div class="ct-header" style="grid-template-columns:2fr 90px 130px 110px 1fr 110px 36px">
 
-        <div class="ch">Goal / Bucket</div><div class="ch c">% Surplus</div><div class="ch r">Monthly (₦)</div><div class="ch">Min Duration</div><div class="ch">Vehicle</div><div class="ch c">Status</div>
+        <div class="ch">Goal / Bucket</div><div class="ch c">% Surplus</div><div class="ch r">Monthly (₦) auto</div><div class="ch">Duration</div><div class="ch c">Status</div><div class="ch c">Colour</div><div class="ch"></div>
 
       </div>
 
@@ -1009,25 +1012,9 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
     <div class="summary" id="dcaSummary"></div>
 
-    <div class="chart-toggle">
+    <div class="chart-toggle" id="dcaTabBar" style="margin-bottom:1rem;flex-wrap:wrap"></div>
 
-      <span class="ctog active" onclick="dcaTab('ngx',this)">NGX — ACCESSCORP</span>
-
-      <span class="ctog" onclick="dcaTab('usd',this)">USD — PLAB</span>
-
-      <span class="ctog" onclick="dcaTab('spec',this)">Speculative Bucket</span>
-
-      <span class="ctog" onclick="dcaTab('rules',this)">DCA Rules</span>
-
-    </div>
-
-    <div id="dca-ngx"></div>
-
-    <div id="dca-usd" style="display:none"></div>
-
-    <div id="dca-spec" style="display:none"></div>
-
-    <div id="dca-rules" style="display:none"></div>
+    <div id="dcaContent"></div>
 
   </div>
 
@@ -1821,6 +1808,9 @@ const DEFAULT_WA_ALLOC=[
 
 ];
 
+function delWAAlloc(i){if(confirm('Remove this allocation?')){S.waAlloc.splice(i,1);save();renderWealth();}}
+function addWAAlloc(){S.waAlloc.push({goal:'New goal',pct:5,duration:'—',vehicle:'—',status:'building',color:'#888888'});save();renderWealth();}
+
 // ═══════════════════════════════════════════════════════════
 
 // SINKING FUNDS DEFAULTS (from Excel)
@@ -1861,13 +1851,15 @@ const DEFAULT_SF=[
 
 // ═══════════════════════════════════════════════════════════
 
-const DCA_MONTHS_NGX=['Jul 2026','Aug 2026','Sep 2026','Oct 2026','Nov 2026','Dec 2026','Jan 2027','Feb 2027','Mar 2027','Apr 2027','May 2027','Jun 2027'];
+// DCA tickers — fully dynamic, no hardcoding
+// Each ticker: {id, name, exchange, ccy, monthlyBudgetKey, color, entries:[{month,amount,price,units,notes}]}
+const DEFAULT_DCA_TICKERS=[
+  {id:'ngx_access',name:'ACCESSCORP',exchange:'NGX',ccy:'NGN',color:'#4ade80',monthlyBudgetKey:'ngx',entries:[]},
+  {id:'usd_plab',name:'PLAB',exchange:'NYSE',ccy:'USD',color:'#22d3ee',monthlyBudgetKey:'us',entries:[]},
+];
 
-const DCA_MONTHS_USD=['Jul 2026','Aug 2026','Sep 2026','Oct 2026','Nov 2026','Dec 2026','Jan 2027','Feb 2027','Mar 2027','Apr 2027','May 2027','Jun 2027'];
-
-function mkDcaNgxDefault(){return DCA_MONTHS_NGX.map((m,i)=>({month:m,amount:50000,price:0,units:0,notes:''}));}
-
-function mkDcaUsdDefault(){return DCA_MONTHS_USD.map((m,i)=>({month:m,amount:50,price:0,units:0,notes:''}));}
+function mkDcaNgxDefault(){return[];}  // legacy shim — replaced by S.dcaTickers
+function mkDcaUsdDefault(){return[];}  // legacy shim
 
 const DEFAULT_SPEC_POSITIONS=[
 
@@ -1984,6 +1976,8 @@ let S={
   dcaUSD:mkDcaUsdDefault(),
 
   specPositions:JSON.parse(JSON.stringify(DEFAULT_SPEC_POSITIONS)),
+
+  dcaTickers:JSON.parse(JSON.stringify(DEFAULT_DCA_TICKERS)),
 
   // Dynamic asset classes
 
@@ -2684,14 +2678,14 @@ function renderAnnual(){
 function renderWealth(){
   // Read entirely from budget — no separate waIncome/waEssentials
   const {pInc,debt,essentials,savings,investments,surplus,investable,md}=bt();
-  const totalMonthly=S.waAlloc.reduce((s,a)=>s+(a.monthly||0),0);
+  // totalMonthly now computed per-row from pct × investable — see liveTotal below
 
   document.getElementById('waSummary').innerHTML=[
     {l:'Monthly income (from budget)',v:fmt(pInc),c:'gold',s:pInc?'Live from cashflow · '+md.incomes.filter(i=>parseFloat(i.planned)>0).length+' income streams':'Set income in Budget tab'},
     {l:'Living essentials',v:fmt(essentials),c:'amber',s:'Fixed + Food + Utilities + Personal · '+Math.round(pInc>0?essentials/pInc*100:0)+'% of income'},
     {l:'Debt repayment',v:fmt(debt),c:'red',s:'From budget debt bucket · non-negotiable until cleared'},
     {l:'Investable surplus',v:fmt(investable),c:'green',s:'Income − essentials − debt · base for all allocations'},
-    {l:'Total allocated (WA)',v:fmt(totalMonthly),c:'teal',s:investable>0?Math.round(totalMonthly/investable*100)+'% of investable surplus deployed':'—'},
+    {l:'Total % allocated (WA)',v:(()=>{const tp=S.waAlloc.reduce((s,a)=>s+(a.pct||0),0);return tp+'%';})(),c:'teal',s:(()=>{const lt=investable>0?S.waAlloc.reduce((s,a)=>s+Math.round(investable*a.pct/100),0):0;return lt>0?fmt(lt)+' /month from budget':'Set % allocations below'})()},
     {l:'USD equivalent',v:'$'+Math.round(toUSD(investable)).toLocaleString(),c:'cyan',s:'At ₦'+Math.round(S.fxRate).toLocaleString()+'/$'},
   ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
 
@@ -2707,21 +2701,48 @@ function renderWealth(){
 
   const statusMap={active:'status-active',building:'status-building',paused:'status-paused',planned:'status-planned'};
   const statusLabel={active:'Active',building:'Building',paused:'Paused*',planned:'Planned'};
-  const rows=S.waAlloc.map((a,i)=>`
-    <div class="ct-row" style="grid-template-columns:1fr 80px 110px 100px 1fr 90px">
-      <div class="cc"><strong style="font-size:13px">${esc(a.goal)}</strong></div>
-      <div class="cc c"><span style="font-family:var(--mono);font-size:13px;color:var(--gold2)">${a.pct}%</span></div>
-      <div class="cc r"><div class="amt-cell"><input class="amt" type="number" value="${a.monthly}" onchange="S.waAlloc[${i}].monthly=parseFloat(this.value)||0;save();renderWealth()"></div></div>
-      <div class="cc" style="font-size:11.5px;color:var(--muted)">${esc(a.duration)}</div>
-      <div class="cc" style="font-size:11.5px;color:var(--muted)">${esc(a.vehicle)}</div>
-      <div class="cc c"><span class="status-badge ${statusMap[a.status]||'status-building'}">${statusLabel[a.status]||a.status}</span></div>
-    </div>`).join('');
 
+  // Compute each allocation's monthly from pct × investable (live from budget)
+  // If user manually overrides monthly, pct is back-computed; pct is the authority
+  const rows=S.waAlloc.map((a,i)=>{
+    const computed=investable>0?Math.round(investable*a.pct/100):0;
+    // Show computed value; user can override pct to change it
+    return`<div class="ct-row" style="grid-template-columns:2fr 90px 130px 110px 1fr 110px 36px">
+      <div class="cc">
+        <input class="edit-name" value="${esc(a.goal)}" onchange="S.waAlloc[${i}].goal=this.value;save();renderWealth()">
+        <input class="edit-note" value="${esc(a.vehicle)}" placeholder="Vehicle / account" onchange="S.waAlloc[${i}].vehicle=this.value;save()">
+      </div>
+      <div class="cc c">
+        <div class="amt-cell"><input class="amt" type="number" value="${a.pct}" step="1" min="0" max="100" onchange="S.waAlloc[${i}].pct=parseFloat(this.value)||0;save();renderWealth()" style="text-align:center"></div>
+        <div style="font-size:9px;color:var(--muted);text-align:center">% of surplus</div>
+      </div>
+      <div class="cc r">
+        <div style="font-family:var(--mono);font-size:13px;color:var(--gold2)">${fmt(computed)}</div>
+        <div style="font-size:9px;color:var(--muted)">auto · from budget</div>
+      </div>
+      <div class="cc">
+        <input class="edit-note" value="${esc(a.duration)}" placeholder="Duration / horizon" onchange="S.waAlloc[${i}].duration=this.value;save()">
+      </div>
+      <div class="cc c">
+        <select style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-size:11px;padding:3px 6px;border-radius:4px;width:100%" onchange="S.waAlloc[${i}].status=this.value;save();renderWealth()">
+          ${['active','building','paused','planned'].map(s=>`<option value="${s}"${a.status===s?' selected':''}>${statusLabel[s]}</option>`).join('')}
+        </select>
+      </div>
+      <div class="cc c"><input type="color" value="${a.color||'#888'}" style="background:none;border:none;cursor:pointer;width:36px;height:24px" onchange="S.waAlloc[${i}].color=this.value;save();renderWealth()"></div>
+      <div class="cc c"><button class="del-btn" onclick="delWAAlloc(${i})">✕</button></div>
+    </div>`;
+  }).join('');
+
+  const liveTotal=investable>0?S.waAlloc.reduce((s,a)=>s+Math.round(investable*a.pct/100),0):0;
+  const totalPct=S.waAlloc.reduce((s,a)=>s+(a.pct||0),0);
   document.getElementById('waAllocRows').innerHTML=rows;
-  document.getElementById('waAllocFooter').innerHTML=`<span>Total surplus allocated: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(totalMonthly)}</strong> / <span style="color:var(--muted)">${fmt(investable)} investable</span></span><span style="color:var(--muted);font-size:11.5px">${investable>0?Math.round(totalMonthly/investable*100)+'% deployed':'—'}</span>`;
+  document.getElementById('waAllocFooter').innerHTML=`
+    <span>Total % allocated: <strong style="font-family:var(--mono);color:${totalPct>100?'var(--red)':'var(--gold2)'}">${totalPct}%</strong>
+    · Monthly: <strong style="font-family:var(--mono);color:var(--gold2)">${fmt(liveTotal)}</strong>
+    / <span style="color:var(--muted)">${fmt(investable)} investable</span></span>
+    <span style="color:${totalPct>100?'var(--red)':'var(--muted)'};font-size:11.5px">${totalPct>100?'⚠ Over-allocated — reduce %':'Remaining: '+fmt(Math.max(0,investable-liveTotal))}</span>`;
 
-  // Remove the old manual input row if it exists
-  const old=document.getElementById('waInputRow');if(old)old.remove();
+  const old2=document.getElementById('waInputRow');if(old2)old2.remove();
 
   // Charts
   dc('waAllocPie');dc('waAllocBar');
@@ -2777,7 +2798,7 @@ function renderSinking(){
     return`<div class="sf-card" style="border-color:${f.color}30">
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${f.color},${f.color}44)"></div>
       <div class="sf-header">
-        <div><div class="sf-name">${esc(f.name)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(f.notes)}</div></div>
+        <div><div class="sf-name" style="display:flex;align-items:center;gap:8px">${esc(f.name)} <input type="color" value="${f.color}" style="background:none;border:none;cursor:pointer;width:24px;height:18px;padding:0" onchange="S.sinkingFunds[${i}].color=this.value;save();renderSinking()"></div><div style="font-size:11px;color:var(--muted);margin-top:2px">${f.target>0&&monthsLeft?monthsLeft+' mo to target · ':''} ${esc(f.targetDate)}</div></div>
         <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px">
           <div class="sf-target">${f.target>0?fmt(f.target):'Open'}</div>
           <span class="sf-horizon ${horizonClass[f.horizon]||'sf-mid'}">${horizonLabel[f.horizon]||f.horizon} · ${esc(f.targetDate)}</span>
@@ -2791,13 +2812,27 @@ function renderSinking(){
         <div class="sf-meta-item"><strong style="color:${onTrack?'var(--green)':'var(--amber)'}">` +
         `${f.target>0&&monthsLeft?monthsLeft+' mo':f.target>0?'On track':'—'}</strong>${f.target>0?'Months to target':'Status'}</div>
       </div>
-      <div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap">
-        <span style="font-size:11px;color:var(--muted)">Update saved (₦):</span>
-        <input type="number" value="${f.saved||0}" onchange="updSF(${i},'saved',this.value)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:5px;width:110px;outline:none">
-        <span style="font-size:11px;color:var(--muted)">Monthly (₦):</span>
-        <input type="number" value="${f.monthly||0}" onchange="updSF(${i},'monthly',this.value)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:5px;width:100px;outline:none">
-        <button class="del-btn" onclick="delSF(${i})">✕</button>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+        <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px">Fund name</div>
+        <input class="edit-name" value="${esc(f.name)}" style="width:100%" onchange="S.sinkingFunds[${i}].name=this.value;save();renderSinking()"></div>
+        <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px">Target (₦)</div>
+        <input type="number" value="${f.target||''}" placeholder="0 = open" onchange="S.sinkingFunds[${i}].target=parseFloat(this.value)||0;save();renderSinking()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:12px;padding:4px 8px;border-radius:5px;width:100%;outline:none"></div>
+        <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px">Saved to date (₦)</div>
+        <input type="number" value="${f.saved||''}" placeholder="0" onchange="S.sinkingFunds[${i}].saved=parseFloat(this.value)||0;save();renderSinking()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:12px;padding:4px 8px;border-radius:5px;width:100%;outline:none"></div>
+        <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px">Monthly contribution (₦)</div>
+        <input type="number" value="${f.monthly||''}" placeholder="0" onchange="S.sinkingFunds[${i}].monthly=parseFloat(this.value)||0;save();renderSinking()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:12px;padding:4px 8px;border-radius:5px;width:100%;outline:none"></div>
+        <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px">Target date</div>
+        <input class="edit-name" value="${esc(f.targetDate)}" placeholder="e.g. Dec 2027" onchange="S.sinkingFunds[${i}].targetDate=this.value;save();renderSinking()" style="width:100%"></div>
+        <div style="display:flex;align-items:flex-end;gap:6px">
+          <div style="flex:1"><div style="font-size:9px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px">Horizon</div>
+          <select onchange="S.sinkingFunds[${i}].horizon=this.value;save();renderSinking()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-size:11px;padding:4px 6px;border-radius:5px;width:100%">
+            ${['near','mid','long','recurring'].map(h=>`<option value="${h}"${f.horizon===h?' selected':''}>${horizonLabel[h]||h}</option>`).join('')}
+          </select></div>
+          <button class="del-btn" onclick="delSF(${i})" style="margin-bottom:2px">✕</button>
+        </div>
       </div>
+      <div style="margin-top:8px"><div style="font-size:9px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px">Notes</div>
+      <input class="edit-note" value="${esc(f.notes||'')}" placeholder="Purpose, account, rules…" style="width:100%" onchange="S.sinkingFunds[${i}].notes=this.value;save()"></div>
     </div>`;
   }).join('');
 }
@@ -2817,7 +2852,7 @@ function saveSFGoal(){
 
 }
 
-function updSF(i,f,v){S.sinkingFunds[i][f]=parseFloat(v)||0;renderSinking();}
+function updSF(i,f,v){if(['name','notes','targetDate','horizon'].includes(f))S.sinkingFunds[i][f]=v;else S.sinkingFunds[i][f]=parseFloat(v)||0;save();renderSinking();}
 
 function delSF(i){if(confirm('Remove this sinking fund?')){S.sinkingFunds.splice(i,1);renderSinking();}}
 
@@ -2827,293 +2862,139 @@ function delSF(i){if(confirm('Remove this sinking fund?')){S.sinkingFunds.splice
 
 // ═══════════════════════════════════════════════════════════
 
-let curDcaTab='ngx';
-
-function dcaTab(t,el){
-
-  curDcaTab=t;
-
-  ['ngx','usd','spec','rules'].forEach(v=>{const d=document.getElementById('dca-'+v);if(d)d.style.display=v===t?'block':'none';});
-
-  document.querySelectorAll('#view-dca .ctog').forEach(e=>e.classList.remove('active'));
-
-  if(el)el.classList.add('active');
-
-  renderDCA();
-
-}
+let curDcaTab='';
 
 function renderDCA(){
-
-  // Summary
-
-  const ngxDeployed=S.dcaNGX.reduce((s,r)=>s+(r.amount||0),0);
-
-  const usdDeployed=S.dcaUSD.reduce((s,r)=>s+(r.amount||0),0);
-
-  const ngxUnits=S.dcaNGX.reduce((s,r)=>s+(parseFloat(r.units)||0),0);
-
-  const usdUnits=S.dcaUSD.reduce((s,r)=>s+(parseFloat(r.units)||0),0);
-
+  // Summary cards — pulled from dcaTickers
+  const ngxTickers=S.dcaTickers.filter(t=>t.ccy==='NGN');
+  const usdTickers=S.dcaTickers.filter(t=>t.ccy==='USD');
+  const ngxDeployed=ngxTickers.reduce((s,t)=>s+t.entries.reduce((s2,e)=>s2+(e.amount||0),0),0);
+  const usdDeployed=usdTickers.reduce((s,t)=>s+t.entries.reduce((s2,e)=>s2+(e.amount||0),0),0);
   const specTotal=S.specPositions.reduce((s,p)=>s+(parseFloat(p.currentVal)||0),0);
+  const {pInc,investments}=bt();
+  const dcaBudget=investments; // DCA comes from the investments bucket in budget
 
   document.getElementById('dcaSummary').innerHTML=[
-
-    {l:'ACCESSCORP deployed (₦)',v:fmt(ngxDeployed),c:'green',s:ngxUnits>0?ngxUnits.toFixed(2)+' units accumulated':'0 units — update prices'},
-
-    {l:'PLAB deployed ($)',v:'$'+usdDeployed.toLocaleString(),c:'cyan',s:usdUnits>0?usdUnits.toFixed(4)+' shares accumulated':'0 shares — update prices'},
-
+    {l:'NGX deployed (₦)',v:fmt(ngxDeployed),c:'green',s:ngxTickers.length+' ticker(s) · '+ngxTickers.map(t=>t.name).join(', ')},
+    {l:'USD deployed',v:'$'+usdDeployed.toLocaleString(),c:'cyan',s:usdTickers.length+' ticker(s) · '+usdTickers.map(t=>t.name).join(', ')},
     {l:'Speculative bucket',v:'$'+specTotal.toLocaleString(),c:'purple',s:S.specPositions.filter(p=>p.posSize&&p.posSize!=='—').length+' active positions'},
-
-    {l:'DCA discipline',v:'Fixed',c:'gold',s:'Fixed amount · fixed date · every month'},
-
+    {l:'Budget — investments',v:fmt(dcaBudget),c:'gold',s:pInc>0?Math.round(dcaBudget/pInc*100)+'% of monthly income allocated':'Set in Budget → Investments'},
   ].map(c=>`<div class="scard ${c.c}"><div class="slabel">${c.l}</div><div class="sval ${c.c}">${c.v}</div><div class="ssub">${c.s}</div></div>`).join('');
 
-  if(curDcaTab==='ngx'){renderDCANGX();}
+  // Build ticker tabs dynamically
+  const tabBar=document.getElementById('dcaTabBar');
+  const allDcaTabs=[...S.dcaTickers.map(t=>({id:t.id,label:t.name+' ('+t.exchange+')'})),{id:'spec',label:'Speculative Bucket'},{id:'rules',label:'DCA Rules'},{id:'manage',label:'⚙ Tickers'}];
+  if(!curDcaTab||!allDcaTabs.find(t=>t.id===curDcaTab))curDcaTab=S.dcaTickers[0]?.id||'rules';
+  if(tabBar){tabBar.innerHTML=allDcaTabs.map(t=>`<div class="chart-toggle-item ctog${curDcaTab===t.id?' active':''}" onclick="curDcaTab='${t.id}';renderDCA()">${esc(t.label)}</div>`).join('');}
 
-  if(curDcaTab==='usd'){renderDCAUSD();}
-
-  if(curDcaTab==='spec'){renderDCASpec();}
-
-  if(curDcaTab==='rules'){renderDCARules();}
-
+  // Render active tab
+  const ticker=S.dcaTickers.find(t=>t.id===curDcaTab);
+  if(ticker){renderDCATicker(ticker);}
+  else if(curDcaTab==='spec'){renderDCASpec();}
+  else if(curDcaTab==='rules'){renderDCARules();}
+  else if(curDcaTab==='manage'){renderDCAManage();}
 }
 
-function renderDCANGX(){
-
-  const cols='100px 100px 90px 90px 100px 110px 90px 110px 110px 1fr';
-
+function renderDCATicker(t){
+  const idx=S.dcaTickers.indexOf(t);
+  const isCols=t.ccy==='NGN'?'120px 110px 90px 90px 110px 110px 100px 120px 110px 1fr':'120px 80px 90px 90px 80px 100px 90px 100px 100px 1fr';
+  const ccy=t.ccy==='NGN'?'₦':'$';
+  const fmt2=v=>t.ccy==='NGN'?fmt(v):'$'+v.toLocaleString();
   let cumUnits=0,cumCost=0;
-
-  const rows=S.dcaNGX.map((r,i)=>{
-
+  const rows=(t.entries||[]).map((r,ei)=>{
     const units=r.price>0?(r.amount/r.price):0;
-
     cumUnits+=units;cumCost+=r.amount;
-
     const curVal=r.currentPrice>0?cumUnits*r.currentPrice:0;
-
     const pl=curVal-cumCost;
-
-    return`<div class="ct-row" style="grid-template-columns:${cols}">
-
-      <div class="cc" style="font-size:12px">${esc(r.month)}</div>
-
-      <div class="cc r"><input class="amt" type="number" value="${r.amount}" onchange="S.dcaNGX[${i}].amount=parseFloat(this.value)||0;renderDCA()"></div>
-
-      <div class="cc r"><input class="amt" type="number" value="${r.price||''}" placeholder="0" step="any" onchange="S.dcaNGX[${i}].price=parseFloat(this.value)||0;renderDCA()"></div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${units>0?units.toFixed(2):'—'}</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${cumUnits>0?cumUnits.toFixed(2):'—'}</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${fmt(cumCost)}</div>
-
-      <div class="cc r"><input class="amt" type="number" value="${r.currentPrice||''}" placeholder="0" step="any" onchange="S.dcaNGX[${i}].currentPrice=parseFloat(this.value)||0;renderDCA()"></div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--gold2)">${curVal>0?fmt(curVal):'—'}</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${pl>=0?'var(--green)':'var(--red)'}">${pl!==0?(pl>0?'+':'')+fmt(pl):'—'}</div>
-
-      <div class="cc" style="font-size:11px;color:var(--muted)"><input class="edit-note" value="${esc(r.notes||'')}" placeholder="Notes…" onchange="S.dcaNGX[${i}].notes=this.value"></div>
-
-    </div>`;
-
-  }).join('');
-
-  const totalUnits=S.dcaNGX.reduce((s,r)=>s+(r.price>0?r.amount/r.price:0),0);
-
-  const totalCost=S.dcaNGX.reduce((s,r)=>s+r.amount,0);
-
-  const lastPrice=S.dcaNGX.slice().reverse().find(r=>r.currentPrice>0)?.currentPrice||0;
-
-  const totalVal=lastPrice>0?totalUnits*lastPrice:0;
-
-  const totalPL=totalVal-totalCost;
-
-  document.getElementById('dca-ngx').innerHTML=`
-
-    <div class="dca-ticker-header">
-
-      <div><div class="dca-ticker-name" style="color:var(--green)">ACCESSCORP (NGX)</div><div style="font-size:11px;color:var(--muted)">Primary DCA anchor · ₦50,000/month · blue-chip dividend stock</div></div>
-
-      <div class="dca-stat">Deployed: <strong>${fmt(totalCost)}</strong></div>
-
-      <div class="dca-stat">Units: <strong>${totalUnits.toFixed(2)}</strong></div>
-
-      <div class="dca-stat">Current value: <strong style="color:var(--gold2)">${totalVal>0?fmt(totalVal):'—'}</strong></div>
-
-      <div class="dca-stat">P&L: <strong style="color:${totalPL>=0?'var(--green)':'var(--red)'}">${totalPL!==0?(totalPL>0?'+':'')+fmt(totalPL):'—'}</strong></div>
-
-      <button class="btn btn-sm" onclick="addDCARow('ngx')">+ Add month</button>
-
-    </div>
-
-    <div class="card-table">
-
-      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Month</div><div class="ch r">Amount (₦)</div><div class="ch r">Buy Price</div><div class="ch r">Units Bought</div><div class="ch r">Cum. Units</div><div class="ch r">Cum. Cost</div><div class="ch r">Curr. Price</div><div class="ch r">Curr. Value</div><div class="ch r">P&L (₦)</div><div class="ch">Notes</div></div>
-
-      ${rows}
-
-    </div>`;
-
-}
-
-function renderDCAUSD(){
-
-  const cols='100px 80px 90px 90px 100px 100px 90px 100px 100px 1fr';
-
-  let cumUnits=0,cumCost=0;
-
-  const rows=S.dcaUSD.map((r,i)=>{
-
-    const units=r.price>0?(r.amount/r.price):0;
-
-    cumUnits+=units;cumCost+=r.amount;
-
-    const curVal=r.currentPrice>0?cumUnits*r.currentPrice:0;
-
-    const pl=curVal-cumCost;
-
-    return`<div class="ct-row" style="grid-template-columns:${cols}">
-
-      <div class="cc" style="font-size:12px">${esc(r.month)}</div>
-
-      <div class="cc r"><input class="amt" type="number" value="${r.amount}" onchange="S.dcaUSD[${i}].amount=parseFloat(this.value)||0;renderDCA()"></div>
-
-      <div class="cc r"><input class="amt" type="number" value="${r.price||''}" placeholder="0" step="any" onchange="S.dcaUSD[${i}].price=parseFloat(this.value)||0;renderDCA()"></div>
-
+    return`<div class="ct-row" style="grid-template-columns:${isCols}">
+      <div class="cc"><input class="edit-name" style="font-size:12px" value="${esc(r.month)}" onchange="S.dcaTickers[${idx}].entries[${ei}].month=this.value;save()"></div>
+      <div class="cc r"><input class="amt" type="number" value="${r.amount||''}" placeholder="0" onchange="S.dcaTickers[${idx}].entries[${ei}].amount=parseFloat(this.value)||0;save();renderDCA()"></div>
+      <div class="cc r"><input class="amt" type="number" value="${r.price||''}" placeholder="0" step="any" onchange="S.dcaTickers[${idx}].entries[${ei}].price=parseFloat(this.value)||0;save();renderDCA()"></div>
       <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${units>0?units.toFixed(4):'—'}</div>
-
       <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${cumUnits>0?cumUnits.toFixed(4):'—'}</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">$${cumCost.toFixed(0)}</div>
-
-      <div class="cc r"><input class="amt" type="number" value="${r.currentPrice||''}" placeholder="0" step="any" onchange="S.dcaUSD[${i}].currentPrice=parseFloat(this.value)||0;renderDCA()"></div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--gold2)">${curVal>0?'$'+curVal.toFixed(2):'—'}</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${pl>=0?'var(--green)':'var(--red)'}">${pl!==0?(pl>0?'+$':'-$')+Math.abs(pl).toFixed(2):'—'}</div>
-
-      <div class="cc" style="font-size:11px;color:var(--muted)"><input class="edit-note" value="${esc(r.notes||'')}" placeholder="Notes…" onchange="S.dcaUSD[${i}].notes=this.value"></div>
-
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--muted)">${fmt2(cumCost)}</div>
+      <div class="cc r"><input class="amt" type="number" value="${r.currentPrice||''}" placeholder="0" step="any" onchange="S.dcaTickers[${idx}].entries[${ei}].currentPrice=parseFloat(this.value)||0;save();renderDCA()"></div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--gold2)">${curVal>0?fmt2(curVal):'—'}</div>
+      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${pl>=0?'var(--green)':'var(--red)'}">${pl!==0?(pl>0?'+':'')+fmt2(pl):'—'}</div>
+      <div class="cc"><input class="edit-note" value="${esc(r.notes||'')}" placeholder="Notes…" onchange="S.dcaTickers[${idx}].entries[${ei}].notes=this.value;save()"></div>
     </div>`;
-
   }).join('');
 
-  const totalUnits=S.dcaUSD.reduce((s,r)=>s+(r.price>0?r.amount/r.price:0),0);
-
-  const totalCost=S.dcaUSD.reduce((s,r)=>s+r.amount,0);
-
-  const lastPrice=S.dcaUSD.slice().reverse().find(r=>r.currentPrice>0)?.currentPrice||0;
-
+  const totalUnits=t.entries.reduce((s,r)=>s+(r.price>0?r.amount/r.price:0),0);
+  const totalCost=t.entries.reduce((s,r)=>s+r.amount,0);
+  const lastPrice=t.entries.slice().reverse().find(r=>r.currentPrice>0)?.currentPrice||0;
   const totalVal=lastPrice>0?totalUnits*lastPrice:0;
-
   const totalPL=totalVal-totalCost;
 
-  document.getElementById('dca-usd').innerHTML=`
-
-    <div class="dca-ticker-header">
-
-      <div><div class="dca-ticker-name" style="color:var(--cyan)">PLAB — Photronics (USD)</div><div style="font-size:11px;color:var(--muted)">Primary USD DCA anchor · $50/month · S&P index also running parallel</div></div>
-
-      <div class="dca-stat">Deployed: <strong>$${totalCost.toLocaleString()}</strong></div>
-
-      <div class="dca-stat">Shares: <strong>${totalUnits.toFixed(4)}</strong></div>
-
-      <div class="dca-stat">Current value: <strong style="color:var(--gold2)">${totalVal>0?'$'+totalVal.toFixed(2):'—'}</strong></div>
-
-      <div class="dca-stat">P&L: <strong style="color:${totalPL>=0?'var(--green)':'var(--red)'}">${totalPL!==0?(totalPL>0?'+$':'-$')+Math.abs(totalPL).toFixed(2):'—'}</strong></div>
-
-      <button class="btn btn-sm" onclick="addDCARow('usd')">+ Add month</button>
-
+  const cont=document.getElementById('dcaContent');
+  if(!cont)return;
+  cont.innerHTML=`
+    <div class="dca-ticker-header" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;margin-bottom:.75rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center">
+      <div style="flex:1;min-width:180px">
+        <div style="font-size:16px;font-weight:600;font-family:var(--mono);color:${t.color}">${esc(t.name)} <span style="font-size:11px;color:var(--muted)">${esc(t.exchange)} · ${t.ccy}</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">DCA position · ${t.entries.length} entries logged</div>
+      </div>
+      <div class="dca-stat">Deployed: <strong>${fmt2(totalCost)}</strong></div>
+      <div class="dca-stat">Units: <strong>${totalUnits.toFixed(4)}</strong></div>
+      <div class="dca-stat">Current value: <strong style="color:var(--gold2)">${totalVal>0?fmt2(totalVal):'—'}</strong></div>
+      <div class="dca-stat">P&L: <strong style="color:${totalPL>=0?'var(--green)':'var(--red)'}">${totalPL!==0?(totalPL>0?'+':'')+fmt2(totalPL):'—'}</strong></div>
+      <button class="btn btn-sm" onclick="addDCAEntry(${idx})">+ Add month</button>
     </div>
-
     <div class="card-table">
-
-      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Month</div><div class="ch r">Amount ($)</div><div class="ch r">Buy Price</div><div class="ch r">Shares Bought</div><div class="ch r">Cum. Shares</div><div class="ch r">Cum. Cost</div><div class="ch r">Curr. Price</div><div class="ch r">Curr. Value</div><div class="ch r">P&L ($)</div><div class="ch">Notes</div></div>
-
-      ${rows}
-
+      <div class="ct-header" style="grid-template-columns:${isCols}"><div class="ch">Month</div><div class="ch r">Amount (${ccy})</div><div class="ch r">Buy Price</div><div class="ch r">Units</div><div class="ch r">Cum. Units</div><div class="ch r">Cum. Cost</div><div class="ch r">Curr. Price</div><div class="ch r">Curr. Value</div><div class="ch r">P&L</div><div class="ch">Notes</div></div>
+      ${rows||'<div style="padding:1.5rem;text-align:center;color:var(--muted)">No entries yet. Click "+ Add month" to log your first purchase.</div>'}
     </div>`;
-
 }
 
-function renderDCASpec(){
-
-  const cols='90px 1fr 100px 90px 90px 90px 90px 80px 90px 1fr 30px';
-
-  const rows=S.specPositions.map((p,i)=>`
-
-    <div class="ct-row" style="grid-template-columns:${cols}">
-
-      <div class="cc"><input class="edit-name" style="font-family:var(--mono);font-weight:600;font-size:13px" value="${esc(p.ticker)}" placeholder="TICK" onchange="S.specPositions[${i}].ticker=this.value.toUpperCase();save()"></div>
-
-      <div class="cc"><input class="edit-name" value="${esc(p.thesis)}" placeholder="One-line thesis" onchange="S.specPositions[${i}].thesis=this.value"></div>
-
-      <div class="cc r"><input class="amt" style="text-align:right;font-size:11.5px" value="${esc(p.entryDate)}" placeholder="date" onchange="S.specPositions[${i}].entryDate=this.value;save()"></div>
-
-      <div class="cc r"><input class="amt" style="text-align:right;font-size:11.5px" value="${esc(p.entryPrice)}" placeholder="0" onchange="S.specPositions[${i}].entryPrice=this.value;save()"></div>
-
-      <div class="cc r"><input class="amt" type="number" value="${p.posSize!=='—'?p.posSize:''}" placeholder="—" step="any" onchange="S.specPositions[${i}].posSize=this.value||'—'"></div>
-
-      <div class="cc r"><input class="amt" type="number" value="${p.currentPrice||''}" placeholder="0" step="any" onchange="S.specPositions[${i}].currentPrice=parseFloat(this.value)||0;renderDCA()"></div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:var(--gold2)">${p.currentVal?'$'+parseFloat(p.currentVal).toFixed(2):'—'}</div>
-
-      <div class="cc r" style="font-family:var(--mono);font-size:11px;color:${parseFloat(p.pl)>=0?'var(--green)':'var(--red)'}">${p.pl?'$'+parseFloat(p.pl).toFixed(2):'—'}</div>
-
-      <div class="cc c"><input class="edit-note" value="${esc(p.rule72)}" placeholder="72hr?" onchange="S.specPositions[${i}].rule72=this.value;save()"></div>
-
-      <div class="cc"><input class="edit-note" value="${esc(p.exitTrigger)}" placeholder="Exit trigger" onchange="S.specPositions[${i}].exitTrigger=this.value;save()"></div>
-
-      <div class="cc c"><button class="del-btn" onclick="delSpec(${i})">✕</button></div>
-
+function renderDCAManage(){
+  const cont=document.getElementById('dcaContent');
+  if(!cont)return;
+  const rows=S.dcaTickers.map((t,i)=>`
+    <div class="ct-row" style="grid-template-columns:1fr 80px 70px 120px 36px">
+      <div class="cc"><input class="edit-name" value="${esc(t.name)}" placeholder="Ticker" onchange="S.dcaTickers[${i}].name=this.value;save();renderDCA()"><input class="edit-note" value="${esc(t.exchange)}" placeholder="NGX / NYSE / NASDAQ" onchange="S.dcaTickers[${i}].exchange=this.value;save()"></div>
+      <div class="cc c"><select style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-size:11px;padding:2px 6px;border-radius:4px" onchange="S.dcaTickers[${i}].ccy=this.value;save()"><option value="NGN"${t.ccy==='NGN'?' selected':''}>₦ NGN</option><option value="USD"${t.ccy==='USD'?' selected':''}>$ USD</option></select></div>
+      <div class="cc c"><input type="color" value="${t.color||'#888'}" style="background:none;border:none;cursor:pointer;width:36px;height:24px" onchange="S.dcaTickers[${i}].color=this.value;save();renderDCA()"></div>
+      <div class="cc" style="font-size:11px;color:var(--muted)">${t.entries.length} entries logged</div>
+      <div class="cc c"><button class="del-btn" onclick="delDCATicker(${i})">✕</button></div>
     </div>`).join('');
-
-  document.getElementById('dca-spec').innerHTML=`
-
-    <div style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.18);border-radius:var(--r);padding:12px 16px;margin-bottom:1rem">
-
-      <strong style="color:var(--red)">Speculative Bucket — Hard Rules:</strong>
-
-      <span style="font-size:12px;color:var(--muted);margin-left:8px">(1) Total never exceeds 10% of investable surplus &nbsp;·&nbsp; (2) 72-hour rule on every entry — no exceptions &nbsp;·&nbsp; (3) No leverage. Ever &nbsp;·&nbsp; (4) If this bucket goes to zero, life is unchanged. Size accordingly.</span>
-
-    </div>
-
-    <div class="card-table">
-
-      <div class="ct-header" style="grid-template-columns:${cols}"><div class="ch">Ticker</div><div class="ch">Thesis (1 line)</div><div class="ch r">Entry Date</div><div class="ch r">Entry Price</div><div class="ch r">Pos. Size ($)</div><div class="ch r">Curr. Price</div><div class="ch r">Curr. Value</div><div class="ch r">P&L</div><div class="ch c">72-hr?</div><div class="ch">Exit Trigger</div><div class="ch"></div></div>
-
-      ${rows}
-
-    </div>
-
-    <button class="add-btn" style="width:100%;margin:8px 0" onclick="addSpecRow()">+ Add position</button>`;
-
-}
-
-function renderDCARules(){
-
-  document.getElementById('dca-rules').innerHTML=`
-
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem">
-
-      <div style="font-family:var(--serif);font-size:18px;color:var(--gold2);margin-bottom:1rem">The DCA Manifesto</div>
-
-      ${['DCA discipline: fixed amount, fixed date, every month. Do not skip.','Do not time the market. Do not add extra on euphoria. Do not stop on fear.','ACCESSCORP (NGX) — ₦50,000/month. Primary NGX DCA anchor.','PLAB (Photronics) — $50/month. Primary USD DCA anchor.','If the market drops 20%, you celebrate. You are buying more units for the same money.','If the market drops 40%, you re-read this document and you do not sell.','Dollar-cost averaging is not a strategy for making money quickly. It is a strategy for becoming wealthy slowly. That is the point.','The exit condition for a DCA position is: the thesis is broken, not the price.'].map((r,i)=>`
-
-        <div class="policy-rule">
-
-          <div class="policy-num">${String(i+1).padStart(2,'0')}.</div>
-
-          <div class="policy-text">${esc(r)}</div>
-
-        </div>`).join('')}
-
+  cont.innerHTML=`
+    <div style="max-width:560px">
+      <div class="sec">Manage DCA tickers</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:.75rem">Add any stock, ETF, or asset you DCA into. Monthly amounts come from your budget — no hardcoding.</p>
+      <div class="card-table" style="margin-bottom:.75rem">
+        <div class="ct-header" style="grid-template-columns:1fr 80px 70px 120px 36px"><div class="ch">Ticker / Name</div><div class="ch c">CCY</div><div class="ch c">Colour</div><div class="ch">Entries</div><div class="ch"></div></div>
+        ${rows||'<div style="padding:1rem;text-align:center;color:var(--muted)">No tickers yet.</div>'}
+      </div>
+      <button class="btn btn-sm btn-gold" onclick="addDCATicker()">+ Add ticker</button>
     </div>`;
-
 }
+
+function addDCATicker(){
+  const name=prompt('Ticker symbol (e.g. DANGCEM, VOO, BTC):');
+  if(!name)return;
+  const exch=prompt('Exchange (e.g. NGX, NYSE, NASDAQ, CRYPTO):')||'NGX';
+  const ccy=exch==='NGX'?'NGN':'USD';
+  S.dcaTickers.push({id:'dca_'+Date.now(),name:name.toUpperCase(),exchange:exch.toUpperCase(),ccy,color:'#888888',entries:[]});
+  save();renderDCA();toast('Ticker added');
+}
+
+function delDCATicker(i){
+  const t=S.dcaTickers[i];
+  if(confirm(`Remove ${t.name}? This will delete all ${t.entries.length} entries.`)){
+    S.dcaTickers.splice(i,1);
+    if(curDcaTab===t.id)curDcaTab=S.dcaTickers[0]?.id||'rules';
+    save();renderDCA();toast('Removed');
+  }
+}
+
+function addDCAEntry(tickerIdx){
+  const t=S.dcaTickers[tickerIdx];
+  const now=new Date();
+  const label=now.toLocaleString('en-GB',{month:'short'})+' '+now.getFullYear();
+  t.entries.push({month:label,amount:0,price:0,currentPrice:0,notes:''});
+  save();renderDCA();
+}
+
 
 function addDCARow(type){
 
@@ -4021,6 +3902,8 @@ window.onload=()=>{
   if(!S.dcaUSD)S.dcaUSD=mkDcaUsdDefault();
 
   if(!S.specPositions)S.specPositions=JSON.parse(JSON.stringify(DEFAULT_SPEC_POSITIONS));
+
+  if(!S.dcaTickers)S.dcaTickers=JSON.parse(JSON.stringify(DEFAULT_DCA_TICKERS));
 
   if(!S.assetClasses)S.assetClasses=JSON.parse(JSON.stringify(DEFAULT_ASSET_CLASSES));
 
