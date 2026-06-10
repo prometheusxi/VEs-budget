@@ -44,7 +44,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 
 .sidebar{width:230px;background:var(--bg2);border-right:1px solid var(--border);position:fixed;height:100vh;overflow-y:auto;z-index:50;display:flex;flex-direction:column}
 
-.main{margin-left:230px;flex:1;padding:2rem 2.5rem;max-width:1400px}
+.main{margin-left:230px;flex:1;padding:1.5rem 2rem;max-width:1400px}
 
 .logo{padding:1.5rem 1.25rem 1.25rem;border-bottom:1px solid var(--border)}
 
@@ -76,7 +76,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 
 /* PAGE HEADER */
 
-.page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem}
+.page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
 
 .page-title{font-family:var(--serif);font-size:28px;letter-spacing:-.5px}
 
@@ -649,23 +649,23 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
   </div>
 
-  <div class="fx-bar" id="fxBar">
-
-    <div class="fx-label">₦ / $ rate (manual):</div>
-
-    <input class="fx-input" id="fxRate" type="number" value="1600" onchange="onFxChange(this.value)">
-
-    <input class="fx-input" id="fxStress" type="number" value="1700" onchange="onFxChange()" placeholder="Stress ₦/$ " style="border-color:rgba(248,113,113,.25)">
-
-    <div class="fx-note">Base · <span style="color:var(--red)">Stress</span> · auto-converts all USD columns</div>
-
-    <div style="margin-left:auto;font-size:11px;color:var(--muted)">$1 = <span id="fxDisplay" style="color:var(--gold2);font-family:var(--mono)">₦1,600</span> <span style="color:var(--red);font-family:var(--mono)" id="fxStressDisplay">/ ₦1,700</span></div>
-
-  </div>
-
   <!-- ══ BUDGET ══ -->
 
   <div id="view-budget" class="panel active">
+
+    <div class="fx-bar" id="fxBar">
+
+      <div class="fx-label">₦ / $ rate (manual):</div>
+
+      <input class="fx-input" id="fxRate" type="number" value="1600" onchange="onFxChange(this.value)">
+
+      <input class="fx-input" id="fxStress" type="number" value="1700" onchange="onFxChange()" placeholder="Stress ₦/$ " style="border-color:rgba(248,113,113,.25)">
+
+      <div class="fx-note">Base · <span style="color:var(--red)">Stress</span> · auto-converts all USD columns</div>
+
+      <div style="margin-left:auto;font-size:11px;color:var(--muted)">$1 = <span id="fxDisplay" style="color:var(--gold2);font-family:var(--mono)">₦1,600</span> <span style="color:var(--red);font-family:var(--mono)" id="fxStressDisplay">/ ₦1,700</span></div>
+
+    </div>
 
     <div class="summary" id="budgetSummary"></div>
 
@@ -1507,6 +1507,10 @@ function cmd(){return getMonth(curMonth,curYear);}
 function nav(v){
 
   curView=v;
+
+  // Show budget-specific header controls only on budget panel
+  const budgetOnly=['monthNavEl','copyPrevBtn','exportBtn'];
+  budgetOnly.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=v==='budget'?'':'none';});
 
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
 
