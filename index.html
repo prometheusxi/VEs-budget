@@ -44,7 +44,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 
 .sidebar{width:230px;background:var(--bg2);border-right:1px solid var(--border);position:fixed;height:100vh;overflow-y:auto;z-index:50;display:flex;flex-direction:column}
 
-.main{margin-left:230px;flex:1;padding:1.5rem 2rem;max-width:1400px}
+.main{margin-left:230px;flex:1;padding:1rem 2rem;max-width:1400px}
 
 .logo{padding:1.5rem 1.25rem 1.25rem;border-bottom:1px solid var(--border)}
 
@@ -76,7 +76,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 
 /* PAGE HEADER */
 
-.page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
+.page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem}
 
 .page-title{font-family:var(--serif);font-size:28px;letter-spacing:-.5px}
 
@@ -595,6 +595,8 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
   </div>
 
+  <div class="nav-section">
+
     <div class="nav-label">History</div>
 
     <div id="monthList" style="max-height:180px;overflow-y:auto"></div>
@@ -898,6 +900,8 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
   <div id="view-networth" class="panel">
 
+    <div class="fx-bar" style="margin-bottom:1rem"><div class="fx-label">FX rate:</div><span style="font-family:var(--mono);font-size:13px;color:var(--gold2)" id="nwFxDisplay">₦1,600/$</span><span style="font-family:var(--mono);font-size:12px;color:var(--red);margin-left:8px" id="nwFxStress"></span></div>
+
     <div class="summary" id="nwSummary"></div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:1rem">
@@ -1038,8 +1042,12 @@ const TAG_CLASS={fixed:'tag-fixed',var:'tag-var',save:'tag-save',inv:'tag-inv',d
 
 const TAG_LABEL={fixed:'Fixed',var:'Variable',save:'Saving',inv:'Invest',debt:'Debt',biz:'Business',ms:'Milestone'};
 
-// Asset class helpers — reads from S.assetClasses (dynamic)
-// Legacy shims so old code using ASSET_CLASS_LABELS/COLORS still works
+// Asset class helpers — portfolio deleted, stubs prevent crashes
+const ASSET_CLASS_LABELS={};
+const ASSET_CLASS_COLORS={};
+// Stub for deleted portfolio system — net worth portfolio fields always 0
+function acCcy(k){return'NGN';}
+
 function fmt(n,ccy){if(n===''||n===null||n===undefined)return'—';const v=Math.round(n);if(ccy==='USD')return'$'+v.toLocaleString('en-US');return'₦'+v.toLocaleString('en-NG');}
 
 function fmtK(n){if(!n)return'₦0';const abs=Math.abs(n);const sign=n<0?'-':'';if(abs>=1e9)return sign+'₦'+(abs/1e9).toFixed(2)+'b';if(abs>=1e6)return sign+'₦'+(abs/1e6).toFixed(1)+'m';if(abs>=1e3)return sign+'₦'+(abs/1e3).toFixed(0)+'k';return sign+'₦'+abs;}
@@ -1427,7 +1435,11 @@ let S={
 
   dcaTickers:JSON.parse(JSON.stringify(DEFAULT_DCA_TICKERS)),
 
-  // Dynamic asset classes
+  // These were removed with portfolio/warchest panels but still referenced
+  holdings:[],
+  dcaLog:[],
+  chestLedger:[],
+  parking:[],
 
   // NEW: Net Worth
 
@@ -1520,21 +1532,16 @@ function nav(v){
 
   document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')?.includes("'"+v+"'"))n.classList.add('active');});
 
-  const fxBar=document.getElementById('fxBar');
-
   const monthNav=document.getElementById('monthNavEl');
 
   const copyBtn=document.getElementById('copyPrevBtn');
 
   const exportBtn=document.getElementById('exportBtn');
-
-  fxBar.style.display=(['budget','dashboard','warchest','wealth','networth'].includes(v))?'flex':'none';
-
-  monthNav.style.display=(['budget','dashboard','annual'].includes(v))?'flex':'none';
-
   copyBtn.style.display=v==='budget'?'':'none';
 
   exportBtn.style.display=v==='budget'?'':'none';
+
+  monthNav.style.display=(['budget','dashboard','annual'].includes(v))?'flex':'none';
 
   const titles={
 
@@ -1633,11 +1640,11 @@ function onFxChange(){
 
   document.getElementById('fxStressDisplay').textContent='/ ₦'+Math.round(S.fxStress||1700).toLocaleString();
 
+  const nwFx=document.getElementById('nwFxDisplay');if(nwFx)nwFx.textContent='₦'+Math.round(S.fxRate).toLocaleString()+'/$';
+
   if(curView==='budget')renderBudget();
 
   if(curView==='dashboard')renderDashboard();
-
-
 
   if(curView==='networth')renderNetWorth();
 
@@ -2549,14 +2556,7 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 
 function saveAll(){save();renderMonthList();toast('Saved ✓');}
 
-// Master re-render — cascades budget changes to all downstream panels
-function renderAll(){
-  renderBudget();
-  if(document.getElementById('view-dashboard')?.classList.contains('active'))renderDashboard();
-  if(document.getElementById('view-annual')?.classList.contains('active'))renderAnnual();
-  if(document.getElementById('view-sinking')?.classList.contains('active'))renderSinking();
-  if(document.getElementById('view-networth')?.classList.contains('active'))renderNetWorth();
-}
+
 
 // Master re-render — call when budget data changes to cascade to all panels
 function renderAll(){
